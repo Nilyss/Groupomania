@@ -10,12 +10,10 @@ export const Button = styled.button`
   }
   align-items: center;
   background-color: ${colors.secondary};
-  border: 2px solid #111;
+  border: 2px solid ${colors.tertiary};
   border-radius: 8px;
   box-sizing: border-box;
-  color: #111;
   display: flex;
-  font-family: Lato, sans-serif;
   font-size: 16px;
   height: 48px;
   justify-content: center;
@@ -34,7 +32,7 @@ export const Button = styled.button`
   }
   &:after {
     content: '';
-    background-color: #111;
+    background-color: ${colors.tertiary};
     border-radius: 8px;
     display: block;
     height: 48px;

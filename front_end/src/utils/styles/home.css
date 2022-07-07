@@ -1,0 +1,6 @@
+html, body, div, .app  {
+    top: -8px;
+    margin-inline-start: 0;
+    padding-inline-start: 0;
+    width: 100%;
+}
