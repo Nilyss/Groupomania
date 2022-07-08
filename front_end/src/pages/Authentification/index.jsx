@@ -8,7 +8,6 @@ import Background from '../../assets/officepicture.webp'
 
 // dependencies
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 // components
 import { Button } from '../../components/button'
@@ -16,12 +15,11 @@ import { Button } from '../../components/button'
 // Hook
 import { useState, useEffect } from 'react'
 
-export default function Authentification() {
-  useEffect(() => {
-    document.title = 'Groupomania - connexion'
-  }, [])
-
-  // const [signUpForm, setSignUpForm] = useState(false)
+export default function Authentification(props) {
+  let [authMode, setAuthMode] = useState('signIn')
+  const changeAuthMode = () => {
+    setAuthMode(authMode === 'signIn' ? 'signUp' : 'signIn')
+  }
 
   const HomeBackground = styled.body`
     margin-inline-start: 0;
@@ -34,12 +32,23 @@ export default function Authentification() {
     overflow: hidden;
     z-index: 0;
   `
-
   const HomeWrapper = styled.section`
     display: flex;
     flex-flow: column;
     justify-content: space-between;
     margin: 3rem;
+  `
+  const Logo = styled.img`
+    align-self: flex-end;
+    width: 20vw;
+    height: 20vh;
+    margin: 0 5% 0 0;
+    object-fit: cover;
+  `
+  const NavButton = styled.nav`
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
   `
 
   const AuthForm = styled.form`
@@ -135,27 +144,52 @@ export default function Authentification() {
     padding-top: 2rem;
   `
 
-  const Logo = styled.img`
-    align-self: flex-end;
-    width: 20vw;
-    height: 20vh;
-    margin: 0 5% 0 0;
-    object-fit: cover;
-  `
-  const NavButton = styled.nav`
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-  `
+  if (authMode === 'signIn') {
+    return (
+      <HomeBackground>
+        <HomeWrapper>
+          <NavButton>
+            <Button onClick={changeAuthMode}>Sign-up</Button>
+          </NavButton>
+          <Logo src={logo}></Logo>
+          <AuthForm>
+            <AuthTitle>Sign-in</AuthTitle>
+            <AuthFormContent>
+              <div className="authFormMail">
+                <AuthLabel> User identification:</AuthLabel>
+                <AuthInput
+                  type="email"
+                  placeholder="Enter your email address"
+                />
+              </div>
+              <div className="authFormPassword">
+                <AuthLabel>Password: </AuthLabel>
+                <AuthInput type="password" placeholder="Enter your password" />
+              </div>
+              <AuthFormWrapper className="authFormButton">
+                <AuthFormButton type="submit" className="submitButton">
+                  Enter
+                </AuthFormButton>
+              </AuthFormWrapper>
+              <ForgotPassword>
+                Forgot <a href="#">password</a> ?
+              </ForgotPassword>
+            </AuthFormContent>
+          </AuthForm>
+        </HomeWrapper>
+      </HomeBackground>
+    )
+  }
+
   return (
     <HomeBackground>
       <HomeWrapper>
         <NavButton>
-          <Button>Sign-up</Button>
+          <Button onClick={changeAuthMode}>Sign-In</Button>
         </NavButton>
         <Logo src={logo}></Logo>
         <AuthForm>
-          <AuthTitle>Sign-in</AuthTitle>
+          <AuthTitle>Sign-up</AuthTitle>
           <AuthFormContent>
             <div className="authFormMail">
               <AuthLabel> User identification:</AuthLabel>
@@ -165,14 +199,18 @@ export default function Authentification() {
               <AuthLabel>Password: </AuthLabel>
               <AuthInput type="password" placeholder="Enter your password" />
             </div>
+            <div className="authFormPassword">
+              <AuthLabel>Confirm password: </AuthLabel>
+              <AuthInput
+                type="password"
+                placeholder="Enter your password again"
+              />
+            </div>
             <AuthFormWrapper className="authFormButton">
               <AuthFormButton type="submit" className="submitButton">
-                Enter
+                Register
               </AuthFormButton>
             </AuthFormWrapper>
-            <ForgotPassword>
-              Forgot <a href="#">password</a> ?
-            </ForgotPassword>
           </AuthFormContent>
         </AuthForm>
       </HomeWrapper>
