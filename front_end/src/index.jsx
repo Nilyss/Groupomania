@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // pages
-import Home from './pages/Home'
+import Authentification from './pages/Authentification'
 
 // components
 // import Header from './components'
@@ -21,7 +21,7 @@ root.render(
     <BrowserRouter>
       <GlobalStyle />
       <Routes>
-        <Route path="/" element={<Home />}></Route>
+        <Route path="/" element={<Authentification />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
