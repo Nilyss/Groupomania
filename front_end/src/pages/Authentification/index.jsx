@@ -13,12 +13,12 @@ import styled from 'styled-components'
 import { Button } from '../../components/button'
 
 // Hook
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function Authentification(props) {
-  let [authMode, setAuthMode] = useState('signIn')
-  const changeAuthMode = () => {
-    setAuthMode(authMode === 'signIn' ? 'signUp' : 'signIn')
+  const [isLogIn, setIsLogin] = useState(true)
+  const toggleIsLogin = () => {
+    setIsLogin((current) => !current)
   }
 
   const HomeBackground = styled.body`
@@ -144,48 +144,11 @@ export default function Authentification(props) {
     padding-top: 2rem;
   `
 
-  if (authMode === 'signIn') {
+  const SignUpForm = () => {
     return (
-      <HomeBackground>
-        <HomeWrapper>
-          <NavButton>
-            <Button onClick={changeAuthMode}>Sign-up</Button>
-          </NavButton>
-          <Logo src={logo}></Logo>
-          <AuthForm>
-            <AuthTitle>Sign-in</AuthTitle>
-            <AuthFormContent>
-              <div className="authFormMail">
-                <AuthLabel> User identification:</AuthLabel>
-                <AuthInput
-                  type="email"
-                  placeholder="Enter your email address"
-                />
-              </div>
-              <div className="authFormPassword">
-                <AuthLabel>Password: </AuthLabel>
-                <AuthInput type="password" placeholder="Enter your password" />
-              </div>
-              <AuthFormWrapper className="authFormButton">
-                <AuthFormButton type="submit" className="submitButton">
-                  Enter
-                </AuthFormButton>
-              </AuthFormWrapper>
-              <ForgotPassword>
-                Forgot <a href="#">password</a> ?
-              </ForgotPassword>
-            </AuthFormContent>
-          </AuthForm>
-        </HomeWrapper>
-      </HomeBackground>
-    )
-  }
-
-  return (
-    <HomeBackground>
       <HomeWrapper>
         <NavButton>
-          <Button onClick={changeAuthMode}>Sign-In</Button>
+          <Button onClick={toggleIsLogin}>Sign-In</Button>
         </NavButton>
         <Logo src={logo}></Logo>
         <AuthForm>
@@ -214,6 +177,42 @@ export default function Authentification(props) {
           </AuthFormContent>
         </AuthForm>
       </HomeWrapper>
-    </HomeBackground>
+    )
+  }
+
+  const SignInForm = () => {
+    return (
+      <HomeWrapper>
+        <NavButton>
+          <Button onClick={toggleIsLogin}>Sign-up</Button>
+        </NavButton>
+        <Logo src={logo}></Logo>
+        <AuthForm>
+          <AuthTitle>Sign-in</AuthTitle>
+          <AuthFormContent>
+            <div className="authFormMail">
+              <AuthLabel> User identification:</AuthLabel>
+              <AuthInput type="email" placeholder="Enter your email address" />
+            </div>
+            <div className="authFormPassword">
+              <AuthLabel>Password: </AuthLabel>
+              <AuthInput type="password" placeholder="Enter your password" />
+            </div>
+            <AuthFormWrapper className="authFormButton">
+              <AuthFormButton type="submit" className="submitButton">
+                Enter
+              </AuthFormButton>
+            </AuthFormWrapper>
+            <ForgotPassword>
+              Forgot <a href="#">password</a> ?
+            </ForgotPassword>
+          </AuthFormContent>
+        </AuthForm>
+      </HomeWrapper>
+    )
+  }
+
+  return (
+    <HomeBackground>{isLogIn ? <SignInForm /> : <SignUpForm />}</HomeBackground>
   )
 }
