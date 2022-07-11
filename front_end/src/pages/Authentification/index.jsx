@@ -22,16 +22,30 @@ export default function Authentification(props) {
   }
 
   const HomeBackground = styled.body`
-    background: url('${Background}') no-repeat fixed center center;
+    background: url('${Background}') no-repeat fixed center;
     background-size: cover;
     position: absolute;
     z-index: 0;
-    height: 100%;
+    min-height: 100%;
+    height: border-box;
   `
   const HomeWrapper = styled.section`
+    @media (max-width: 768px) {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+      overflow: hidden;
+    }
     margin: 3rem;
   `
   const Logo = styled.img`
+    @media (max-width: 768px) {
+      width: 200px;
+      display: flex;
+      position: unset;
+      margin: auto;
+      margin-bottom: -5em;
+    }
     position: absolute;
     left: 3em;
     width: 300px;
@@ -39,6 +53,10 @@ export default function Authentification(props) {
     object-fit: cover;
   `
   const NavButton = styled.nav`
+    @media (max-width: 768px) {
+      justify-content: center;
+      margin-bottom: 2em;
+    }
     display: flex;
     justify-content: flex-end;
     width: 100%;
@@ -47,6 +65,9 @@ export default function Authentification(props) {
   `
 
   const AuthForm = styled.form`
+    @media (max-width: 768px) {
+      width: 220px;
+    }
     width: 320px;
     padding-top: 30px;
     padding-bottom: 30px;
@@ -94,7 +115,7 @@ export default function Authentification(props) {
     border-radius: 3px;
     text-align: center;
     font-size: 12px;
-    color: ${colors.primary};
+    color: ${colors.tertiary};
   `
   const AuthFormWrapper = styled.div`
     margin-top: 2em;
@@ -153,7 +174,7 @@ export default function Authentification(props) {
     return (
       <HomeWrapper>
         <NavButton>
-          <Button onClick={toggleIsLogin}>Sign-In</Button>
+          <Button onClick={toggleIsLogin}>Sign-in</Button>
         </NavButton>
         <AuthForm>
           <AuthTitle>Sign-up</AuthTitle>
@@ -217,7 +238,7 @@ export default function Authentification(props) {
 
   return (
     <HomeBackground>
-      <Logo src={logo}></Logo>
+      <Logo src={logo} alt="logo groupomania"></Logo>
       {isLogIn ? <SignInForm /> : <SignUpForm />}
     </HomeBackground>
   )
