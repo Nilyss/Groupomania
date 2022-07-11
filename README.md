@@ -21,7 +21,13 @@
 
 **Back-end**
 ```
+express@4.18.1
+bcrypt@5.0.1
+jsonwebtoken@8.5.1
 
+-dev
+nodemon@2.0.19
+morgan@1.10.0
 ```
 **Front-end**
 ```
