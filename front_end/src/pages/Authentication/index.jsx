@@ -145,7 +145,7 @@ export default function Authentification(props) {
     }
 
     &:hover:after {
-      transform: translate(0.5em, 0.5em);
+      transform: translate(0.6em, 0.5em);
     }
 
     &:active:after {
