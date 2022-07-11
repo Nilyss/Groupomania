@@ -22,33 +22,28 @@ export default function Authentification(props) {
   }
 
   const HomeBackground = styled.body`
-    margin-inline-start: 0;
-    padding-inline-start: 0;
-    background: url('${Background}') no-repeat fixed;
+    background: url('${Background}') no-repeat fixed center center;
     background-size: cover;
     position: absolute;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
     z-index: 0;
+    height: 100%;
   `
   const HomeWrapper = styled.section`
-    display: flex;
-    flex-flow: column;
-    justify-content: space-between;
     margin: 3rem;
   `
   const Logo = styled.img`
-    align-self: flex-end;
-    width: 20vw;
-    height: 20vh;
-    margin: 0 5% 0 0;
+    position: absolute;
+    left: 3em;
+    width: 300px;
+    margin: -5% 0 0 0;
     object-fit: cover;
   `
   const NavButton = styled.nav`
     display: flex;
     justify-content: flex-end;
     width: 100%;
+    height: 10%;
+    margin-bottom: 10rem;
   `
 
   const AuthForm = styled.form`
@@ -62,10 +57,20 @@ export default function Authentification(props) {
   `
   const AuthTitle = styled.h3`
     text-align: center;
-    margin: -0.5em 0 1em 0;
+    margin: -0.5em 0 2em 0;
     font-size: 24px;
     color: ${colors.tertiary};
     font-weight: 800;
+    position: relative;
+    &:after {
+      content: '';
+      position: absolute;
+      top: 130%;
+      left: 20%;
+      width: 60%;
+      height: 3px;
+      background: ${colors.primary};
+
   `
 
   const AuthFormContent = styled.div`
@@ -84,7 +89,7 @@ export default function Authentification(props) {
 
   const AuthInput = styled.input`
     width: 75%;
-    height: 2vh;
+    height: 3vh;
     margin-bottom: 1em;
     border-radius: 3px;
     text-align: center;
@@ -150,7 +155,6 @@ export default function Authentification(props) {
         <NavButton>
           <Button onClick={toggleIsLogin}>Sign-In</Button>
         </NavButton>
-        <Logo src={logo}></Logo>
         <AuthForm>
           <AuthTitle>Sign-up</AuthTitle>
           <AuthFormContent>
@@ -186,7 +190,6 @@ export default function Authentification(props) {
         <NavButton>
           <Button onClick={toggleIsLogin}>Sign-up</Button>
         </NavButton>
-        <Logo src={logo}></Logo>
         <AuthForm>
           <AuthTitle>Sign-in</AuthTitle>
           <AuthFormContent>
@@ -213,6 +216,9 @@ export default function Authentification(props) {
   }
 
   return (
-    <HomeBackground>{isLogIn ? <SignInForm /> : <SignUpForm />}</HomeBackground>
+    <HomeBackground>
+      <Logo src={logo}></Logo>
+      {isLogIn ? <SignInForm /> : <SignUpForm />}
+    </HomeBackground>
   )
 }
