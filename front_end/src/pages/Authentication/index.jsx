@@ -1,6 +1,6 @@
 // styles
 import colors from '../../utils/styles/colors'
-import '../../utils/styles/Authentification.css'
+import '../../utils/styles/Authentication.css'
 
 // img
 import logo from '../../assets/icon-left-font-monochrome-black.png'

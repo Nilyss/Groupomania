@@ -6,7 +6,7 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 // pages
-import Authentification from './pages/Authentification'
+import Authentification from './pages/Authentication'
 
 // components
 // import Header from './components'
