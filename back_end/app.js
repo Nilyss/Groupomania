@@ -1,37 +1,33 @@
-// import
-const express = require('express')
-const path = require('path')
+// import dependencies
+const express = require('express') // https://www.npmjs.com/package/express
+const bodyParser = require('body-parser') // https://www.npmjs.com/package/body-parser
+const cors = require('cors') // https://www.npmjs.com/package/cors
+const dotenv = require('dotenv') // https://www.npmjs.com/package/dotenv
+const result = dotenv.config()
+const JsonPackage = require('./package.json')
 
-// import morgan dependencies for http request in console
-const morgan = require('morgan')
+// dev dependencies
+const morgan = require('morgan') // https://www.npmjs.com/package/morgan
 
-// init express framework
+//  select port for our API & API Root
+const apiRoute = '/api'
+
+// start app
 const app = express()
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.json())
+app.use(
+  cors({
+    origin: /http:\/\/localhost/,
+  })
+)
+app.options('*', cors())
 
-// api routes
-const userRoutes = require('./routes/user')
-
-// cors request
-app.use((req, res, next) => {
-  res.setHeader('Access-Control-Allow-Origin', '*')
-  res.setHeader(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-with, Content, Accept, Content-Type, Authorization'
-  )
-  res.setHeader(
-    'Access-Control-Allow-Methods',
-    'GET, POST, PUT, DELETE, PATCH, OPTIONS'
-  )
-  next()
+// configure routes
+const router = express.Router()
+router.get('/', (req, res) => {
+  res.send(`${JsonPackage.name} - v${JsonPackage.version}`)
 })
 
-// init app.js
-app.use(express.json())
-app.use(morgan('dev'))
-
-module.exports = app
-
-const port = 8000
-app.listen(port, () =>
-  console.log(`Application Node démarrée sur : http://localhost/${port}`)
-)
+// register routes
+app.use(apiRoute, router)
