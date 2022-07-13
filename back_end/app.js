@@ -1,16 +1,20 @@
 // import dependencies
-const express = require('express') // https://www.npmjs.com/package/express
-const bodyParser = require('body-parser') // https://www.npmjs.com/package/body-parser
-const cors = require('cors') // https://www.npmjs.com/package/cors
-const dotenv = require('dotenv') // https://www.npmjs.com/package/dotenv
+const express = require('express') // framework for node.js  https://www.npmjs.com/package/express
+const bodyParser = require('body-parser') // body parsing middleware  https://www.npmjs.com/package/body-parser
+const cors = require('cors') // cross origin request  https://www.npmjs.com/package/cors
+const dotenv = require('dotenv') // environment variable  https://www.npmjs.com/package/dotenv
 const result = dotenv.config()
-const JsonPackage = require('./package.json')
 
 // dev dependencies
-const morgan = require('morgan') // https://www.npmjs.com/package/morgan
+const morgan = require('morgan') // http middleware logger https://www.npmjs.com/package/morgan
 
-//  select port for our API & API Root
+// importDB - noSQL (mongoDB)
+const mongoose = require('./db/dbConfig')
+
+// configure routes
 const apiRoute = '/api'
+// const authRoute = '/auth'
+const userRoute = require('./routes/user')
 
 // start app
 const app = express()
@@ -22,12 +26,8 @@ app.use(
   })
 )
 app.options('*', cors())
+app.use(express.json())
+app.use(morgan('dev'))
+app.use('/api', userRoute)
 
-// configure routes
-const router = express.Router()
-router.get('/', (req, res) => {
-  res.send(`${JsonPackage.name} - v${JsonPackage.version}`)
-})
-
-// register routes
-app.use(apiRoute, router)
+module.exports = app
