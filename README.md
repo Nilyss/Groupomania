@@ -29,6 +29,8 @@ cors@2.8.5
 bcrypt@5.0.1
 jsonwebtoken@8.5.1
 dotenv@16.0.1
+helmet@5.1.0
+express-mongo-sanitize@2.2.0
 
 -dev
 nodemon@2.0.19
