@@ -33,6 +33,6 @@ app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.json())
-app.use('/api', userRoute)
+app.use('/api/auth', userRoute)
 
 module.exports = app

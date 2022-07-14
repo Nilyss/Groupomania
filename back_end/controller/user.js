@@ -1,5 +1,11 @@
 // import dependencies
-const jsonWebToken = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
+const dotenv = require('dotenv')
+const result = dotenv.config()
+
+// import Middleware
+const authMiddleware = require('../middleware/authJwt')
 
 // import models
 const User = require('../models/user')
@@ -16,4 +22,30 @@ exports.signUp = (req, res) => {
     .catch((error) => res.status(400).json({ error: 'User creation failed' }))
 
     .catch((error) => res.status(500).json({ error: 'Server error' }))
+}
+
+exports.signIn = (req, res) => {
+  User.findOne({
+    userName: req.body.userName,
+  })
+    .then((user) => {
+      if (!user) {
+        return res.status(401).json({ message: 'Invalid authentication' })
+      }
+      bcrypt
+        .compare(req.body.password, user.password)
+        .then((valid) => {
+          if (!valid) {
+            return res.status(401).json({ message: 'Invalid authentication' })
+          }
+          res.status(200).json({
+            userId: user._id,
+            token: jwt.sign({ userId: user._id }, `${process.env.TOKEN}`, {
+              expiresIn: '12h',
+            }),
+          })
+        })
+        .catch((error) => res.status(500).json({ error }))
+    })
+    .catch((error) => res.status(500).json({ error }))
 }
