@@ -20,9 +20,12 @@ const isValidPassword = (password) => {
 
 // userSchema
 const userSchema = new Schema({
-  userName: {
+    firstName: {
     type: String,
-    unique: true,
+    required: true,
+  },
+  lastName: {
+    type: String,
     required: true,
   },
   email: {

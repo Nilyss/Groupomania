@@ -9,11 +9,13 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Authentification from './pages/Authentication'
 
 // components
-// import Header from './components'
+
+
 // hook
 
-// utils
+// styles
 import GlobalStyle from './utils/styles/GlobalStyle'
+import './App.scss'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

@@ -12,7 +12,8 @@ const User = require('../models/user')
 
 exports.signUp = (req, res) => {
   const user = new User({
-    userName: req.body.userName,
+    firstName: req.body.firstName,
+    lastName: req.body.lastName,
     email: req.body.email,
     password: req.body.password,
   })
@@ -26,7 +27,7 @@ exports.signUp = (req, res) => {
 
 exports.signIn = (req, res) => {
   User.findOne({
-    userName: req.body.userName,
+    email: req.body.email,
   })
     .then((user) => {
       if (!user) {

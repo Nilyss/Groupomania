@@ -1,16 +1,12 @@
-// dependencies
-import styled from 'styled-components'
+@import '../utils/variables';
 
-// styles
-import colors from '../utils/styles/colors'
-
-export const Button = styled.button`
-  @media (min-width: 768px) {
+.auth__nav__btn {
+  @media (min-width: $breakpointMobile) {
     padding: 0 40px;
   }
   align-items: center;
-  background-color: ${colors.secondary};
-  border: 2px solid ${colors.tertiary};
+  background-color: $colorSecondary;
+  border: $borderCard;
   border-radius: 8px;
   box-sizing: border-box;
   display: flex;
@@ -27,12 +23,14 @@ export const Button = styled.button`
   -webkit-user-select: none;
   touch-action: manipulation;
   cursor: pointer;
+
   &:hover {
     outline: 0;
   }
+
   &:after {
     content: '';
-    background-color: ${colors.tertiary};
+    background-color: $colorTertiary;
     border-radius: 8px;
     display: block;
     height: 48px;
@@ -44,11 +42,13 @@ export const Button = styled.button`
     transition: transform 200ms ease-out;
     z-index: -1;
   }
+
   &:hover:after {
     transform: translate(0, 0);
   }
+
   &:active:after {
     background-color: #ffdeda;
     outline: 0;
   }
-`
+}

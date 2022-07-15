@@ -1,0 +1,125 @@
+@import '../utils/variables';
+
+.auth {
+  @media (max-width: $breakpointMobile) {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    overflow: hidden;
+  }
+  margin: 3rem;
+}
+
+.auth__nav {
+  @media (max-width: $breakpointMobile) {
+    justify-content: center;
+    margin-bottom: 2em;
+  }
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  height: 10%;
+  margin-bottom: 10em;
+}
+
+.auth__form {
+  @media (max-width: $breakpointMobile) {
+    width: 220px;
+  }
+  width: 320px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  border-radius: 8px;
+  border: $borderCard;
+  box-shadow: $boxShadowCard;
+  background: $colorSecondary;
+  &__title {
+    text-align: center;
+    margin: -0.5em 0 2em 0;
+    font-size: 24px;
+    color: $colorTertiary;
+    font-weight: 800;
+    position: relative;
+    &::after {
+      content: '';
+      position: absolute;
+      top: 130%;
+      left: 20%;
+      width: 60%;
+      height: 3px;
+      background: $colorPrimary;
+    }
+  }
+}
+
+.auth__form__body {
+  padding: 0 12% 0 12%;
+  &__inputWrapper {
+    &__label {
+      display: flex;
+      flex-flow: column wrap;
+      margin-bottom: 1em;
+      width: 100%;
+      font-size: 14px;
+      font-weight: 600;
+      color: $colorTertiary;
+    }
+    &__input {
+      width: 75%;
+      height: 3vh;
+      margin-bottom: 1em;
+      border-radius: 3px;
+      text-align: center;
+      font-size: 12px;
+      color: $colorTertiary;
+    }
+  }
+}
+
+.auth__form__body__submitWrapper {
+  margin-top: 2em;
+  display: flex;
+  flex-flow: column;
+  width: 75%;
+  position: relative;
+  z-index: 1;
+  &:hover {
+    outline: 0;
+  }
+  &::after {
+    content: '';
+    background-color: $colorTertiary;
+    border-radius: 8px;
+    display: block;
+    width: 78%;
+    height: 100%;
+    top: -8px;
+    left: 15px;
+    position: absolute;
+    transform: translate(1em, 1em);
+    transition: transform 200ms ease-out;
+    z-index: -1;
+  }
+  &:hover::after {
+    transform: translate(0.6em, 0.5em);
+  }
+  &:active:after {
+    background-color: #ffdeda;
+    outline: 0;
+  }
+  &__btn {
+    align-self: center;
+    width: 80%;
+    height: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 8px;
+    border: $borderCard;
+    background: $colorSecondary;
+    cursor: pointer;
+  }
+}
+
+.auth__form__body__forgotPassword {
+  padding-top: 2em;
+}

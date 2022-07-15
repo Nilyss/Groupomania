@@ -1,0 +1,26 @@
+.authBody {
+  background: url('../../../../assets/officepicture.webp') no-repeat fixed
+    center;
+  background-size: cover;
+  position: absolute;
+  z-index: 0;
+  min-height: 100%;
+  height: border-box;
+}
+
+.authBody__fig {
+  &__logo {
+    @media (max-width: 768px) {
+      width: 200px;
+      display: flex;
+      position: unset;
+      margin: auto;
+      margin-bottom: -5em;
+    }
+    position: absolute;
+    left: 3rem;
+    width: 300px;
+    margin: 300px;
+    object-fit: cover;
+  }
+}
