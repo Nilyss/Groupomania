@@ -11,7 +11,10 @@ export default function AuthForm() {
     return (
       <section className="auth">
         <nav className="auth__nav">
-          <button className="auth__nav__btn" onClick={toggleIsLogin}>
+          <button
+            className="auth__nav__btn submitButton"
+            onClick={toggleIsLogin}
+          >
             Sign-up
           </button>
         </nav>
@@ -59,7 +62,10 @@ export default function AuthForm() {
     return (
       <section className="auth">
         <nav className="auth__nav">
-          <button className="auth__nav__btn" onClick={toggleIsLogin}>
+          <button
+            className="auth__nav__btn submitButton"
+            onClick={toggleIsLogin}
+          >
             Sign-in
           </button>
         </nav>
