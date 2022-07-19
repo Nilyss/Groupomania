@@ -1,4 +1,4 @@
-@import '../utils/variables';
+@import '../../utils/styles/scss/utils/variables';
 
 .auth {
   @media (max-width: $breakpointMobile) {
@@ -65,7 +65,7 @@
       color: $colorTertiary;
     }
     &__input {
-      width: 75%;
+      width: 100%;
       height: 3vh;
       margin-bottom: 1em;
       border-radius: 3px;
@@ -80,7 +80,7 @@
   margin-top: 2em;
   display: flex;
   flex-flow: column;
-  width: 75%;
+  width: 100%;
   position: relative;
   z-index: 1;
   &:hover {
