@@ -11,11 +11,6 @@ Axios.defaults.baseURL = 'http:://localhost:8000/api'
 // Axios.defaults.timeout = 6000
 // Axios.defaults.withCredentials = false
 
-Axios.defaults.baseURL = 'http://localhost:8000/api'
-// Axios.defaults.headers.post['Content-Type'] = 'application/json'
-// Axios.defaults.timeout = 6000
-// Axios.defaults.withCredentials = false
-
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(UserContext)
   const [validation, setValidation] = useState('')
@@ -25,33 +20,6 @@ export default function SignUpModal() {
   const addInputs = (el) => {
     if (el && !inputs.current.includes(el)) {
       inputs.current.push(el)
-    }
-  }
-  // console.log(inputToPush, 'USER CONSOLE.LOG')
-
-  const formRef = useRef()
-
-  const handleForm = (e) => {
-    e.preventDefault()
-
-    if (
-      (inputs.current[3].value.length || inputs.current[4].value.length) < 6 ||
-      (inputs.current[3].value.length || inputs.current[4].value.length) > 16
-    ) {
-      setValidation('Password must have between 8 and 16 characters')
-    } else if (inputs.current[3].value !== inputs.current[4].value) {
-      setValidation('Passwords do not match')
-    } else {
-      try {
-        const userData = {
-          firstName: inputs.current[0].value,
-          lastName: inputs.current[1].value,
-          email: inputs.current[2].value,
-          password: inputs.current[3].value,
-        }
-
-        Axios.post(`/auth/signup`, userData)
-      } catch (err) {}
     }
   }
 
