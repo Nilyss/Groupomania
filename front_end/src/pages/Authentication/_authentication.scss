@@ -13,12 +13,11 @@
       width: 200px;
       display: flex;
       position: unset;
-      margin: auto;
-      margin-bottom: -5em;
+      margin: 0 0 0 -5em auto;
     }
     position: absolute;
     top: -23em;
-    left: -15rem;
+    right: -15rem;
     width: 300px;
     margin: 300px;
     object-fit: cover;

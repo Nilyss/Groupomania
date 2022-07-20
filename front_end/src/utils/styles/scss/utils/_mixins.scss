@@ -28,7 +28,7 @@
     outline: 0;
   }
 
-  &:after {
+  &::after {
     content: '';
     background-color: $colorTertiary;
     border-radius: 8px;

@@ -4,20 +4,20 @@ export const UserContext = createContext()
 
 export function UserContextProvider(props) {
   const [modalState, setModalState] = useState({
-    signUpModal: false,
+    signUpModal: true,
     signInModal: true,
   })
 
   const toggleModals = (modal) => {
     if (modal === 'signIn') {
       setModalState({
-        signUpModal: false,
+        signUpModal: true,
         signInModal: true,
       })
     }
     if (modal === 'signUn') {
       setModalState({
-        signUpModal: false,
+        signUpModal: true,
         signInModal: true,
       })
     }

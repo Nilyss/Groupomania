@@ -2,7 +2,7 @@
 import '../../utils/styles/Authentication.css'
 
 // import components
-import AuthForm from '../../components/form/authForm'
+import SignUpModal from '../../components/form/signUpModal'
 
 //  import img
 import logo from '../../assets/icon-left-font-monochrome-black.png'
@@ -17,7 +17,7 @@ export default function Authentification(props) {
           alt="logo groupomania"
         />
       </figure>
-      <AuthForm />
+      <SignUpModal />
     </body>
   )
 }
