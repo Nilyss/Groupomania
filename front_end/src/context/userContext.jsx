@@ -3,6 +3,7 @@ import { createContext, useState } from 'react'
 export const UserContext = createContext()
 
 export function UserContextProvider(props) {
+  // modal
   const [modalState, setModalState] = useState({
     signUpModal: true,
     signInModal: true,

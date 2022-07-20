@@ -1,8 +1,14 @@
 import { useContext, useState, useRef } from 'react'
 import { UserContext } from '../../context/userContext'
+import Axios from 'axios'
 
 // css
 import './_signUpModal.scss'
+
+Axios.defaults.baseURL = 'http://localhost:8000/api'
+// Axios.defaults.headers.post['Content-Type'] = 'application/json'
+// Axios.defaults.timeout = 6000
+// Axios.defaults.withCredentials = false
 
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(UserContext)
@@ -13,6 +19,33 @@ export default function SignUpModal() {
   const addInputs = (el) => {
     if (el && !inputs.current.includes(el)) {
       inputs.current.push(el)
+    }
+  }
+  // console.log(inputToPush, 'USER CONSOLE.LOG')
+
+  const formRef = useRef()
+
+  const handleForm = (e) => {
+    e.preventDefault()
+
+    if (
+      (inputs.current[3].value.length || inputs.current[4].value.length) < 6 ||
+      (inputs.current[3].value.length || inputs.current[4].value.length) > 16
+    ) {
+      setValidation('Password must have between 8 and 16 characters')
+    } else if (inputs.current[3].value !== inputs.current[4].value) {
+      setValidation('Passwords do not match')
+    } else {
+      try {
+        const userData = {
+          firstName: inputs.current[0].value,
+          lastName: inputs.current[1].value,
+          email: inputs.current[2].value,
+          password: inputs.current[3].value,
+        }
+
+        Axios.post(`/auth/signup`, userData)
+      } catch (err) {}
     }
   }
 
@@ -30,7 +63,11 @@ export default function SignUpModal() {
             </h5>
           </div>
           <div className="auth__body">
-            <form className="auth__body__form">
+            <form
+              onSubmit={handleForm}
+              ref={formRef}
+              className="auth__body__form"
+            >
               <div className="auth__body__form__container">
                 <label htmlFor="firstName" className="formLabel">
                   First Name
@@ -95,12 +132,12 @@ export default function SignUpModal() {
                   ref={addInputs}
                   name="password"
                   required
-                  type="texte"
+                  type="password"
                   className="formInput"
                   id="confirmPassword"
                   placeholder="Confirm your password"
                 />
-                {/*<p className="auth__body__form__error">err</p>*/}
+                <p className="auth__body__form__error">{validation}</p>
               </div>
               <button className="auth__body__form__submit">Register</button>
             </form>
