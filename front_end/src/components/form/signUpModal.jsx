@@ -1,8 +1,15 @@
 import { useContext, useState, useRef } from 'react'
 import { UserContext } from '../../context/userContext'
+import Axios from 'axios'
 
 // css
-import './_signUpModal.scss'
+import './_forms.scss'
+
+Axios.defaults.baseURL = 'http:://localhost:8000/api'
+
+// Axios.defaults.headers.post['Content-Type'] = 'application/json'
+// Axios.defaults.timeout = 6000
+// Axios.defaults.withCredentials = false
 
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(UserContext)
@@ -16,21 +23,51 @@ export default function SignUpModal() {
     }
   }
 
+  const formRef = useRef()
+
+  const handleForm = (e) => {
+    e.preventDefault()
+
+    if (
+      (inputs.current[3].value.length || inputs.current[4].value.length) < 6 ||
+      (inputs.current[3].value.length || inputs.current[4].value.length) > 16
+    ) {
+      setValidation('Password must have between 8 and 16 characters')
+    } else if (inputs.current[3].value !== inputs.current[4].value) {
+      setValidation('Passwords do not match')
+    } else {
+      try {
+        const userData = {
+          firstName: inputs.current[0].value,
+          lastName: inputs.current[1].value,
+          email: inputs.current[2].value,
+          password: inputs.current[3].value,
+        }
+
+        Axios.post(`/auth/signup`, userData)
+      } catch (err) {}
+    }
+  }
+
   return (
     <>
       {modalState.signUpModal && (
         <section className="auth">
           <div className="auth__header">
-            <h5 className="auth__header__title">Sign-Up</h5>
             <h5
               onClick={() => toggleModals('signIn')}
-              className="auth__header__signIn"
+              className="auth__header__btn"
             >
               Sign-In
             </h5>
+            <h5 className="auth__header__title">Sign-Up</h5>
           </div>
           <div className="auth__body">
-            <form className="auth__body__form">
+            <form
+              onSubmit={handleForm}
+              ref={formRef}
+              className="auth__body__form"
+            >
               <div className="auth__body__form__container">
                 <label htmlFor="firstName" className="formLabel">
                   First Name
@@ -61,7 +98,7 @@ export default function SignUpModal() {
               </div>
               <div className="auth__body__form__container">
                 <label htmlFor="signUpMail" className="formLabel">
-                  email address
+                  eMail address
                 </label>
                 <input
                   ref={addInputs}
@@ -84,7 +121,7 @@ export default function SignUpModal() {
                   type="password"
                   className="formInput"
                   id="password"
-                  placeholder="Enter your password"
+                  placeholder="Enter your incredible password"
                 />
               </div>
               <div className="auth__body__form__container">
@@ -95,12 +132,12 @@ export default function SignUpModal() {
                   ref={addInputs}
                   name="password"
                   required
-                  type="texte"
+                  type="password"
                   className="formInput"
                   id="confirmPassword"
-                  placeholder="Confirm your password"
+                  placeholder="Confirm your insane password"
                 />
-                {/*<p className="auth__body__form__error">err</p>*/}
+                <p className="auth__body__form__error">{validation}</p>
               </div>
               <button className="auth__body__form__submit">Register</button>
             </form>

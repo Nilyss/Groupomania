@@ -1,6 +1,11 @@
 @import '../../utils/styles/scss/utils/variables';
 
 .auth {
+  @media (max-width: $breakpointMobile) {
+    position: unset;
+    display: flex;
+    margin: auto;
+  }
   position: absolute;
   z-index: 999;
   width: 350px;
@@ -16,10 +21,22 @@
 
 .auth__header {
   display: flex;
+  flex-flow: wrap;
   justify-content: space-between;
   text-align: center;
   margin-bottom: 2em;
   font-size: 1.5em;
+  &:after {
+    content: '';
+    display: flex;
+    margin-top: 2em;
+    margin-left: 15%;
+    margin-right: 15%;
+    background: #fd2d01;
+    width: 100%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
 }
 .auth__header__title {
   width: 48%;
@@ -29,7 +46,7 @@
     rgba(78, 81, 102, 0.07) -3px -3px 6px 1px inset;
 }
 
-.auth__header__signIn {
+.auth__header__btn {
   align-items: center;
   background-color: $colorSecondary;
   border: $borderCard;
