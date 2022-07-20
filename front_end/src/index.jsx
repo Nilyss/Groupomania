@@ -2,29 +2,29 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import reportWebVitals from './reportWebVitals'
 
-//  dependencies
+//  Dependencies
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-// pages
+// Context
+import { UserContextProvider } from './context/userContext'
+
+// Pages
 import Authentification from './pages/Authentication'
 
-// components
-// import Header from './components'
-// hook
-
-// utils
+// styles
 import GlobalStyle from './utils/styles/GlobalStyle'
+import './App.scss'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
-      <GlobalStyle />
+  <BrowserRouter>
+    <GlobalStyle />
+    <UserContextProvider>
       <Routes>
         <Route path="/" element={<Authentification />}></Route>
       </Routes>
-    </BrowserRouter>
-  </React.StrictMode>
+    </UserContextProvider>
+  </BrowserRouter>
 )
 
 // If you want to start measuring performance in your app, pass a function
