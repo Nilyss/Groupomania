@@ -1,0 +1,15 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.homeHeader {
+  background: rgba(255, 255, 255, 0.53);
+  margin-bottom: 2em;
+  box-shadow: $boxShadowCard;
+}
+
+.homeMain__fig__logo {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  display: flex;
+}

@@ -1,0 +1,19 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.postFlow {
+  margin: auto;
+  margin-top: 5em;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  height: 500px;
+}
+
+.postFlow__container {
+  text-align: center;
+  border-radius: 8px;
+  background: $colorSecondary;
+  box-shadow: $boxShadowCard;
+}
