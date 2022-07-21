@@ -1,25 +1,25 @@
-import { createContext, useState } from 'react'
+import { createContext, useState, useEffect } from 'react'
 
 export const UserContext = createContext()
 
 export function UserContextProvider(props) {
   // modal
   const [modalState, setModalState] = useState({
-    signUpModal: true,
+    signUpModal: false,
     signInModal: true,
   })
 
   const toggleModals = (modal) => {
     if (modal === 'signIn') {
       setModalState({
-        signUpModal: true,
+        signUpModal: false,
         signInModal: true,
       })
     }
-    if (modal === 'signUn') {
+    if (modal === 'signUp') {
       setModalState({
         signUpModal: true,
-        signInModal: true,
+        signInModal: false,
       })
     }
   }

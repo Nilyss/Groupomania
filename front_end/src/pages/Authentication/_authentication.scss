@@ -1,4 +1,9 @@
+@import '../../utils/styles/scss/utils/variables';
+
 .authBody {
+  @media (max-width: $breakpointMobile) {
+    background: url('../../assets/officepicture.webp') no-repeat fixed;
+  }
   background: url('../../assets/officepicture.webp') no-repeat fixed center;
   background-size: cover;
   position: absolute;
@@ -9,11 +14,11 @@
 
 .authBody__fig {
   &__logo {
-    @media (max-width: 768px) {
-      width: 200px;
+    @media (max-width: $breakpointMobile) {
+      width: 300px;
       display: flex;
       position: unset;
-      margin: 0 0 0 -5em auto;
+      margin: 0 auto;
     }
     position: absolute;
     top: -23em;

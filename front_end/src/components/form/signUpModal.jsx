@@ -3,12 +3,9 @@ import { UserContext } from '../../context/userContext'
 import Axios from 'axios'
 
 // css
-import './_signUpModal.scss'
+import './_forms.scss'
 
 Axios.defaults.baseURL = 'http://localhost:8000/api'
-// Axios.defaults.headers.post['Content-Type'] = 'application/json'
-// Axios.defaults.timeout = 6000
-// Axios.defaults.withCredentials = false
 
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(UserContext)
@@ -21,7 +18,6 @@ export default function SignUpModal() {
       inputs.current.push(el)
     }
   }
-  // console.log(inputToPush, 'USER CONSOLE.LOG')
 
   const formRef = useRef()
 
@@ -54,13 +50,13 @@ export default function SignUpModal() {
       {modalState.signUpModal && (
         <section className="auth">
           <div className="auth__header">
-            <h5 className="auth__header__title">Sign-Up</h5>
             <h5
               onClick={() => toggleModals('signIn')}
-              className="auth__header__signIn"
+              className="auth__header__btn"
             >
               Sign-In
             </h5>
+            <h5 className="auth__header__title">Sign-Up</h5>
           </div>
           <div className="auth__body">
             <form
@@ -98,7 +94,7 @@ export default function SignUpModal() {
               </div>
               <div className="auth__body__form__container">
                 <label htmlFor="signUpMail" className="formLabel">
-                  email address
+                  eMail address
                 </label>
                 <input
                   ref={addInputs}
@@ -121,7 +117,7 @@ export default function SignUpModal() {
                   type="password"
                   className="formInput"
                   id="password"
-                  placeholder="Enter your password"
+                  placeholder="Enter your incredible password"
                 />
               </div>
               <div className="auth__body__form__container">
@@ -135,7 +131,7 @@ export default function SignUpModal() {
                   type="password"
                   className="formInput"
                   id="confirmPassword"
-                  placeholder="Confirm your password"
+                  placeholder="Confirm your insane password"
                 />
                 <p className="auth__body__form__error">{validation}</p>
               </div>
