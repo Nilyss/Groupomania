@@ -5,11 +5,7 @@ import Axios from 'axios'
 // css
 import './_forms.scss'
 
-Axios.defaults.baseURL = 'http:://localhost:8000/api'
-
-// Axios.defaults.headers.post['Content-Type'] = 'application/json'
-// Axios.defaults.timeout = 6000
-// Axios.defaults.withCredentials = false
+Axios.defaults.baseURL = 'http://localhost:8000/api'
 
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(UserContext)

@@ -6,7 +6,7 @@ import Axios from 'axios'
 //css
 import './_forms.scss'
 
-Axios.defaults.baseURL = 'http:://localhost:8000/api'
+Axios.defaults.baseURL = 'http://localhost:8000/api'
 
 export default function SignInModal() {
   const { toggleModals, modalState } = useContext(UserContext)
@@ -60,7 +60,6 @@ export default function SignInModal() {
                     User identification
                   </label>
                   <input
-                    defaultValue="Initial value"
                     ref={addInputs}
                     name="mail"
                     required
@@ -75,7 +74,6 @@ export default function SignInModal() {
                     Password
                   </label>
                   <input
-                    defaultValue="Initial value"
                     ref={addInputs}
                     name="password"
                     required
