@@ -17,6 +17,7 @@ const mongoose = require('./db/dbConfig')
 const apiRoute = '/api'
 // const authRoute = '/auth'
 const userRoute = require('./routes/user')
+const articlesRoute = require('./routes/articles')
 
 // start app
 const app = express()
@@ -34,5 +35,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(express.json())
 app.use('/api/auth', userRoute)
+app.use('/api/auth', articlesRoute)
 
 module.exports = app

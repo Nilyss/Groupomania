@@ -13,9 +13,6 @@
   box-shadow: $boxShadowCard;
 }
 
-.createPost__body {
-}
-
 .createPost__body__form {
   width: 100%;
   display: flex;
@@ -26,14 +23,15 @@
 .createPost__body__form__top {
   display: flex;
   width: 100%;
+  align-items: center;
   justify-content: space-around;
 }
 
 .createPost__body__form__top__fig__img {
+  border: 2px solid $colorTertiary;
   width: 50px;
   height: 50px;
   object-fit: cover;
-  border: 2px solid black;
   border-radius: 50%;
 }
 
@@ -53,14 +51,23 @@
 
 .createPost__body__form__bottom {
   display: flex;
-  width: 30%;
-  margin-right: 4em;
   margin-top: 1em;
   align-items: center;
+  justify-content: flex-end;
 }
 
 .createPost__body__form__bottom__button__attachment {
-  font-size: 16px;
+  display: flex;
+  align-items: center;
+  margin-right: 3em;
+  text-decoration: none;
+}
+.createPost__body__form__bottom__button__attachment__txt {
+  margin-right: 0.5em;
+}
+
+.createPost__body__form__bottom__button__attachment__icon {
+  font-size: 1.4em;
 }
 
 .createPost__body__form__bottom__button {

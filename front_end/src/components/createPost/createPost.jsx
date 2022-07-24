@@ -22,22 +22,29 @@ export default function createPost() {
                   alt="profile pictures"
                 />
               </figure>
-              <labem
+              <label
                 htmlFor="post"
                 className="createPost__body__form__top__label"
               >
                 Tell us what's on your mind Rick ?
-              </labem>
+              </label>
               <textarea
                 id="post"
                 className="createPost__body__form__top__textArea"
               ></textarea>
             </div>
             <div className="createPost__body__form__bottom">
-              <div className="createPost__body__form__bottom__button__attachment">
-                Add photo or picture
-                {imageIcon}
-              </div>
+              <a
+                href="#"
+                className="createPost__body__form__bottom__button__attachment"
+              >
+                <div className="createPost__body__form__bottom__button__attachment__txt">
+                  Add photo or picture
+                </div>
+                <span className="createPost__body__form__bottom__button__attachment__icon">
+                  {imageIcon}
+                </span>
+              </a>
               <button className="createPost__body__form__bottom__button submitButton">
                 Post
               </button>

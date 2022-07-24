@@ -1,7 +1,6 @@
 // import dependencies
 const mongoose = require('mongoose')
 const uniqueValidator = require('mongoose-unique-validator')
-const { Schema } = mongoose
 const bcrypt = require('bcrypt')
 
 // regular expression
@@ -19,36 +18,41 @@ const isValidPassword = (password) => {
 }
 
 // userSchema
-const userSchema = new Schema({
+const userSchema = mongoose.Schema(
+  {
     firstName: {
-    type: String,
-    required: true,
+      type: String,
+      required: true,
+    },
+    lastName: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      trim: true,
+      lowercase: true,
+      unique: true,
+      required: true,
+      validate: [isValidEmail, 'Please, indicate an valid mail address'],
+    },
+    password: {
+      type: String,
+      required: true,
+      validate: [
+        isValidPassword,
+        "'Password must contain at least : 1 number, 1 uppercase letters, 1 lowercase letters, 1 non-alpha numeric number, between 8 and 16 characters with no space",
+      ],
+    },
+    isAdmin: {
+      type: Number,
+      default: 0,
+    },
+
+    posts: { type: [String] },
   },
-  lastName: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    trim: true,
-    lowercase: true,
-    unique: true,
-    required: true,
-    validate: [isValidEmail, 'Please, indicate an valid mail address'],
-  },
-  password: {
-    type: String,
-    required: true,
-    validate: [
-      isValidPassword,
-      "'Password must contain at least : 1 number, 1 uppercase letters, 1 lowercase letters, 1 non-alpha numeric number, between 8 and 16 characters with no space",
-    ],
-  },
-  isAdmin: {
-    type: Number,
-    default: 0,
-  },
-})
+  { collection: 'Users' }
+)
 
 // hash password with bcrypt, before saving it in dataBase
 

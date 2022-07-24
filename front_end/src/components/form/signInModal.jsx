@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react'
+import { useContext, useRef, useEffect } from 'react'
 import { UserContext } from '../../context/userContext'
 import { Link } from 'react-router-dom'
 import Axios from 'axios'
@@ -23,7 +23,7 @@ export default function SignInModal() {
 
   const formRef = useRef()
 
-  const handleForm = (e) => {
+  const handleForm = async (e) => {
     e.preventDefault()
 
     try {
@@ -31,7 +31,8 @@ export default function SignInModal() {
         email: inputs.current[0].value,
         password: inputs.current[1].value,
       }
-      Axios.post('/auth/signin/', userData)
+      const logIn = await Axios.post('/auth/signin/', userData)
+      window.location = '/home'
     } catch (err) {}
   }
 

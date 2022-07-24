@@ -41,7 +41,7 @@ export default function SignUpModal() {
         }
 
         Axios.post(`/auth/signup`, userData)
-        // formRef.current
+        toggleModals('signIn')
       } catch (err) {}
     }
   }

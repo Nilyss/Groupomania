@@ -13,9 +13,7 @@ export default function Home() {
     <>
       <Header />
       <main className="homeMain">
-        <section className="sectionNavMenu">
-          <NavMenu />
-        </section>
+        <section className="sectionNavMenu">{/*<NavMenu />*/}</section>
         <section className="sectionMain">
           <CreatePost />
           <PostFlow />
@@ -24,9 +22,7 @@ export default function Home() {
           <PostFlow />
           <PostFlow />
         </section>
-        <section className="sectionUserList">
-          <UserList />
-        </section>
+        <section className="sectionUserList">{/*<UserList />*/}</section>
       </main>
     </>
   )
