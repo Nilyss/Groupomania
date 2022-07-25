@@ -48,3 +48,9 @@ exports.signIn = (req, res) => {
     })
     .catch((error) => res.status(500).json({ error }))
 }
+
+exports.getAllUsers = async (req, res) => {
+  const users = await User.find().select()
+  console.log(users)
+  res.status(200).json(users)
+}

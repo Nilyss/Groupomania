@@ -1,39 +1,35 @@
-import { useContext, useRef, useEffect } from 'react'
+import { useContext } from 'react'
 import { UserContext } from '../../context/userContext'
-import { Link } from 'react-router-dom'
-import Axios from 'axios'
+import { Link, useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 //css
 import './_forms.scss'
 
-Axios.defaults.baseURL = 'http://localhost:8000/api'
+axios.defaults.baseURL = 'http://localhost:8000/api'
 
 export default function SignInModal() {
   const { toggleModals, modalState } = useContext(UserContext)
 
-  // push all inputs from form into inputs variable
-  const inputs = useRef([])
-  console.log(inputs.current.value)
+  const navigate = useNavigate()
 
-  const addInputs = (el) => {
-    if (el && !inputs.current.includes(el)) {
-      inputs.current.push(el)
-    }
-  }
-
-  const formRef = useRef()
-
-  const handleForm = async (e) => {
+  function handleForm(e) {
     e.preventDefault()
-
     try {
       const userData = {
-        email: inputs.current[0].value,
-        password: inputs.current[1].value,
+        email: e.target['mail'].value,
+        password: e.target['password'].value,
       }
-      const logIn = await Axios.post('/auth/signin/', userData)
-      window.location = '/home'
-    } catch (err) {}
+      axios.post('/auth/signin/', userData).then((res) => {
+        if (res.status === 200) {
+          navigate('/home', { replace: true })
+        } else {
+          console.error('An internal occurred ')
+        }
+      })
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   return (
@@ -50,18 +46,13 @@ export default function SignInModal() {
             </h5>
           </div>
           <div className="auth__body">
-            <form
-              onSubmit={handleForm}
-              ref={formRef}
-              className="auth__body__form"
-            >
+            <form onSubmit={handleForm} className="auth__body__form">
               <div className="auth__form__container">
                 <div className="auth__body__form__container">
                   <label htmlFor="signUpMail" className="formLabel">
                     User identification
                   </label>
                   <input
-                    ref={addInputs}
                     name="mail"
                     required
                     type="email"
@@ -75,7 +66,6 @@ export default function SignInModal() {
                     Password
                   </label>
                   <input
-                    ref={addInputs}
                     name="password"
                     required
                     type="password"

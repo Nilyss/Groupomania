@@ -1,3 +1,6 @@
+// hooks
+import { useEffect, useRef } from 'react'
+
 //css
 import './_createPost.scss'
 import testPP from './testPP.webp'
