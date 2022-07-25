@@ -3,8 +3,8 @@
 
 .createPost {
   margin: auto;
-  margin-top: 5em;
-  margin-bottom: 10em;
+  margin-top: 2em;
+  margin-bottom: -2.5em;
   padding: 2em;
   width: 80%;
   align-items: center;
@@ -66,8 +66,17 @@
   margin-right: 0.5em;
 }
 
+.createPost__body__form__bottom__button__attachment__input {
+  position: absolute;
+  opacity: 0;
+}
+
 .createPost__body__form__bottom__button__attachment__icon {
   font-size: 1.4em;
+  position: relative;
+  top: 0;
+  left: 0;
+  cursor: pointer;
 }
 
 .createPost__body__form__bottom__button {

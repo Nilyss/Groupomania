@@ -2,8 +2,12 @@
 import './_postFlow.scss'
 import testImg from './panpan.jpg'
 import testPP from '../createPost/testPP.webp'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 export default function PostFlow() {
+  const likeIcon = <FontAwesomeIcon icon={faThumbsUp} size="1x" />
+
   return (
     <>
       <article className="postFlow">
@@ -41,6 +45,35 @@ export default function PostFlow() {
               labore molestiae quas repudiandae saepe ullam unde vel vero
               voluptatum!
             </p>
+          </div>
+          <div className="postFlow__container__footer">
+            <span className="postFlow__container__footer__like">
+              {likeIcon}
+            </span>
+            <h6 className="postFlow__container__footer__title">Comments :</h6>
+            <p className="postFlow__container__footer__comment">
+              Exemple: i'm an incredible comment
+            </p>
+            <p className="postFlow__container__footer__comment">
+              Exemple: i'm an incredible comment
+            </p>
+            <label
+              htmlFor="comment"
+              className="postFlow__container__footer__label"
+            >
+              Comment it:
+            </label>
+            <input
+              id="comment"
+              className="postFlow__container__footer__input"
+              type="text"
+            />
+            <button
+              className="postFlow__container__footer__submit"
+              type="submit"
+            >
+              Send
+            </button>
           </div>
         </div>
       </article>

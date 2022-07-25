@@ -34,17 +34,21 @@ export default function createPost() {
               ></textarea>
             </div>
             <div className="createPost__body__form__bottom">
-              <a
+              <label
                 href="#"
                 className="createPost__body__form__bottom__button__attachment"
               >
                 <div className="createPost__body__form__bottom__button__attachment__txt">
                   Add photo or picture
                 </div>
+                <input
+                  className="createPost__body__form__bottom__button__attachment__input"
+                  type="file"
+                />
                 <span className="createPost__body__form__bottom__button__attachment__icon">
                   {imageIcon}
                 </span>
-              </a>
+              </label>
               <button className="createPost__body__form__bottom__button submitButton">
                 Post
               </button>

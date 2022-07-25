@@ -68,3 +68,58 @@
   text-align: left;
   font-size: 1.2em;
 }
+
+.postFlow__container__footer {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: 2em;
+  align-items: center;
+  background: $colorTertiary;
+  border-radius: 8px;
+  padding: 2em;
+}
+
+.postFlow__container__footer__like {
+  font-size: 2em;
+  width: 100%;
+  color: red;
+}
+
+.postFlow__container__footer__title {
+  font-size: 1.5em;
+  width: 100%;
+  color: #f2f2f2;
+}
+
+.postFlow__container__footer__comment {
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+  background: #f2f2f2;
+  color: $colorTertiary;
+  border-radius: 8px;
+  padding: 0.5em;
+}
+
+.postFlow__container__footer__label {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1.1em;
+  width: 100%;
+}
+
+.postFlow__container__footer__input {
+  width: 100%;
+  margin-bottom: 1em;
+  font-size: 1.2em;
+  background: #f2f2f2;
+  color: $colorTertiary;
+  border-radius: 8px;
+  padding: 0.5em;
+}
+
+.postFlow__container__footer__submit {
+  @include submitButton;
+  margin: auto;
+}
