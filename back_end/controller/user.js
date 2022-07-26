@@ -10,6 +10,14 @@ const authMiddleware = require('../middleware/authJwt')
 // import models
 const User = require('../models/user')
 
+// create token and defined duration of him
+const maxAge = 3 * 24 * 60 * 1000
+const createToken = (id) => {
+  return jwt.sign({ id }, process.env.TOKEN_SECRET, {
+    expiresIn: maxAge,
+  })
+}
+
 exports.signUp = (req, res) => {
   const user = new User({
     firstName: req.body.firstName,
@@ -24,31 +32,26 @@ exports.signUp = (req, res) => {
 }
 
 exports.signIn = (req, res) => {
-  User.findOne({
-    email: req.body.email,
-  })
-    .then((user) => {
+  try {
+    User.findOne({
+      email: req.body.email,
+    }).then((user) => {
       if (!user) {
         return res.status(401).json({ message: 'Invalid authentication' })
       }
-      bcrypt
-        .compare(req.body.password, user.password)
-        .then((valid) => {
-          if (!valid) {
-            return res.status(401).json({ message: 'Invalid authentication' })
-          }
-          res.status(200).json({
-            userId: user._id,
-            token: jwt.sign({ userId: user._id }, `${process.env.TOKEN}`, {
-              expiresIn: '12h',
-            }),
-          })
-        })
-        .catch((error) => res.status(500).json({ error }))
+      bcrypt.compare(req.body.password, user.password).then((valid) => {
+        if (!valid) {
+          return res.status(401).json({ message: 'Invalid authentication' })
+        }
+        const token = createToken(user._id)
+        res.cookie('jwt', token, { httpOnly: true, maxAge })
+        res.status(200).json({ user: user._id })
+      })
     })
-    .catch((error) => res.status(500).json({ error }))
+  } catch (err) {
+    res.status(401).json({ message: 'Invalid authentication' })
+  }
 }
-
 exports.getAllUsers = async (req, res) => {
   const users = await User.find().select('-password')
   console.log(users)
@@ -60,3 +63,33 @@ exports.getUserData = async (req, res) => {
   console.log(user)
   res.status(200).json(user)
 }
+
+// exports.signIn = (req, res) => {
+//   User.findOne({
+//     email: req.body.email,
+//   })
+//     .then((user) => {
+//       if (!user) {
+//         return res.status(401).json({ message: 'Invalid authentication' })
+//       }
+//       bcrypt
+//         .compare(req.body.password, user.password)
+//         .then((valid) => {
+//           if (!valid) {
+//             return res.status(401).json({ message: 'Invalid authentication' })
+//           }
+//           res.status(200).json({
+//             userId: user._id,
+//             token: jwt.sign(
+//               { userId: user._id },
+//               `${process.env.TOKEN_SECRET}`,
+//               {
+//                 expiresIn: '12h',
+//               }
+//             ),
+//           })
+//         })
+//         .catch((error) => res.status(500).json({ error }))
+//     })
+//     .catch((error) => res.status(500).json({ error }))
+// }

@@ -24,7 +24,7 @@ export default function SignInModal() {
         if (res.status === 200) {
           navigate('/home', { replace: true })
         } else {
-          console.error('An internal occurred ')
+          console.error('invalid identification')
         }
       })
     } catch (err) {
