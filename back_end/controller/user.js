@@ -50,7 +50,13 @@ exports.signIn = (req, res) => {
 }
 
 exports.getAllUsers = async (req, res) => {
-  const users = await User.find().select()
+  const users = await User.find().select('-password')
   console.log(users)
   res.status(200).json(users)
+}
+
+exports.getUserData = async (req, res) => {
+  const user = await User.findOne({ _id: req.params.id }).select('-password')
+  console.log(user)
+  res.status(200).json(user)
 }
