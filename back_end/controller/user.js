@@ -5,7 +5,7 @@ const dotenv = require('dotenv')
 const result = dotenv.config()
 
 // import Middleware
-const authMiddleware = require('../middleware/authJwt')
+const authMiddleware = require('../middleware/authMiddleware')
 
 // import models
 const User = require('../models/user')
@@ -65,6 +65,6 @@ exports.getUserData = async (req, res) => {
 }
 
 module.exports.logout = (req, res) => {
-  res.cookie('jwt', '', { maxAge: 1 })
+  res.cookie('jwt', ' ', { maxAge: 1 })
   res.redirect('/')
 }

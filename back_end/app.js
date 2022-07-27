@@ -14,19 +14,15 @@ const morgan = require('morgan') // http middleware logger https://www.npmjs.com
 // importDB - noSQL (mongoDB)
 const mongoose = require('./db/dbConfig')
 
-// import middleware
-const { checkUser } = require('./middleware/authMiddleware')
+// import auth middleware
+const { checkUser, requireAuth } = require('./middleware/authMiddleware')
 
 // configure routes
 const apiRoute = '/api'
 const userRoute = require('./routes/user')
-const articlesRoute = require('./routes/articles')
 
 // start app
 const app = express()
-
-// jwt
-app.get('*', checkUser)
 
 app.use(helmet())
 app.use(
@@ -41,7 +37,14 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
 app.use(cookieParser())
 app.use(express.json())
-app.use('/api/auth', userRoute)
-app.use('/api/auth', articlesRoute)
+
+// jwt
+app.get('*', checkUser)
+app.get('/jwtid', requireAuth, (req, res) => {
+  res.status(200).send(res.locals.user._id)
+})
+
+// routes
+app.use('/api', userRoute)
 
 module.exports = app
