@@ -3,6 +3,14 @@ const express = require('express') // framework for node.js  https://www.npmjs.c
 const bodyParser = require('body-parser') // body parsing middleware  https://www.npmjs.com/package/body-parser
 const cookieParser = require('cookie-parser') // cookies parsing middleware https://www.npmjs.com/package/cookie-parser
 const cors = require('cors') // cross origin request  https://www.npmjs.com/package/cors
+const corsOptions = {
+  origin: 'http://localhost:3000',
+  credentials: true,
+  allowedHeaders: ['sessionId', 'Content-Type'],
+  exposedHeaders: ['sessionId'],
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+}
 const helmet = require('helmet') // hide API stacks in browser  https://www.npmjs.com/package/helmet
 const mongoSanitize = require('express-mongo-sanitize') // block some key operator https://www.npmjs.com/package/express-mongo-sanitize
 const dotenv = require('dotenv') // environment variable  https://www.npmjs.com/package/dotenv
@@ -30,8 +38,7 @@ app.use(
     remplaceWith: '_',
   })
 )
-app.use(cors())
-app.options('*', cors())
+app.use(cors(corsOptions))
 app.use(morgan('dev'))
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json())
@@ -40,7 +47,7 @@ app.use(express.json())
 
 // jwt
 app.get('*', checkUser)
-app.get('/jwtid', requireAuth, (req, res) => {
+app.get('/api/jwtid', requireAuth, (req, res) => {
   res.status(200).send(res.locals.user._id)
 })
 

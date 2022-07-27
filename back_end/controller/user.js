@@ -41,7 +41,7 @@ exports.signIn = (req, res) => {
       }
       bcrypt.compare(req.body.password, user.password).then((valid) => {
         if (!valid) {
-          return res.status(401).json({ message: 'Invalid authentication' })
+          return res.status(401).json({ message: 'Invalid authentication ' })
         }
         const token = createToken(user._id)
         res.cookie('jwt', token, { httpOnly: true, maxAge })
@@ -52,6 +52,7 @@ exports.signIn = (req, res) => {
     res.status(401).json({ message: 'Invalid authentication' })
   }
 }
+
 exports.getAllUsers = async (req, res) => {
   const users = await User.find().select('-password')
   console.log(users)

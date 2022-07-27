@@ -18,18 +18,18 @@ import GlobalStyle from './utils/styles/GlobalStyle'
 import './App.scss'
 
 export default function App() {
-  const dispatch = useDispatch()
+  axios.defaults.withCredentials = true
   const [uid, setUid] = useState(null)
+  // const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchToken = async () => {
-      await axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}jwtid`,
-        withCredentials: true,
-      })
-        .then((res) => setUid(res.data))
-        .catch((err) => console.log('No Token'))
+      axios
+        .get(`${process.env.REACT_APP_API_URL}jwtid`)
+        .then((res) => {
+          setUid(res.data)
+        })
+        .catch((err) => console.log('No token'))
     }
     fetchToken()
   }, [uid])
@@ -37,7 +37,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <UidContext.Provider value={uid}>
+      <UidContext.Provider value={'uid'}>
         <UserContextProvider>
           <Routes>
             <Route path="/" element={<Authentification />}></Route>

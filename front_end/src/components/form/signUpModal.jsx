@@ -40,7 +40,7 @@ export default function SignUpModal() {
           password: inputs.current[3].value,
         }
 
-        Axios.post(`/auth/signup`, userData)
+        Axios.post(`signup`, userData)
         toggleModals('signIn')
       } catch (err) {}
     }

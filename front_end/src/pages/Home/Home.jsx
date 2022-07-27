@@ -1,19 +1,28 @@
+import { Link } from 'react-router-dom'
+import { UidContext } from '../../context/appContext'
+import { useContext } from 'react'
+
 // Components
 import Header from '../../components/header/header'
-import NavMenu from '../../components/navMenu/navMenu'
+// import NavMenu from '../../components/navMenu/navMenu'
+// import UserList from '../../components/userList/userList'
 import CreatePost from '../../components/createPost/createPost'
 import PostFlow from '../../components/postFlow/postFlow'
-import UserList from '../../components/userList/userList'
 
 // css
 import './_home.scss'
 
 export default function Home() {
+  const uid = useContext(UidContext)
   return (
     <>
       <Header />
       <main className="homeMain">
-        <section className="sectionNavMenu">{/*<NavMenu />*/}</section>
+        <section className="sectionNavMenu">
+          {uid ? console.log(uid, 'True') : console.log(uid, 'False')}
+          {/*<NavMenu />*/}
+          <Link to="/">Back</Link>
+        </section>
         <section className="sectionMain">
           <CreatePost />
           <PostFlow />

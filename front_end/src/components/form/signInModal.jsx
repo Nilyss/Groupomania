@@ -6,9 +6,9 @@ import axios from 'axios'
 //css
 import './_forms.scss'
 
-axios.defaults.baseURL = 'http://localhost:8000/api'
-
 export default function SignInModal() {
+  axios.defaults.withCredentials = true
+
   const { toggleModals, modalState } = useContext(UserContext)
 
   const navigate = useNavigate()
@@ -20,15 +20,17 @@ export default function SignInModal() {
         email: e.target['mail'].value,
         password: e.target['password'].value,
       }
-      axios.post('/auth/signin/', userData).then((res) => {
-        if (res.status === 200) {
-          navigate('/home', { replace: true })
-        } else {
-          console.error('invalid identification')
-        }
-      })
+      axios
+        .post(`${process.env.REACT_APP_API_URL}signin`, userData)
+        .then((res) => {
+          if (res.status === 200) {
+            navigate('/home', { replace: true })
+          } else {
+            console.error('invalid identification')
+          }
+        })
     } catch (err) {
-      console.error(err)
+      console.log(err, 'An internal error occurred')
     }
   }
 
@@ -84,3 +86,30 @@ export default function SignInModal() {
     </>
   )
 }
+
+// try {
+//   axios({
+//     method: 'post',
+//     url: `${process.env.REACT_APP_API_URL}signin`,
+//     withCredentials: true,
+//     userData,
+//   }).then((res) => {
+//     if (res.status === 200) {
+//       navigate('/home', { replace: true })
+//     } else {
+//       console.log('An internal error occurred')
+//     }
+//   })
+
+//   axios
+//       .post(`${process.env.REACT_APP_API_URL}signin`, userData)
+//       .then((res) => {
+//         if (res.status === 200) {
+//           navigate('/home', { replace: true })
+//         } else {
+//           console.error('invalid identification')
+//         }
+//       })
+// } catch (err) {
+//   console.log(err, 'An internal error occurred')
+// }
