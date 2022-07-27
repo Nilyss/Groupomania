@@ -64,32 +64,7 @@ exports.getUserData = async (req, res) => {
   res.status(200).json(user)
 }
 
-// exports.signIn = (req, res) => {
-//   User.findOne({
-//     email: req.body.email,
-//   })
-//     .then((user) => {
-//       if (!user) {
-//         return res.status(401).json({ message: 'Invalid authentication' })
-//       }
-//       bcrypt
-//         .compare(req.body.password, user.password)
-//         .then((valid) => {
-//           if (!valid) {
-//             return res.status(401).json({ message: 'Invalid authentication' })
-//           }
-//           res.status(200).json({
-//             userId: user._id,
-//             token: jwt.sign(
-//               { userId: user._id },
-//               `${process.env.TOKEN_SECRET}`,
-//               {
-//                 expiresIn: '12h',
-//               }
-//             ),
-//           })
-//         })
-//         .catch((error) => res.status(500).json({ error }))
-//     })
-//     .catch((error) => res.status(500).json({ error }))
-// }
+module.exports.logout = (req, res) => {
+  res.cookie('jwt', '', { maxAge: 1 })
+  res.redirect('/')
+}
