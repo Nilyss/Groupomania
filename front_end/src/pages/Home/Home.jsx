@@ -19,7 +19,7 @@ export default function Home() {
       <Header />
       <main className="homeMain">
         <section className="sectionNavMenu">
-          {uid ? console.log(uid, 'True') : console.log(uid, 'False')}
+          {/*{uid && <h1>utilisateur{uid}</h1>}*/}
           {/*<NavMenu />*/}
           <Link to="/">Back</Link>
         </section>

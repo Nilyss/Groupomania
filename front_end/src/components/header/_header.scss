@@ -2,9 +2,32 @@
 @import '../../utils/styles/scss/utils/mixins';
 
 .homeHeader {
-  background: rgba(255, 255, 255, 0.53);
+  display: flex;
+  flex-flow: wrap;
+  position: relative;
+  background: rgb(235, 235, 235);
   margin-bottom: 2em;
   box-shadow: $boxShadowCard;
+}
+
+.showUser {
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+.showUser__pp{
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid $colorTertiary;
+  margin-left: 5em;
+  margin-right: 2em;
+}
+
+.showUser__name{
+  font-size: 1.3em;
 }
 
 .homeMain__fig__logo {

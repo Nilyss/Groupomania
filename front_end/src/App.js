@@ -37,7 +37,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <GlobalStyle />
-      <UidContext.Provider value={'uid'}>
+      <UidContext.Provider value={uid}>
         <UserContextProvider>
           <Routes>
             <Route path="/" element={<Authentification />}></Route>

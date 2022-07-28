@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { UserContext } from '../../context/userContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 //css
@@ -11,7 +12,7 @@ export default function SignInModal() {
 
   const { toggleModals, modalState } = useContext(UserContext)
 
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   function handleForm(e) {
     e.preventDefault()
@@ -24,7 +25,8 @@ export default function SignInModal() {
         .post(`${process.env.REACT_APP_API_URL}signin`, userData)
         .then((res) => {
           if (res.status === 200) {
-            navigate('/home', { replace: true })
+            // navigate('/home', { replace: true })
+            window.location = '/home'
           } else {
             console.error('invalid identification')
           }

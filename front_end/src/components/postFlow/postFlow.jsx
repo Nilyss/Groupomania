@@ -20,7 +20,7 @@ export default function PostFlow() {
                 alt="profile pictures"
               />
             </figure>
-            <h5 className="postFlow__container__title">Rick DECKARD</h5>
+            <h5 className="postFlow__container__title">'Valeur dynamique'</h5>
           </div>
           <figure className="postFlow__container__figure">
             <img

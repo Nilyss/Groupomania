@@ -29,7 +29,7 @@ export default function createPost() {
                 htmlFor="post"
                 className="createPost__body__form__top__label"
               >
-                Tell us what's on your mind Rick ?
+                Tell us what's on your mind 'Valeur dynamique' ?
               </label>
               <textarea
                 id="post"
