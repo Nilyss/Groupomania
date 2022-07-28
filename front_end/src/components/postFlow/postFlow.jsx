@@ -1,12 +1,13 @@
 //css
 import './_postFlow.scss'
 import testImg from './panpan.jpg'
-import testPP from '../createPost/testPP.webp'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useSelector } from 'react-redux'
 
 export default function PostFlow() {
   const likeIcon = <FontAwesomeIcon icon={faThumbsUp} size="1x" />
+  const userData = useSelector((state) => state.userReducer)
 
   return (
     <>
@@ -16,11 +17,13 @@ export default function PostFlow() {
             <figure className="createPost__body__form__top__fig">
               <img
                 className="createPost__body__form__top__fig__img"
-                src={testPP}
+                src={userData.profilePicture}
                 alt="profile pictures"
               />
             </figure>
-            <h5 className="postFlow__container__title">'Valeur dynamique'</h5>
+            <h5 className="postFlow__container__title">
+              {userData.firstName} {userData.lastName}
+            </h5>
           </div>
           <figure className="postFlow__container__figure">
             <img

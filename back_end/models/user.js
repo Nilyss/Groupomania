@@ -44,6 +44,10 @@ const userSchema = mongoose.Schema(
         "'Password must contain at least : 1 number, 1 uppercase letters, 1 lowercase letters, 1 non-alpha numeric number, between 8 and 16 characters with no space",
       ],
     },
+    profilePicture: {
+      type: String,
+      default: 'https://i.imgur.com/FixNDJZ.jpg',
+    },
     isAdmin: {
       type: Number,
       default: 0,

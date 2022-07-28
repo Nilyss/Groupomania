@@ -1,5 +1,4 @@
-import { UidContext } from '../../context/appContext'
-import { useContext } from 'react'
+import { useSelector } from 'react-redux'
 
 // components
 import Logout from '../logout/logout'
@@ -9,19 +8,22 @@ import './_header.scss'
 
 // images
 import logoOrange from '../../assets/orange_logo.png'
-import testPP from './testPP.webp'
 
 export default function Header() {
-  const uid = useContext(UidContext)
+  const userData = useSelector((state) => state.userReducer)
 
   return (
     <>
       <header className="homeHeader">
         <div className="showUser">
           <figure>
-            <img className="showUser__pp" src={testPP} alt="profile" />
+            <img
+              className="showUser__pp"
+              src={userData.profilePicture}
+              alt="profile"
+            />
           </figure>
-          <p className="showUser__name">Welcome '{uid}' !</p>
+          <p className="showUser__name">Welcome {userData.firstName} !</p>
         </div>
         <figure className="authBody__fig">
           <img

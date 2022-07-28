@@ -3,14 +3,15 @@ import { useEffect, useRef } from 'react'
 
 //css
 import './_createPost.scss'
-import testPP from './testPP.webp'
 
 //libraries
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
+import { useSelector } from 'react-redux'
 
-export default function createPost() {
+export default function CreatePost() {
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
+  const userData = useSelector((state) => state.userReducer)
 
   return (
     <>
@@ -21,7 +22,7 @@ export default function createPost() {
               <figure className="createPost__body__form__top__fig">
                 <img
                   className="createPost__body__form__top__fig__img"
-                  src={testPP}
+                  src={userData.profilePicture}
                   alt="profile pictures"
                 />
               </figure>
@@ -29,7 +30,7 @@ export default function createPost() {
                 htmlFor="post"
                 className="createPost__body__form__top__label"
               >
-                Tell us what's on your mind 'Valeur dynamique' ?
+                What's on your mind {userData.firstName} ?
               </label>
               <textarea
                 id="post"

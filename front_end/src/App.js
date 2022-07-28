@@ -16,11 +16,12 @@ import Home from './pages/Home/Home'
 // styles
 import GlobalStyle from './utils/styles/GlobalStyle'
 import './App.scss'
+import { getUser } from './redux/actions/userActions'
 
 export default function App() {
   axios.defaults.withCredentials = true
   const [uid, setUid] = useState(null)
-  // const dispatch = useDispatch()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -32,6 +33,10 @@ export default function App() {
         .catch((err) => console.log('No token'))
     }
     fetchToken()
+
+    if (uid) {
+      dispatch(getUser(uid))
+    }
   }, [uid])
 
   return (

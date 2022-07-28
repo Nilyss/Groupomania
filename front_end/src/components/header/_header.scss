@@ -17,8 +17,8 @@
 }
 
 .showUser__pp{
-  width: 90px;
-  height: 90px;
+  width: 75px;
+  height: 75px;
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid $colorTertiary;
@@ -28,6 +28,17 @@
 
 .showUser__name{
   font-size: 1.3em;
+  &:after {
+  content: '';
+  display: flex;
+  margin-top: .5em;
+  margin-left: 15%;
+  margin-right: 15%;
+  background: #fd2d01;
+  width: 50%;
+  height: 0.5vh;
+  border-radius: 8px;
+}
 }
 
 .homeMain__fig__logo {
