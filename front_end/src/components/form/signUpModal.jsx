@@ -25,7 +25,7 @@ export default function SignUpModal() {
     e.preventDefault()
 
     if (
-      (inputs.current[3].value.length || inputs.current[4].value.length) < 6 ||
+      (inputs.current[3].value.length || inputs.current[4].value.length) < 8 ||
       (inputs.current[3].value.length || inputs.current[4].value.length) > 16
     ) {
       setValidation('Password must have between 8 and 16 characters')
@@ -40,7 +40,8 @@ export default function SignUpModal() {
           password: inputs.current[3].value,
         }
 
-        Axios.post(`/auth/signup`, userData)
+        Axios.post(`signup`, userData)
+        toggleModals('signIn')
       } catch (err) {}
     }
   }

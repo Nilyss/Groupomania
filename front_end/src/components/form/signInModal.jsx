@@ -1,38 +1,39 @@
-import { useContext, useRef } from 'react'
+import { useContext } from 'react'
 import { UserContext } from '../../context/userContext'
 import { Link } from 'react-router-dom'
-import Axios from 'axios'
+// import { useNavigate } from 'react-router-dom'
+import axios from 'axios'
 
 //css
 import './_forms.scss'
 
-Axios.defaults.baseURL = 'http://localhost:8000/api'
-
 export default function SignInModal() {
+  axios.defaults.withCredentials = true
+
   const { toggleModals, modalState } = useContext(UserContext)
 
-  // push all inputs from form into inputs variable
-  const inputs = useRef([])
-  console.log(inputs.current.value)
+  // const navigate = useNavigate()
 
-  const addInputs = (el) => {
-    if (el && !inputs.current.includes(el)) {
-      inputs.current.push(el)
-    }
-  }
-
-  const formRef = useRef()
-
-  const handleForm = (e) => {
+  function handleForm(e) {
     e.preventDefault()
-
     try {
       const userData = {
-        email: inputs.current[0].value,
-        password: inputs.current[1].value,
+        email: e.target['mail'].value,
+        password: e.target['password'].value,
       }
-      Axios.post('/auth/signin/', userData)
-    } catch (err) {}
+      axios
+        .post(`${process.env.REACT_APP_API_URL}signin`, userData)
+        .then((res) => {
+          if (res.status === 200) {
+            // navigate('/home', { replace: true })
+            window.location = '/home'
+          } else {
+            console.error('invalid identification')
+          }
+        })
+    } catch (err) {
+      console.log(err, 'An internal error occurred')
+    }
   }
 
   return (
@@ -49,18 +50,13 @@ export default function SignInModal() {
             </h5>
           </div>
           <div className="auth__body">
-            <form
-              onSubmit={handleForm}
-              ref={formRef}
-              className="auth__body__form"
-            >
+            <form onSubmit={handleForm} className="auth__body__form">
               <div className="auth__form__container">
                 <div className="auth__body__form__container">
                   <label htmlFor="signUpMail" className="formLabel">
                     User identification
                   </label>
                   <input
-                    ref={addInputs}
                     name="mail"
                     required
                     type="email"
@@ -74,7 +70,6 @@ export default function SignInModal() {
                     Password
                   </label>
                   <input
-                    ref={addInputs}
                     name="password"
                     required
                     type="password"
@@ -93,3 +88,30 @@ export default function SignInModal() {
     </>
   )
 }
+
+// try {
+//   axios({
+//     method: 'post',
+//     url: `${process.env.REACT_APP_API_URL}signin`,
+//     withCredentials: true,
+//     userData,
+//   }).then((res) => {
+//     if (res.status === 200) {
+//       navigate('/home', { replace: true })
+//     } else {
+//       console.log('An internal error occurred')
+//     }
+//   })
+
+//   axios
+//       .post(`${process.env.REACT_APP_API_URL}signin`, userData)
+//       .then((res) => {
+//         if (res.status === 200) {
+//           navigate('/home', { replace: true })
+//         } else {
+//           console.error('invalid identification')
+//         }
+//       })
+// } catch (err) {
+//   console.log(err, 'An internal error occurred')
+// }

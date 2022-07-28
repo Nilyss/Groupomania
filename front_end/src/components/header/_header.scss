@@ -1,0 +1,49 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.homeHeader {
+  display: flex;
+  flex-flow: wrap;
+  position: relative;
+  background: rgb(235, 235, 235);
+  margin-bottom: 2em;
+  box-shadow: $boxShadowCard;
+}
+
+.showUser {
+  display: flex;
+  align-items: center;
+  width: 40%;
+}
+
+.showUser__pp{
+  width: 75px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid $colorTertiary;
+  margin-left: 5em;
+  margin-right: 2em;
+}
+
+.showUser__name{
+  font-size: 1.3em;
+  &:after {
+  content: '';
+  display: flex;
+  margin-top: .5em;
+  margin-left: 15%;
+  margin-right: 15%;
+  background: #fd2d01;
+  width: 50%;
+  height: 0.5vh;
+  border-radius: 8px;
+}
+}
+
+.homeMain__fig__logo {
+  width: 200px;
+  height: 200px;
+  object-fit: contain;
+  display: flex;
+}

@@ -1,0 +1,27 @@
+.homeMain {
+  border-radius: 2em;
+  background: url('../../assets/appbackground.webp') no-repeat fixed center;
+  background-size: cover;
+  position: absolute;
+  z-index: 0;
+  min-height: 100%;
+  height: border-box;
+  display: flex;
+}
+
+.sectionNavMenu {
+  width: 20%;
+}
+
+.sectionMain {
+  width: 60%;
+}
+
+.sectionUserList {
+  width: 20%;
+}
+
+.homeMain__fig__logo {
+  width: 400px;
+  margin: auto;
+}

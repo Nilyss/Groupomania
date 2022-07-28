@@ -1,0 +1,22 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.userList {
+  display: flex;
+  justify-content: center;
+  margin-right: 3em;
+  margin-top: 3em;
+  background: $colorSecondary;
+  box-shadow: $boxShadowCard;
+  border-radius: 8px;
+}
+
+.userList__nav__u {
+  display: flex;
+}
+
+.userList__nav__ul__li {
+  list-style: none;
+  margin-bottom: 2em;
+  padding: 2em;
+}
