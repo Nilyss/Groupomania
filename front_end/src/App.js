@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState, useEffect } from 'react'
 
-function App() {
+//  Dependencies
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import axios from 'axios'
+
+// Context
+import { UidContext } from './context/appContext'
+import { UserContextProvider } from './context/userContext'
+
+// Pages
+import Authentification from './pages/Authentication/Authentication'
+import Home from './pages/Home/Home'
+
+// styles
+import GlobalStyle from './utils/styles/GlobalStyle'
+import './App.scss'
+import { getUser } from './redux/actions/userActions'
+
+export default function App() {
+  axios.defaults.withCredentials = true
+  const [uid, setUid] = useState(null)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      axios
+        .get(`${process.env.REACT_APP_API_URL}jwtid`)
+        .then((res) => {
+          setUid(res.data)
+        })
+        .catch((err) => console.log('No token'))
+    }
+    fetchToken()
+
+    if (uid) {
+      dispatch(getUser(uid))
+    }
+  }, [uid])
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <BrowserRouter>
+      <GlobalStyle />
+      <UidContext.Provider value={uid}>
+        <UserContextProvider>
+          <Routes>
+            <Route path="/" element={<Authentification />}></Route>
+            <Route path="/home" element={<Home />}></Route>
+          </Routes>
+        </UserContextProvider>
+      </UidContext.Provider>
+    </BrowserRouter>
+  )
 }
-
-export default App;

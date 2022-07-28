@@ -1,0 +1,30 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.navMenu {
+  margin-left: 3em;
+  margin-top: 3em;
+  background: $colorSecondary;
+  box-shadow: $boxShadowCard;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  z-index: 999;
+  width: 20%;
+}
+
+.navMenu__nav__ul {
+  display: flex;
+  width: 100%;
+}
+
+.navMenu__nav__ul__li {
+  list-style: none;
+  margin-top: 5em;
+  margin-bottom: 5em;
+  padding: 2em;
+  font-size: 16px;
+  height: 2.2em;
+  @include menuButton;
+}

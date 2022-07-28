@@ -1,0 +1,30 @@
+@import '../../utils/styles/scss/utils/variables';
+
+.authBody {
+  @media (max-width: $breakpointMobile) {
+    background: url('../../assets/officepicture.webp') no-repeat fixed;
+  }
+  background: url('../../assets/officepicture.webp') no-repeat fixed center;
+  background-size: cover;
+  position: absolute;
+  z-index: 0;
+  min-height: 100%;
+  height: border-box;
+}
+
+.authBody__fig {
+  &__logo {
+    @media (max-width: $breakpointMobile) {
+      width: 300px;
+      display: flex;
+      position: unset;
+      margin: 0 auto;
+    }
+    position: absolute;
+    top: -23em;
+    right: -15rem;
+    width: 300px;
+    margin: 300px;
+    object-fit: cover;
+  }
+}

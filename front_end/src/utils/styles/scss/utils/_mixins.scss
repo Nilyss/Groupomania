@@ -1,0 +1,80 @@
+@import '../utils/variables';
+
+@mixin menuButton {
+  @media (min-width: $breakpointMobile) {
+    padding: 0 40px;
+  }
+  align-items: center;
+  background-color: $colorSecondary;
+  border: $borderCard;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  line-height: 24px;
+  width: 48%;
+  padding: 0 25px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  cursor: pointer;
+  &:hover {
+    outline: 0;
+  }
+  &::after {
+    content: '';
+    background-color: $colorTertiary;
+    border-radius: 8px;
+    display: block;
+    height: 2.2em;
+    left: 0;
+    width: 100%;
+    position: absolute;
+    top: -2px;
+    transform: translate(8px, 8px);
+    transition: transform 200ms ease-out;
+    z-index: -1;
+  }
+
+  &:hover::after {
+    transform: translate(0, 0);
+  }
+
+  &:active::after {
+    background-color: #ffdeda;
+    outline: 0;
+  }
+}
+
+@mixin submitButton {
+  display: flex;
+  align-items: center;
+  background-image: radial-gradient(
+    100% 100% at 100% 0,
+    #ffd7d7 0,
+    #fd2d01 100%
+  );
+  border: none;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
+    rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
+  color: #fff;
+  transition: box-shadow 0.15s, transform 0.15s;
+  height: 2em;
+  padding: 1.5em;
+  &:focus {
+    box-shadow: #fd2d01 0 0 0 1.5px inset, rgba(45, 35, 66, 0.4) 0 2px 4px,
+      rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #fd2d01 0 -3px 0 inset;
+  }
+  &:hover {
+    box-shadow: rgba(45, 35, 66, 0.4) 0 4px 8px,
+      rgba(45, 35, 66, 0.3) 0 7px 13px -3px, #fd2d01 0 -3px 0 inset;
+    transform: translateY(-2px);
+  }
+  &:active {
+    box-shadow: #fd2d01 0 3px 7px inset;
+    transform: translateY(2px);
+  }
+}
