@@ -1,0 +1,10 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.logoutBtn {
+  @include submitButton;
+  position: absolute;
+  top: 40%;
+  right: 0;
+  margin-right: 5em;
+}
