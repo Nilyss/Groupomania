@@ -37,7 +37,7 @@ export default function App() {
     if (uid) {
       dispatch(getUser(uid))
     }
-  }, [uid])
+  }, [uid, dispatch])
 
   return (
     <BrowserRouter>

@@ -12,11 +12,14 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 // reducers
 import rootReducer from './redux/reducers'
+import { getUsers } from './redux/actions/usersActions'
 
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(thunk))
 )
+
+store.dispatch(getUsers())
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(

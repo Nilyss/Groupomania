@@ -6,11 +6,11 @@ const router = express.Router()
 const articleController = require('../controller/article')
 
 // routes
-router.get('/article', articleController.readArticle)
-router.post('/article', articleController.createArticle)
-router.put('/article/:id', articleController.updateArticle)
-router.delete('/article/:id', articleController.deleteArticle)
-router.patch('article/like-article/:id', articleController.likeArticle)
-router.patch('article/unlike-article/:id', articleController.unlikeArticle)
+router.get('/articles', articleController.readArticle)
+router.post('/articles', articleController.createArticle)
+router.put('/articles/:id', articleController.updateArticle)
+router.delete('/articles/:id', articleController.deleteArticle)
+router.patch('article/like-articles/:id', articleController.likeArticle)
+router.patch('article/unlike-articles/:id', articleController.unlikeArticle)
 
 module.exports = router

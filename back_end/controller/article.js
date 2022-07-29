@@ -52,7 +52,7 @@ module.exports.deleteArticle = (req, res) => {
     if (!err) {
       res.send(docs)
     } else {
-      console.log("Can't delete article, error : " + err)
+      console.log("Can't delete card, error : " + err)
     }
   })
 }
@@ -86,7 +86,7 @@ module.exports.likeArticle = async (req, res) => {
       }
     )
   } catch (err) {
-    console.log("Can't like article, error :  " + err)
+    console.log("Can't like card, error :  " + err)
   }
 }
 
@@ -119,6 +119,6 @@ module.exports.unlikeArticle = async (req, res) => {
       }
     )
   } catch (err) {
-    console.log("can't unlike article, error : " + err)
+    console.log("can't unlike card, error : " + err)
   }
 }

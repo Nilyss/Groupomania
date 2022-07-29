@@ -1,5 +1,6 @@
-// hooks
-import { useEffect, useRef } from 'react'
+// dependencies
+import axios from 'axios'
+import { useSelector } from 'react-redux'
 
 //css
 import './_createPost.scss'
@@ -7,17 +8,33 @@ import './_createPost.scss'
 //libraries
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
-import { useSelector } from 'react-redux'
 
 export default function CreatePost() {
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const userData = useSelector((state) => state.userReducer)
 
+  axios.defaults.withCredentials = true
+
+  function handleFormArticle(e) {
+    e.preventDefault()
+
+    try {
+      const articleData = {
+        posterId: userData._id,
+        message: e.target['message'].value,
+        picture: e.target['picture'].value,
+      }
+      axios.post(`${process.env.REACT_APP_API_URL}articles`, articleData)
+    } catch (err) {
+      console.log("Can't create post, error : " + err)
+    }
+  }
+
   return (
     <>
       <article className="createPost">
         <div className="createPost__body">
-          <form className="createPost__body__form">
+          <form onSubmit={handleFormArticle} className="createPost__body__form">
             <div className="createPost__body__form__top">
               <figure className="createPost__body__form__top__fig">
                 <img
@@ -33,6 +50,7 @@ export default function CreatePost() {
                 What's on your mind {userData.firstName} ?
               </label>
               <textarea
+                name="message"
                 id="post"
                 className="createPost__body__form__top__textArea"
               ></textarea>
@@ -46,6 +64,7 @@ export default function CreatePost() {
                   Add photo or picture
                 </div>
                 <input
+                  name="picture"
                   className="createPost__body__form__bottom__button__attachment__input"
                   type="file"
                 />
