@@ -14,14 +14,14 @@ import Card from '../card/card'
 export default function ArticleFlow() {
   const dispatch = useDispatch()
   const articles = useSelector((state) => state.articleReducer)
-  const [loadPost, setLoadPost] = useState(true)
+  const [loadArticle, setLoadArticle] = useState(true)
 
   useEffect(() => {
-    if (loadPost) {
+    if (loadArticle) {
       dispatch(getArticles())
-      setLoadPost(false)
+      setLoadArticle(false)
     }
-  }, [loadPost, dispatch])
+  }, [loadArticle, dispatch])
 
   if (!(typeof articles === 'object' && Object.keys(articles).length === 0)) {
     return (

@@ -65,10 +65,7 @@ const Card = ({ article }) => {
                 </h5>
               </div>
               <figure className="postFlow__container__figure">
-                <img
-                  className="postFlow__container__figure__img"
-                  alt="article"
-                />
+                <img className="postFlow__container__figure__img" alt="" />
               </figure>
               <div className="postFlow__container__body">
                 <p className="postFlow__container__body__text">

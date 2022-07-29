@@ -1,6 +1,7 @@
 // dependencies
 import axios from 'axios'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { useState, useEffect } from 'react'
 
 //css
 import './_createPost.scss'
@@ -9,9 +10,14 @@ import './_createPost.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 
+// reducer
+import { getArticles } from '../../redux/actions/articleActions'
+
 export default function CreatePost() {
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const userData = useSelector((state) => state.userReducer)
+  const [loadNewArticle, setLoadNewArticle] = useState(true)
+  const dispatch = useDispatch()
 
   axios.defaults.withCredentials = true
 
@@ -24,11 +30,25 @@ export default function CreatePost() {
         message: e.target['message'].value,
         picture: e.target['picture'].value,
       }
-      axios.post(`${process.env.REACT_APP_API_URL}articles`, articleData)
+      axios
+        .post(`${process.env.REACT_APP_API_URL}articles`, articleData)
+        .then((res) => {
+          if (res.status === 201) {
+            e.target['message'].value = ''
+            e.target['picture'].value = ''
+          }
+        })
     } catch (err) {
       console.log("Can't create post, error : " + err)
     }
   }
+
+  useEffect(() => {
+    if (loadNewArticle) {
+      dispatch(getArticles())
+      setLoadNewArticle(false)
+    }
+  }, [loadNewArticle, dispatch])
 
   return (
     <>
