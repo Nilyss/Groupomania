@@ -28,6 +28,7 @@ const { checkUser, requireAuth } = require('./middleware/authMiddleware')
 // configure routes
 const apiRoute = '/api'
 const userRoute = require('./routes/user')
+const articleRoute = require('./routes/articles')
 
 // start app
 const app = express()
@@ -53,5 +54,6 @@ app.get('/api/jwtid', requireAuth, (req, res) => {
 
 // routes
 app.use('/api', userRoute)
+app.use('/api', articleRoute)
 
 module.exports = app
