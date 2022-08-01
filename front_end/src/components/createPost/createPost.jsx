@@ -2,6 +2,7 @@
 import axios from 'axios'
 import { useDispatch, useSelector } from 'react-redux'
 import { useState, useEffect } from 'react'
+import { PostContext } from '../../context'
 
 //css
 import './_createPost.scss'
@@ -12,8 +13,10 @@ import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 // reducer
 import { getArticles } from '../../redux/actions/articleActions'
+import { useContext } from 'react'
 
 export default function CreatePost() {
+  const { getPosts } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const userData = useSelector((state) => state.userReducer)
   const [loadNewArticle, setLoadNewArticle] = useState(true)
@@ -37,6 +40,7 @@ export default function CreatePost() {
             e.target['message'].value = ''
             e.target['picture'].value = ''
           }
+          getPosts()
         })
     } catch (err) {
       console.log("Can't create post, error : " + err)

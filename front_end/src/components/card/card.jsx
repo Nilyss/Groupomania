@@ -1,7 +1,8 @@
 // dependencies
-import { useState, useEffect } from 'react'
+import { useEffect, useContext } from 'react'
 import { useSelector } from 'react-redux'
 import axios from 'axios'
+import { PostContext } from '../../context'
 
 // css
 import './_card.scss'
@@ -15,31 +16,18 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 axios.defaults.withCredentials = true
 
 export default function Card() {
-  const [posts, setPosts] = useState([])
-  const [isLoading, setIsLoading] = useState(true)
   const usersData = useSelector((state) => state.usersReducer)
-  // const userData = useSelector((state) => state.userReducer)
+  const { getPosts, posts, isLoading } = useContext(PostContext)
+  posts.reverse()
 
   useEffect(() => {
-    const getPosts = async () => {
-      const res = await axios.get(`${process.env.REACT_APP_API_URL}articles`)
-      setPosts(res.data)
-      setIsLoading(false)
-    }
     getPosts()
-  }, [setPosts])
+  }, [])
 
-  async function deletePost() {
-    await axios
-      .delete(`${process.env.REACT_APP_API_URL}articles/:_id`)
-      .then((res) => {
-        setPosts(res.data)
-        setIsLoading(false)
-      })
-  }
   return (
     <>
       {posts.map((post) => {
+        let user = usersData.find((u) => u._id === post.posterId)
         return (
           <li className="cardContainer" key={post._id}>
             {isLoading ? (
@@ -55,7 +43,6 @@ export default function Card() {
                         title="Edit post"
                       />
                       <FontAwesomeIcon
-                        onClick={deletePost}
                         className="postFlow__container__header__iconContainer__icon"
                         icon={faTrashCan}
                         title="Delete post"
@@ -64,27 +51,12 @@ export default function Card() {
                     <figure className="createPost__body__form__top__fig">
                       <img
                         className="createPost__body__form__top__fig__img"
-                        src={usersData
-                          .map((user) => {
-                            if (user._id === post.posterId) {
-                              return user.profilePicture
-                            }
-                          })
-                          .join('')}
+                        src={user.profilePicture}
                         alt="profile"
                       />
                     </figure>
                     <h5 className="postFlow__container__title">
-                      {usersData.map((user) => {
-                        if (user._id === post.posterId) {
-                          return user.firstName
-                        }
-                      })}{' '}
-                      {usersData.map((user) => {
-                        if (user._id === post.posterId) {
-                          return user.lastName
-                        }
-                      })}
+                      {user.firstName} {user.lastName}
                     </h5>
                   </div>
                   <figure className="postFlow__container__figure">

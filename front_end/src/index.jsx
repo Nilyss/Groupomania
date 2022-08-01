@@ -13,6 +13,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 // reducers
 import rootReducer from './redux/reducers'
 import { getUsers } from './redux/actions/usersActions'
+import { PostProvider } from './context'
 
 const store = createStore(
   rootReducer,
@@ -24,6 +25,8 @@ store.dispatch(getUsers())
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
-    <App />
+    <PostProvider>
+      <App />
+    </PostProvider>
   </Provider>
 )
