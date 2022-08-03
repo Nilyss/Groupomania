@@ -1,5 +1,6 @@
 // Components
 import Header from '../../components/header/header'
+import Footer from '../../components/footer/footer'
 import CreatePost from '../../components/createPost/createPost'
 import ArticleFlow from '../../components/articleFlow/articleFlow'
 
@@ -16,6 +17,7 @@ export default function Home() {
           <ArticleFlow />
         </section>
       </main>
+      <Footer />
     </>
   )
 }

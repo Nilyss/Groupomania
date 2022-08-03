@@ -1,6 +1,5 @@
 // dependencies
 import { useEffect, useContext } from 'react'
-import { useSelector } from 'react-redux'
 import axios from 'axios'
 import { PostContext } from '../../context'
 
@@ -12,22 +11,42 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
 axios.defaults.withCredentials = true
 
 export default function Card() {
-  const usersData = useSelector((state) => state.usersReducer)
-  const { getPosts, posts, isLoading } = useContext(PostContext)
-  posts.reverse()
+  const { getPosts, posts, isLoading, getUsers, users, getUser } =
+    useContext(PostContext)
 
   useEffect(() => {
     getPosts()
   }, [])
 
+  useEffect(() => {
+    getUsers()
+  }, [])
+
+  useEffect(() => {
+    getUser()
+  }, [])
+
   return (
     <>
       {posts.map((post) => {
-        let user = usersData.find((u) => u._id === post.posterId)
+        const deletePost = async () => {
+          await axios.delete(
+            `${process.env.REACT_APP_API_URL}articles/` + post._id
+          )
+        }
+        const likePost = async () => {
+          await axios.post(
+            `${process.env.REACT_APP_API_URL}articles/` + post._id + `/likes`
+          )
+        }
+        const likesNumber = post.likers.length
+        let userPoster = users.find((u) => u._id === post.posterId)
+
         return (
           <li className="cardContainer" key={post._id}>
             {isLoading ? (
@@ -43,6 +62,7 @@ export default function Card() {
                         title="Edit post"
                       />
                       <FontAwesomeIcon
+                        onClick={deletePost}
                         className="postFlow__container__header__iconContainer__icon"
                         icon={faTrashCan}
                         title="Delete post"
@@ -51,51 +71,30 @@ export default function Card() {
                     <figure className="createPost__body__form__top__fig">
                       <img
                         className="createPost__body__form__top__fig__img"
-                        src={user.profilePicture}
+                        src={userPoster.profilePicture}
                         alt="profile"
                       />
                     </figure>
                     <h5 className="postFlow__container__title">
-                      {user.firstName} {user.lastName}
+                      {userPoster.firstName} {userPoster.lastName}
                     </h5>
                   </div>
                   <figure className="postFlow__container__figure">
                     <img className="postFlow__container__figure__img" alt="" />
                   </figure>
+                  <div>
+                    <FontAwesomeIcon
+                      onClick={likePost}
+                      className="likeIcon"
+                      icon={faThumbsUp}
+                    />
+                    <p className="likeIcon__number">{likesNumber}</p>
+                  </div>
                   <div className="postFlow__container__body">
                     <p className="postFlow__container__body__text">
                       {post.message}
                     </p>
                   </div>
-                  {/*<div className="postFlow__container__footer">*/}
-                  {/*  <span className="postFlow__container__footer__like"></span>*/}
-                  {/*  <h6 className="postFlow__container__footer__title">*/}
-                  {/*    Comments :*/}
-                  {/*  </h6>*/}
-                  {/*  <p className="postFlow__container__footer__comment">*/}
-                  {/*    Exemple: i'm an incredible comment*/}
-                  {/*  </p>*/}
-                  {/*  <p className="postFlow__container__footer__comment">*/}
-                  {/*    Exemple: i'm an incredible comment*/}
-                  {/*  </p>*/}
-                  {/*  <label*/}
-                  {/*    htmlFor="comment"*/}
-                  {/*    className="postFlow__container__footer__label"*/}
-                  {/*  >*/}
-                  {/*    Comment it:*/}
-                  {/*  </label>*/}
-                  {/*  <input*/}
-                  {/*    id="comment"*/}
-                  {/*    className="postFlow__container__footer__input"*/}
-                  {/*    type="text"*/}
-                  {/*  />*/}
-                  {/*  <button*/}
-                  {/*    className="postFlow__container__footer__submit"*/}
-                  {/*    type="submit"*/}
-                  {/*  >*/}
-                  {/*    Send*/}
-                  {/*  </button>*/}
-                  {/*</div>*/}
                 </div>
               </article>
             )}

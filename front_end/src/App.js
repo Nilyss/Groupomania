@@ -6,8 +6,8 @@ import { useDispatch } from 'react-redux'
 import axios from 'axios'
 
 // Context
-import { UidContext } from './context/appContext'
-import { UserContextProvider } from './context/userContext'
+import { UidContext } from './context/userIdContext'
+import { UserContextProvider } from './context/formContext'
 
 // Pages
 import Authentification from './pages/Authentication/Authentication'

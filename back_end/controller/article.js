@@ -2,7 +2,7 @@
 const Article = require('../models/articles')
 const User = require('../models/user')
 
-module.exports.readArticle = (req, res) => {
+module.exports.readArticles = (req, res) => {
   Article.find((err, docs) => {
     if (!err) {
       res.send(docs)
@@ -48,77 +48,9 @@ module.exports.updateArticle = (req, res) => {
 }
 
 module.exports.deleteArticle = (req, res) => {
-  Article.findOneAndRemove(req.params.id, (err, docs) => {
-    if (!err) {
-      res.send(docs)
-    } else {
-      console.log("Can't delete card, error : " + err)
-    }
+  Article.findOne({ _id: req.params.id }).then((article) => {
+    Article.deleteOne({ _id: req.params.id })
+      .then(() => res.status(200).json({ message: 'Article removed' }))
+      .catch((error) => res.status(400).json({ error }))
   })
-}
-
-module.exports.likeArticle = async (req, res) => {
-  try {
-    await Article.findByIdAndUpdate(
-      req.params.id,
-      {
-        $addToSet: { likers: req.params.id },
-      },
-      { new: true },
-      (err, docs) => {
-        if (err) {
-          return res.status(400).send(err)
-        }
-      }
-    )
-    await User.findByIdAndUpdate(
-      req.body.id,
-      {
-        $addToSet: { likes: req.params.id },
-      },
-      { new: true },
-      (err, docs) => {
-        if (!err) {
-          res.send(docs)
-        } else {
-          return res.status(400).send(err)
-        }
-      }
-    )
-  } catch (err) {
-    console.log("Can't like card, error :  " + err)
-  }
-}
-
-module.exports.unlikeArticle = async (req, res) => {
-  try {
-    await Article.findByIdAndUpdate(
-      req.params.id,
-      {
-        $pull: { likers: req.params.id },
-      },
-      { new: true },
-      (err, docs) => {
-        if (err) {
-          return res.status(400).send(err)
-        }
-      }
-    )
-    await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        $pull: { likes: req.params.id },
-      },
-      { new: true },
-      (err, docs) => {
-        if (!err) {
-          res.send(docs)
-        } else {
-          return res.status(400).send(err)
-        }
-      }
-    )
-  } catch (err) {
-    console.log("can't unlike card, error : " + err)
-  }
 }

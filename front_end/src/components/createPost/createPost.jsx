@@ -1,7 +1,6 @@
 // dependencies
 import axios from 'axios'
-import { useDispatch, useSelector } from 'react-redux'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { PostContext } from '../../context'
 
 //css
@@ -11,16 +10,10 @@ import './_createPost.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 
-// reducer
-import { getArticles } from '../../redux/actions/articleActions'
-import { useContext } from 'react'
-
 export default function CreatePost() {
-  const { getPosts } = useContext(PostContext)
+  const { getPosts, user } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
-  const userData = useSelector((state) => state.userReducer)
   const [loadNewArticle, setLoadNewArticle] = useState(true)
-  const dispatch = useDispatch()
 
   axios.defaults.withCredentials = true
 
@@ -29,7 +22,7 @@ export default function CreatePost() {
 
     try {
       const articleData = {
-        posterId: userData._id,
+        posterId: user._id,
         message: e.target['message'].value,
         picture: e.target['picture'].value,
       }
@@ -49,10 +42,9 @@ export default function CreatePost() {
 
   useEffect(() => {
     if (loadNewArticle) {
-      dispatch(getArticles())
       setLoadNewArticle(false)
     }
-  }, [loadNewArticle, dispatch])
+  }, [loadNewArticle])
 
   return (
     <>
@@ -63,7 +55,7 @@ export default function CreatePost() {
               <figure className="createPost__body__form__top__fig">
                 <img
                   className="createPost__body__form__top__fig__img"
-                  src={userData.profilePicture}
+                  src={user.profilePicture}
                   alt="profile pictures"
                 />
               </figure>
@@ -71,7 +63,7 @@ export default function CreatePost() {
                 htmlFor="post"
                 className="createPost__body__form__top__label"
               >
-                What's on your mind {userData.firstName} ?
+                What's on your mind {user.firstName} ?
               </label>
               <textarea
                 name="message"
