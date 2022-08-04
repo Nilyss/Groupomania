@@ -2,10 +2,12 @@
 const Article = require('../models/articles')
 
 exports.likeArticle = (req, res) => {
+  console.log('A')
   Article.findOne({ _id: req.params.id })
     .then((article) => {
+      console.log('B')
       // if the user didn't like the article and click on like icon
-      if (!article.likers.includes(req.body.user) && req.body.like === 1) {
+      if (!article.likers.includes(req.body.user) && req.body.likes === 1) {
         Article.updateOne(
           { _id: req.params.id },
           { $inc: { likes: 1 }, $push: { likers: req.body.user } }
@@ -14,7 +16,7 @@ exports.likeArticle = (req, res) => {
           .catch((error) => res.status(404).json({ error }))
       }
       // if the user want to remove is like
-      if (article.likers.includes(req.body.user) && req.body.like === 0) {
+      if (article.likers.includes(req.body.user) && req.body.likes === 0) {
         Article.updateOne(
           { _id: req.params.id },
           {

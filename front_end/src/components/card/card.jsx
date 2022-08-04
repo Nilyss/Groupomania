@@ -40,8 +40,10 @@ export default function Card() {
           )
         }
         const likePost = async () => {
+          const data = { like: 1 }
           await axios.post(
-            `${process.env.REACT_APP_API_URL}articles/` + post._id + `/likes`
+            `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
+            data
           )
         }
         const likesNumber = post.likers.length

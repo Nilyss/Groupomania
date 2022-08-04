@@ -15,6 +15,7 @@ const helmet = require('helmet') // hide API stacks in browser  https://www.npmj
 const mongoSanitize = require('express-mongo-sanitize') // block some key operator https://www.npmjs.com/package/express-mongo-sanitize
 const dotenv = require('dotenv') // environment variable  https://www.npmjs.com/package/dotenv
 const result = dotenv.config()
+const path = require('path')
 
 // dev dependencies
 const morgan = require('morgan') // http middleware logger https://www.npmjs.com/package/morgan
@@ -53,6 +54,7 @@ app.get('/api/jwtid', requireAuth, (req, res) => {
 })
 
 // routes
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use('/api', userRoute)
 app.use('/api', articleRoute)
 

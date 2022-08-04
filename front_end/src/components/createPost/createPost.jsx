@@ -11,33 +11,40 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage } from '@fortawesome/free-solid-svg-icons'
 
 export default function CreatePost() {
+  axios.defaults.withCredentials = true
+
   const { getPosts, user } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const [loadNewArticle, setLoadNewArticle] = useState(true)
+  const [file, setFile] = useState(null)
 
-  axios.defaults.withCredentials = true
-
-  function handleFormArticle(e) {
+  async function handleFormArticle(e) {
     e.preventDefault()
 
+    const formData = new FormData()
+    formData.append('posterId', user._id)
+    formData.append('message', e.target['message'].value)
+    formData.append('picture', file)
     try {
-      const articleData = {
-        posterId: user._id,
-        message: e.target['message'].value,
-        picture: e.target['picture'].value,
-      }
-      axios
-        .post(`${process.env.REACT_APP_API_URL}articles`, articleData)
-        .then((res) => {
-          if (res.status === 201) {
-            e.target['message'].value = ''
-            e.target['picture'].value = ''
-          }
-          getPosts()
-        })
-    } catch (err) {
-      console.log("Can't create post, error : " + err)
+      await axios({
+        method: 'post',
+        url: `${process.env.REACT_APP_API_URL}articles`,
+        data: formData,
+        headers: { 'Content-Type': 'multipart/form-data' },
+      }).then((res) => {
+        if (res.status === 201) {
+          e.target['message'].value = ''
+          e.target['message'].value = ''
+        }
+        getPosts()
+      })
+    } catch (error) {
+      console.log(error)
     }
+  }
+
+  const handleFileSelect = (event) => {
+    setFile(event.target.files[0])
   }
 
   useEffect(() => {
@@ -80,7 +87,10 @@ export default function CreatePost() {
                   Add photo or picture
                 </div>
                 <input
-                  name="picture"
+                  onChange={handleFileSelect}
+                  accept=".jpg, .jpeg, .png"
+                  id="file"
+                  name="file"
                   className="createPost__body__form__bottom__button__attachment__input"
                   type="file"
                 />
