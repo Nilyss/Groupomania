@@ -8,6 +8,7 @@ const multer = require('../middleware/multerConfig')
 // import controller
 const articleController = require('../controller/article')
 const likeController = require('../controller/like')
+const commentController = require('../controller/comment')
 
 // routes
 router.get('/articles', articleController.readArticles)
@@ -16,7 +17,10 @@ router.post('/articles', multer, articleController.createArticle)
 router.put('/articles/:id', articleController.updateArticle)
 router.delete('/articles/:id', articleController.deleteArticle)
 
-// likes
-router.post('/:id/like', likeController.likeArticle)
+// likes route
+router.post('articles/:id/like', likeController.likeArticle)
+
+// comment routes
+router.post('/articles/:id/comment', commentController.createComment)
 
 module.exports = router

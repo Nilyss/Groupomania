@@ -26,14 +26,17 @@ const articleSchema = new mongoose.Schema(
       require: true,
     },
     comments: {
-      type: [
+      type: new mongoose.Schema(
         {
           commenterId: String,
-          commenterName: String,
+          commenterFirstName: String,
+          commenterLastName: String,
           text: String,
-          timestamp: Number,
         },
-      ],
+        {
+          timestamps: true,
+        }
+      ),
       require: true,
     },
   },

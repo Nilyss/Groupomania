@@ -1,6 +1,5 @@
 // import models
 const Article = require('../models/articles')
-const User = require('../models/user')
 
 module.exports.readArticles = (req, res) => {
   Article.find((err, docs) => {
@@ -19,7 +18,6 @@ module.exports.readOneArticle = async (req, res) => {
 }
 
 module.exports.createArticle = (req, res) => {
-  console.log('ARTICLE =>', req.body)
   const articleObject = req.body
   const article = new Article({
     ...articleObject,

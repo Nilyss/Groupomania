@@ -19,11 +19,23 @@ import CreateComment from '../createComment/createComment'
 axios.defaults.withCredentials = true
 
 export default function Card() {
-  const { getPosts, posts, isLoading, getUsers, users, getUser } =
-    useContext(PostContext)
+  const {
+    isLoading,
+    getPosts,
+    posts,
+    getOnePost,
+    post,
+    getUsers,
+    users,
+    getUser,
+  } = useContext(PostContext)
 
   useEffect(() => {
     getPosts()
+  }, [])
+
+  useEffect(() => {
+    getOnePost()
   }, [])
 
   useEffect(() => {
@@ -33,6 +45,8 @@ export default function Card() {
   useEffect(() => {
     getUser()
   }, [])
+
+  console.log('POST CONTEXT =>', post)
 
   return (
     <>

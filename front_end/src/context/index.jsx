@@ -5,6 +5,7 @@ export const PostContext = createContext()
 
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([])
+  const [post, setPost] = useState([])
   const [users, setUsers] = useState([])
   const [user, setUser] = useState([])
   const [isLoading, setIsLoading] = useState(true)
@@ -18,6 +19,21 @@ export const PostProvider = ({ children }) => {
     })
     res.data.reverse()
     setPosts(res.data)
+    setIsLoading(false)
+  }
+
+  const getOnePost = () => {
+    setIsLoading(true)
+    posts.forEach((e) => {
+      axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}articles/` + e._id,
+        headers: { 'Content-Type': 'application/json' },
+      }).then((res) => {
+        setPost(res.data)
+        console.log(res.data)
+      })
+    })
     setIsLoading(false)
   }
 
@@ -40,7 +56,17 @@ export const PostProvider = ({ children }) => {
 
   return (
     <PostContext.Provider
-      value={{ isLoading, getUsers, users, getUser, user, getPosts, posts }}
+      value={{
+        isLoading,
+        getUsers,
+        users,
+        getUser,
+        user,
+        getPosts,
+        posts,
+        getOnePost,
+        post,
+      }}
     >
       {children}
     </PostContext.Provider>

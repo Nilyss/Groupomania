@@ -4,10 +4,18 @@
 .comment__form{
   margin-top: 2em;
   display: flex;
+  flex-flow: wrap;
+  width: 100%;
+}
+
+.comment__form__label{
+  width: 100%;
+  margin-bottom: 1em;
+  font-size: 1.1em;
 }
 
 .comment__form__input{
-  width: 100%;
+  width: 80%;
   margin-right: 2em;
   border-radius: 8px;
   border: 2px solid $colorTertiary;
