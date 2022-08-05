@@ -24,13 +24,15 @@ export default function CreatePost() {
     const formData = new FormData()
     formData.append('posterId', user._id)
     formData.append('message', e.target['message'].value)
-    formData.append('picture', file)
+    formData.append('file', file)
     try {
       await axios({
         method: 'post',
         url: `${process.env.REACT_APP_API_URL}articles`,
         data: formData,
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
       }).then((res) => {
         if (res.status === 201) {
           e.target['message'].value = ''

@@ -13,6 +13,9 @@ import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 
+// components
+import CreateComment from '../createComment/createComment'
+
 axios.defaults.withCredentials = true
 
 export default function Card() {
@@ -82,7 +85,11 @@ export default function Card() {
                     </h5>
                   </div>
                   <figure className="postFlow__container__figure">
-                    <img className="postFlow__container__figure__img" alt="" />
+                    <img
+                      className="postFlow__container__figure__img"
+                      src={post.picture}
+                      alt=""
+                    />
                   </figure>
                   <div>
                     <FontAwesomeIcon
@@ -97,6 +104,7 @@ export default function Card() {
                       {post.message}
                     </p>
                   </div>
+                  <CreateComment />
                 </div>
               </article>
             )}

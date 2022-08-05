@@ -17,7 +17,7 @@
 
 .likeIcon {
   position: absolute;
-  top: 40%;
+  top: 8.2em;
   left: 1.8em;
   font-size: 1.2em;
   cursor: pointer;
@@ -29,26 +29,7 @@
 
 .likeIcon__number{
   position: absolute;
-  top: 40%;
+  top: 9.8em;
   left: 3.8em;
-  font-size: 1em;
-}
-
-.dislikeIcon {
-  position: absolute;
-  top: 41%;
-  left: 8%;
-  font-size: 1.2em;
-  cursor: pointer;
-  transition: all 200ms ease-in-out;
-  &:hover {
-    transform: scale(1.1)
-  }
-}
-
-.dislikeIcon__number{
-  position: absolute;
-  top: 40%;
-  left: 10.5%;
   font-size: 1em;
 }

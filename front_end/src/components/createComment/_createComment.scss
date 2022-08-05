@@ -1,0 +1,20 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.comment__form{
+  margin-top: 2em;
+  display: flex;
+}
+
+.comment__form__input{
+  width: 100%;
+  margin-right: 2em;
+  border-radius: 8px;
+  border: 2px solid $colorTertiary;
+  font-size: 1em;
+  padding: 0 0 0 2em;
+}
+
+.comment__form__button{
+  @include submitButton;
+}

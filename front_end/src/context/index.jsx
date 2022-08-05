@@ -11,7 +11,11 @@ export const PostProvider = ({ children }) => {
 
   const getPosts = async () => {
     setIsLoading(true)
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}articles`)
+    const res = await axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}articles`,
+      headers: { 'Content-Type': 'application/json' },
+    })
     res.data.reverse()
     setPosts(res.data)
     setIsLoading(false)
