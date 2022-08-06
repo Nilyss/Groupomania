@@ -1,4 +1,4 @@
-import { UidContext } from '../../context/appContext'
+import { UidContext } from '../../context/userIdContext'
 import { useContext } from 'react'
 
 //  import style

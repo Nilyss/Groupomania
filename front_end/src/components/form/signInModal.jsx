@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { UserContext } from '../../context/userContext'
+import { FormContext } from '../../context/formContext'
 import { Link } from 'react-router-dom'
 // import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
@@ -10,7 +10,7 @@ import './_forms.scss'
 export default function SignInModal() {
   axios.defaults.withCredentials = true
 
-  const { toggleModals, modalState } = useContext(UserContext)
+  const { toggleModals, modalState } = useContext(FormContext)
 
   // const navigate = useNavigate()
 

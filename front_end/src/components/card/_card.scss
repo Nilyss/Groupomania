@@ -1,0 +1,77 @@
+.postFlow__container{
+  position: relative;
+}
+
+.postFlow__container__header__iconContainer{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.2em;
+  &__icon{
+    cursor: pointer;
+    transition: all 300ms ease-in-out;
+    &:hover {
+      transform: scale(1.2);
+    }
+  }
+}
+
+.likeIcon {
+  position: absolute;
+  top: 8.2em;
+  left: 1.8em;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  &:hover {
+    transform: scale(1.1)
+  }
+}
+
+.likeIcon__number{
+  position: absolute;
+  top: 9.8em;
+  left: 3.8em;
+  font-size: 1em;
+}
+
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.comment {
+  background: $colorTertiary;
+  margin-top: 2em;
+  padding: 1em;
+  border-radius: 8px;
+  display: flex;
+  flex-flow: column;
+}
+
+.comment__header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.comment__header__fig__img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 2px solid $colorSecondary;
+}
+
+.comment__header__title {
+  color: #ffffff;
+  margin-left: 1em;
+}
+
+.comment__body {
+  margin-top: 1em;
+}
+
+.comment__body__message {
+  color: #ffffff;
+  display: flex;
+  justify-content: flex-start;
+}
+

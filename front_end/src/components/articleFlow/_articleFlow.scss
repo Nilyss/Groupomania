@@ -1,0 +1,129 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+li {
+  list-style: none;
+}
+
+.postFlow {
+  margin: auto;
+  margin-top: 5em;
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+}
+
+.postFlow__container {
+  text-align: center;
+  border-radius: 8px;
+  background: $colorSecondary;
+  box-shadow: $boxShadowCard;
+  padding: 2em;
+  margin-bottom: 2em;
+}
+
+.postFlow__container__header {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2em;
+  &:after {
+    content: '';
+    display: flex;
+    margin-top: 2em;
+    margin-left: 15%;
+    margin-right: 15%;
+    background: #fd2d01;
+    width: 50%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
+}
+
+.postFlow__container__title {
+  font-size: 1.5em;
+}
+
+.postFlow__container__figure {
+  margin-bottom: 1em;
+  width: 100%;
+  &__img {
+    border-radius: 8px;
+    //border: 2px solid $colorTertiary;
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.postFlow__container__body {
+  background: #4e5166;
+  border-radius: 8px;
+  border: 2px solid $colorTertiary;
+  width: 100%;
+  margin: auto;
+}
+
+.postFlow__container__body__text {
+  color: #ffffff;
+  padding: 2em;
+  text-align: left;
+  font-size: 1.2em;
+}
+
+.postFlow__container__footer {
+  display: flex;
+  flex-flow: row wrap;
+  margin-top: 2em;
+  align-items: center;
+  background: $colorTertiary;
+  border-radius: 8px;
+  padding: 2em;
+}
+
+.postFlow__container__footer__like {
+  font-size: 2em;
+  width: 100%;
+  color: red;
+}
+
+.postFlow__container__footer__title {
+  font-size: 1.5em;
+  width: 100%;
+  color: #f2f2f2;
+}
+
+.postFlow__container__footer__comment {
+  width: 100%;
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-size: 1.2em;
+  background: #f2f2f2;
+  color: $colorTertiary;
+  border-radius: 8px;
+  padding: 0.5em;
+}
+
+.postFlow__container__footer__label {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  font-size: 1.1em;
+  width: 100%;
+}
+
+.postFlow__container__footer__input {
+  width: 100%;
+  margin-bottom: 1em;
+  font-size: 1.2em;
+  background: #f2f2f2;
+  color: $colorTertiary;
+  border-radius: 8px;
+  padding: 0.5em;
+}
+
+.postFlow__container__footer__submit {
+  @include submitButton;
+  margin: auto;
+}
