@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useState, createContext, useEffect } from 'react'
+import { useState, createContext } from 'react'
 
 export const PostContext = createContext()
 
@@ -31,7 +31,6 @@ export const PostProvider = ({ children }) => {
         headers: { 'Content-Type': 'application/json' },
       }).then((res) => {
         setPost(res.data)
-        console.log(res.data)
       })
     })
     setIsLoading(false)

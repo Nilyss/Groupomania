@@ -22,21 +22,17 @@ const articleSchema = new mongoose.Schema(
       default: 0,
     },
     likers: {
-      type: [String],
+      type: Array({ likersId: String }),
       require: true,
     },
     comments: {
-      type: new mongoose.Schema(
-        {
-          commenterId: String,
-          commenterFirstName: String,
-          commenterLastName: String,
-          text: String,
-        },
-        {
-          timestamps: true,
-        }
-      ),
+      type: Array({
+        commenterId: String,
+        commenterFirstName: String,
+        commenterLastName: String,
+        commenterProfilePicture: String,
+        text: String,
+      }),
       require: true,
     },
   },

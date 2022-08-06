@@ -33,6 +33,7 @@ export default function CreateComment() {
       commenterId: user._id,
       commenterFirstName: user.firstName,
       commenterLastName: user.lastName,
+      commenterProfilePicture: user.profilePicture,
       text: e.target['commentMessage'].value,
     }
     try {
@@ -47,6 +48,7 @@ export default function CreateComment() {
     } catch (error) {
       console.log(error)
     }
+    getPosts()
   }
 
   return (

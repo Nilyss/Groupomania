@@ -29,26 +29,6 @@ module.exports.createArticle = (req, res) => {
     .catch((error) => res.status(400).json({ error }))
 }
 
-// module.exports.createArticle = async (req, res) => {
-//   const newPost = new Article({
-//     posterId: req.body.posterId,
-//     message: req.body.message,
-//     video: req.body.video,
-//     likers: [],
-//     comments: [],
-//     imageUrl: `${req.protocol}://${req.get('host')}/images/${
-//       req.file.filename
-//     }`,
-//   })
-//
-//   try {
-//     const post = await newPost.save()
-//     return res.status(201).json(post)
-//   } catch (err) {
-//     return res.status(400).send(err)
-//   }
-// }
-
 module.exports.updateArticle = (req, res) => {
   const updatedRecord = {
     message: req.body.message,

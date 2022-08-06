@@ -1,5 +1,5 @@
 // dependencies
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import axios from 'axios'
 import { PostContext } from '../../context'
 
@@ -45,8 +45,6 @@ export default function Card() {
   useEffect(() => {
     getUser()
   }, [])
-
-  console.log('POST CONTEXT =>', post)
 
   return (
     <>
@@ -119,6 +117,32 @@ export default function Card() {
                     </p>
                   </div>
                   <CreateComment />
+                  {post.comments.map((comment, index) => {
+                    return (
+                      <div key={index}>
+                        <article className="comment">
+                          <div className="comment__header">
+                            <figure className="comment__header__fig">
+                              <img
+                                src={comment.commenterProfilePicture}
+                                className="comment__header__fig__img"
+                                alt=""
+                              />
+                            </figure>
+                            <h5 className="comment__header__title">
+                              {comment.commenterFirstName}{' '}
+                              {comment.commenterLastName}
+                            </h5>
+                          </div>
+                          <div className="comment__body">
+                            <p className="comment__body__message">
+                              {comment.text}
+                            </p>
+                          </div>
+                        </article>
+                      </div>
+                    )
+                  })}
                 </div>
               </article>
             )}
