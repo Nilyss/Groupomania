@@ -18,7 +18,7 @@ router.put('/articles/:id', articleController.updateArticle)
 router.delete('/articles/:id', articleController.deleteArticle)
 
 // likes route
-router.post('articles/:id/like', likeController.likeArticle)
+router.post('/articles/:id/like', likeController.likeArticle)
 
 // comment routes
 router.post('/articles/:id/comment', commentController.createComment)

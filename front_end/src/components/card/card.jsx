@@ -28,6 +28,7 @@ export default function Card() {
     getUsers,
     users,
     getUser,
+    user,
   } = useContext(PostContext)
 
   useEffect(() => {
@@ -49,20 +50,40 @@ export default function Card() {
   return (
     <>
       {posts.map((post) => {
+        let userPoster = users.find((u) => u._id === post.posterId)
+
         const deletePost = async () => {
           await axios.delete(
             `${process.env.REACT_APP_API_URL}articles/` + post._id
           )
         }
-        const likePost = async () => {
-          const data = { like: 1 }
-          await axios.post(
-            `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
-            data
-          )
+
+        const LikeAndUnlike = async (likersId) => {
+          post.likers.forEach((l) => {
+            return (likersId = l.likerId)
+          })
+          // if the user already like the post => unlike it
+          if (user._id === likersId) {
+            console.log('unlike route trigger =>')
+            const removeData = { likerId: userPoster._id }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
+              removeData
+            )
+            // if the user didn't like the post => like it
+          } else {
+            console.log('like route trigger')
+            const data = { like: 1, likerId: userPoster._id }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
+              data
+            )
+          }
         }
+
+        // const isPostAlreadyLiked =
+
         const likesNumber = post.likers.length
-        let userPoster = users.find((u) => u._id === post.posterId)
 
         return (
           <li className="cardContainer" key={post._id}>
@@ -105,7 +126,7 @@ export default function Card() {
                   </figure>
                   <div>
                     <FontAwesomeIcon
-                      onClick={likePost}
+                      onClick={LikeAndUnlike}
                       className="likeIcon"
                       icon={faThumbsUp}
                     />
