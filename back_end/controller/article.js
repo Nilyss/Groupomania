@@ -19,14 +19,26 @@ module.exports.readOneArticle = async (req, res) => {
 
 module.exports.createArticle = (req, res) => {
   const articleObject = req.body
-  const article = new Article({
-    ...articleObject,
-    picture: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
-  })
-  article
-    .save()
-    .then(() => res.status(201).json({ message: 'Post saved !' }))
-    .catch((error) => res.status(400).json({ error }))
+  if (req.body.file === 'null') {
+    const article = new Article({
+      ...articleObject,
+    })
+    article
+      .save()
+      .then(() => res.status(201).json({ message: 'Post saved !' }))
+      .catch((error) => res.status(400).json({ error }))
+  } else {
+    const article = new Article({
+      ...articleObject,
+      picture: `${req.protocol}://${req.get('host')}/images/${
+        req.file.filename
+      }`,
+    })
+    article
+      .save()
+      .then(() => res.status(201).json({ message: 'Post saved !' }))
+      .catch((error) => res.status(400).json({ error }))
+  }
 }
 
 module.exports.updateArticle = (req, res) => {
