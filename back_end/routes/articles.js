@@ -15,7 +15,7 @@ router.get('/articles', articleController.readArticles)
 router.get('/articles/:id', articleController.readOneArticle)
 router.post('/articles', multer, articleController.createArticle)
 router.put('/articles/:id', articleController.updateArticle)
-router.delete('/articles/:id', articleController.deleteArticle)
+router.delete('/articles/:id', articleController.deleteOneArticle)
 
 // likes route
 router.post('/articles/:id/like', likeController.likeArticle)
