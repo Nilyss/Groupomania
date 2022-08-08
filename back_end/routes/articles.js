@@ -22,5 +22,6 @@ router.post('/articles/:id/like', likeController.likeArticle)
 
 // comment routes
 router.post('/articles/:id/comment', commentController.createComment)
+router.post('/articles/:id/comment/delete', commentController.deleteComment)
 
 module.exports = router

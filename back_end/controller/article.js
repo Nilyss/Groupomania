@@ -62,7 +62,6 @@ module.exports.updateArticle = (req, res) => {
 
 module.exports.deleteOneArticle = (req, res) => {
   Article.findOne({ _id: req.params.id }).then((article) => {
-    console.log('ARTICLE.PICTURE =>', article.picture)
     if (article.picture === undefined) {
       Article.deleteOne({ _id: req.params.id }).then(() =>
         res.status(200).json({ message: 'The post has been deleted' })

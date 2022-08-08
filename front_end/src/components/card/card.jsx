@@ -151,10 +151,27 @@ export default function Card() {
                   </div>
                   <CreateComment commentId={post._id} />
                   {post.comments.map((comment, index) => {
+                    const deleteComment = async () => {
+                      const data = {
+                        commentId: comment._id,
+                      }
+                      await axios.post(
+                        `${process.env.REACT_APP_API_URL}articles/` +
+                          post._id +
+                          '/comment/delete',
+                        data
+                      )
+                      await getPosts()
+                    }
                     return (
                       <div key={index}>
                         <article className="comment">
                           <div className="comment__header">
+                            <FontAwesomeIcon
+                              className="comment__header__editIcon"
+                              icon={faPenToSquare}
+                              title="Edit post"
+                            />
                             <figure className="comment__header__fig">
                               <img
                                 src={comment.commenterProfilePicture}
@@ -166,6 +183,12 @@ export default function Card() {
                               {comment.commenterFirstName}{' '}
                               {comment.commenterLastName}
                             </h5>
+                            <FontAwesomeIcon
+                              onClick={deleteComment}
+                              className="comment__header__deleteIcon"
+                              icon={faTrashCan}
+                              title="Delete post"
+                            />
                           </div>
                           <div className="comment__body">
                             <p className="comment__body__message">
