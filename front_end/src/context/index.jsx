@@ -22,9 +22,9 @@ export const PostProvider = ({ children }) => {
     setIsLoading(false)
   }
 
-  const getOnePost = () => {
+  const getOnePost = async () => {
     setIsLoading(true)
-    posts.forEach((e) => {
+    await posts.forEach((e) => {
       axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_URL}articles/` + e._id,

@@ -8,12 +8,12 @@ import './_createPost.scss'
 
 //libraries
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage } from '@fortawesome/free-solid-svg-icons'
+import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 export default function CreatePost() {
   axios.defaults.withCredentials = true
 
-  const { getPosts, user } = useContext(PostContext)
+  const { isLoading, getPosts, user } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const [loadNewArticle, setLoadNewArticle] = useState(true)
   const [file, setFile] = useState(null)
@@ -62,11 +62,18 @@ export default function CreatePost() {
           <form onSubmit={handleFormArticle} className="createPost__body__form">
             <div className="createPost__body__form__top">
               <figure className="createPost__body__form__top__fig">
-                <img
-                  className="createPost__body__form__top__fig__img"
-                  src={user.profilePicture}
-                  alt="profile pictures"
-                />
+                {isLoading ? (
+                  <FontAwesomeIcon
+                    icon={faSpinner}
+                    className="fa-spin fa-2x createPost__body__form__top__fig__img"
+                  />
+                ) : (
+                  <img
+                    className="createPost__body__form__top__fig__img"
+                    src={user.profilePicture}
+                    alt="profile pictures"
+                  />
+                )}
               </figure>
               <label
                 htmlFor="post"

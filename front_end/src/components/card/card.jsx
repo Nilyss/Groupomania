@@ -1,5 +1,5 @@
 // dependencies
-import { useEffect, useContext, useState } from 'react'
+import { useEffect, useContext } from 'react'
 import axios from 'axios'
 import { PostContext } from '../../context'
 
@@ -32,19 +32,31 @@ export default function Card() {
   } = useContext(PostContext)
 
   useEffect(() => {
-    getPosts()
+    async function fetchData() {
+      await getPosts()
+    }
+    fetchData()
   }, [])
 
   useEffect(() => {
-    getOnePost()
+    async function fetchData() {
+      await getOnePost()
+    }
+    fetchData()
   }, [])
 
   useEffect(() => {
-    getUsers()
+    async function fetchData() {
+      await getUsers()
+    }
+    fetchData()
   }, [])
 
   useEffect(() => {
-    getUser()
+    async function fetchData() {
+      await getUser()
+    }
+    fetchData()
   }, [])
 
   return (
@@ -64,7 +76,6 @@ export default function Card() {
           })
           // if the user already like the post => unlike it
           if (user._id === likersId) {
-            console.log('unlike route trigger =>')
             const removeData = { likerId: userPoster._id }
             await axios.post(
               `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
@@ -72,7 +83,6 @@ export default function Card() {
             )
             // if the user didn't like the post => like it
           } else {
-            console.log('like route trigger')
             const data = { like: 1, likerId: userPoster._id }
             await axios.post(
               `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
@@ -81,14 +91,15 @@ export default function Card() {
           }
         }
 
-        // const isPostAlreadyLiked =
-
-        const likesNumber = post.likers.length
+        const likesQuantity = post.likers.length
 
         return (
           <li className="cardContainer" key={post._id}>
             {isLoading ? (
-              <FontAwesomeIcon icon={faSpinner} className="fa-spin fa-2x" />
+              <FontAwesomeIcon
+                icon={faSpinner}
+                className="fa-spin fa-2x postFlow"
+              />
             ) : (
               <article className="postFlow">
                 <div className="postFlow__container">
@@ -130,7 +141,7 @@ export default function Card() {
                       className="likeIcon"
                       icon={faThumbsUp}
                     />
-                    <p className="likeIcon__number">{likesNumber}</p>
+                    <p className="likeIcon__number">{likesQuantity}</p>
                   </div>
                   <div className="postFlow__container__body">
                     <p className="postFlow__container__body__text">

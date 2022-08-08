@@ -1,14 +1,14 @@
 // dependencies
 import axios from 'axios'
 import cookie from 'js-cookie'
+import { useNavigate } from 'react-router-dom'
 
 // css
 import './_logout.scss'
-// import { useNavigate } from 'react-router-dom'
 
 export default function Logout() {
   axios.defaults.withCredentials = true
-  // const navigate = useNavigate()
+  const navigate = useNavigate()
 
   const removeCookie = (key) => {
     if (window !== 'undefined') {
@@ -21,7 +21,8 @@ export default function Logout() {
       .get(`${process.env.REACT_APP_API_URL}logout`)
       .then(() => removeCookie('jwt'))
       .catch((err) => console.log(err))
-    window.location = '/'
+    navigate('/', { replace: true })
+    // window.location = '/'
   }
 
   return (
