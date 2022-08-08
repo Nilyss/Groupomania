@@ -62,14 +62,21 @@ module.exports.updateArticle = (req, res) => {
 
 module.exports.deleteOneArticle = (req, res) => {
   Article.findOne({ _id: req.params.id }).then((article) => {
-    const filename = article.picture.split('/images')[1]
-    fs.unlink(`images/${filename}`, () => {
-      Article.deleteOne({ _id: req.params.id })
-        .then(() =>
-          res.status(200).json({ message: 'The post has been delete' })
-        )
-        .catch((error) => res.status(400).json({ error }))
-    })
+    console.log('ARTICLE.PICTURE =>', article.picture)
+    if (article.picture === undefined) {
+      Article.deleteOne({ _id: req.params.id }).then(() =>
+        res.status(200).json({ message: 'The post has been deleted' })
+      )
+    } else {
+      const filename = article.picture.split('/images')[1]
+      fs.unlink(`images/${filename}`, () => {
+        Article.deleteOne({ _id: req.params.id })
+          .then(() =>
+            res.status(200).json({ message: 'The post has been deleted' })
+          )
+          .catch((error) => res.status(400).json({ error }))
+      })
+    }
     if (!article) {
       res.status(404).json({ message: 'No article to remove' })
     }

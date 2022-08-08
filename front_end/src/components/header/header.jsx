@@ -1,6 +1,3 @@
-// libraries
-import { useSelector } from 'react-redux'
-
 // components
 import Logout from '../logout/logout'
 

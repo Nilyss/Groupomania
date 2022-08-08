@@ -6,6 +6,7 @@ exports.likeArticle = (req, res) => {
     .then((article) => {
       // if the user didn't like the article and click on like icon
       if (!article.likers.includes(req.body.likerId) && req.body.like === 1) {
+        console.log('req.body, like route => ', req.body)
         Article.updateOne(
           { _id: req.params.id },
           { $push: { likers: req.body } }

@@ -9,7 +9,7 @@ import './_createComment.scss'
 import { PostContext } from '../../context'
 import { useContext } from 'react'
 
-export default function CreateComment() {
+export default function CreateComment({ commentId }) {
   axios.defaults.withCredentials = true
 
   const { getPosts, getOnePost, post, getUser, user } = useContext(PostContext)
@@ -47,7 +47,7 @@ export default function CreateComment() {
     }
     try {
       await axios.post(
-        `${process.env.REACT_APP_API_URL}articles/` + post._id + '/comment',
+        `${process.env.REACT_APP_API_URL}articles/` + commentId + '/comment',
         data
       )
     } catch (error) {

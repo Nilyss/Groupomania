@@ -29,6 +29,7 @@ export default function Card() {
     users,
     getUser,
     user,
+    // likes,
   } = useContext(PostContext)
 
   useEffect(() => {
@@ -61,13 +62,15 @@ export default function Card() {
 
   return (
     <>
-      {posts.map((post) => {
+      {posts.map((post, index) => {
         let userPoster = users.find((u) => u._id === post.posterId)
+        const likesQuantity = post.likers.length
 
         const deletePost = async () => {
           await axios.delete(
             `${process.env.REACT_APP_API_URL}articles/` + post._id
           )
+          await getPosts()
         }
 
         const LikeAndUnlike = async (likersId) => {
@@ -75,7 +78,7 @@ export default function Card() {
             return (likersId = l.likerId)
           })
           // if the user already like the post => unlike it
-          if (user._id === likersId) {
+          if (userPoster._id === likersId) {
             const removeData = { likerId: userPoster._id }
             await axios.post(
               `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
@@ -91,10 +94,8 @@ export default function Card() {
           }
         }
 
-        const likesQuantity = post.likers.length
-
         return (
-          <li className="cardContainer" key={post._id}>
+          <li className="cardContainer" key={index}>
             {isLoading ? (
               <FontAwesomeIcon
                 icon={faSpinner}
@@ -148,7 +149,7 @@ export default function Card() {
                       {post.message}
                     </p>
                   </div>
-                  <CreateComment />
+                  <CreateComment commentId={post._id} />
                   {post.comments.map((comment, index) => {
                     return (
                       <div key={index}>

@@ -3,6 +3,7 @@ const Article = require('../models/articles')
 module.exports.createComment = async (req, res) => {
   Article.findOne({ _id: req.params.id })
     .then((article) => {
+      console.log('ARTICLE FIND =>', article)
       console.log('REQ.PARAMS', req.params)
       console.log('REQ.BODY', req.body)
 
