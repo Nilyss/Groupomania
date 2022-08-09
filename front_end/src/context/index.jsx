@@ -8,6 +8,7 @@ export const PostProvider = ({ children }) => {
   const [post, setPost] = useState([])
   const [users, setUsers] = useState([])
   const [user, setUser] = useState([])
+  // const [likes, setLikes] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   const getPosts = async () => {
@@ -22,15 +23,16 @@ export const PostProvider = ({ children }) => {
     setIsLoading(false)
   }
 
-  const getOnePost = () => {
+  const getOnePost = async () => {
     setIsLoading(true)
-    posts.forEach((e) => {
+    await posts.forEach((e) => {
       axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_URL}articles/` + e._id,
         headers: { 'Content-Type': 'application/json' },
       }).then((res) => {
         setPost(res.data)
+        // setLikes(res.data.likers.length)
       })
     })
     setIsLoading(false)
@@ -65,6 +67,7 @@ export const PostProvider = ({ children }) => {
         posts,
         getOnePost,
         post,
+        // likes,
       }}
     >
       {children}

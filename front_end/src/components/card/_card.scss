@@ -1,3 +1,6 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
 .postFlow__container{
   position: relative;
 }
@@ -21,7 +24,7 @@
   left: 1.8em;
   font-size: 1.2em;
   cursor: pointer;
-  transition: all 200ms ease-in-out;
+  transition: all 200ms ease-out;
   &:hover {
     transform: scale(1.1)
   }
@@ -33,9 +36,6 @@
   left: 3.8em;
   font-size: 1em;
 }
-
-@import '../../utils/styles/scss/utils/variables';
-@import '../../utils/styles/scss/utils/mixins';
 
 .comment {
   background: $colorTertiary;
@@ -51,6 +51,30 @@
   align-items: center;
   justify-content: center;
   width: 100%;
+  position: relative;
+}
+
+.comment__header__editIcon{
+  color: #ffffff;
+  position: absolute;
+  top: -.5em;
+  right: -2.2em;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  &:hover{
+    transform: scale(1.2)
+  }
+}
+
+.comment__header__deleteIcon{
+  color: #ffffff;
+  position: absolute;
+  right: -2.1em;
+  cursor: pointer;
+  transition: all 200ms ease-out;
+  &:hover{
+    transform: scale(1.2)
+  }
 }
 
 .comment__header__fig__img {
@@ -75,3 +99,40 @@
   justify-content: flex-start;
 }
 
+.updatePost__textarea {
+  width: 100%;
+  padding: 1em 0 0 1em;
+  border: 2px solid $colorTertiary;
+  border-radius: 8px;
+}
+
+.updatePost__buttonContainer{
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.updatePost__buttonContainer__button {
+  @include submitButton;
+  margin-bottom: 1em;
+}
+
+.updateComment__textarea {
+  width: 100%;
+  padding: 1em 0 0 1em;
+  border: 2px solid $colorTertiary;
+  border-radius: 8px;
+}
+
+.updateComment__buttonContainer{
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.updateComment__buttonContainer__button {
+  @include submitButton;
+  margin-bottom: 1em;
+}

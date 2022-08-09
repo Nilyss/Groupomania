@@ -9,21 +9,30 @@ import './_createComment.scss'
 import { PostContext } from '../../context'
 import { useContext } from 'react'
 
-export default function CreateComment() {
+export default function CreateComment({ commentId }) {
   axios.defaults.withCredentials = true
 
   const { getPosts, getOnePost, post, getUser, user } = useContext(PostContext)
 
   useEffect(() => {
-    getPosts()
+    async function fetchData() {
+      await getPosts()
+    }
+    fetchData()
   }, [])
 
   useEffect(() => {
-    getOnePost()
+    async function fetchData() {
+      await getOnePost()
+    }
+    fetchData()
   }, [])
 
   useEffect(() => {
-    getUser()
+    async function fetchData() {
+      await getUser()
+    }
+    fetchData()
   }, [])
 
   async function handleFormComment(e) {
@@ -37,18 +46,14 @@ export default function CreateComment() {
       text: e.target['commentMessage'].value,
     }
     try {
-      await axios
-        .post(
-          `${process.env.REACT_APP_API_URL}articles/` + post._id + '/comment',
-          data
-        )
-        .then((res) => {
-          console.log(res.status)
-        })
+      await axios.post(
+        `${process.env.REACT_APP_API_URL}articles/` + commentId + '/comment',
+        data
+      )
     } catch (error) {
       console.log(error)
     }
-    getPosts()
+    await getPosts()
   }
 
   return (
