@@ -1,3 +1,6 @@
+// libraries
+import { Link } from 'react-router-dom'
+
 // components
 import Logout from '../logout/logout'
 
@@ -29,11 +32,14 @@ export default function Header() {
                 className="fa-spin fa-2x showUser__pp"
               />
             ) : (
-              <img
-                className="showUser__pp"
-                src={user.profilePicture}
-                alt="profile"
-              />
+              <Link to={'/userSettings'}>
+                <img
+                  className="showUser__pp"
+                  src={user.profilePicture}
+                  alt="profile"
+                  title={user.firstName + "'s settings"}
+                />
+              </Link>
             )}
           </figure>
           <p className="showUser__name">Welcome {user.firstName} !</p>

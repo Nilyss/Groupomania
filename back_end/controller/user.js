@@ -67,3 +67,17 @@ module.exports.logout = (req, res) => {
   res.cookie('jwt', ' ', { maxAge: 1 })
   res.redirect('/')
 }
+
+module.exports.updateUser = (req, res) => {
+  const userObject = req.file
+    ? {
+        ...JSON.parse(req.body.user),
+        imageURL: `${req.protocol}://${req.get('host')}//images/${
+          req.file.filename
+        }`,
+      }
+    : { ...req.body }
+  User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'User updated' }))
+    .catch((error) => res.status(400).json({ error }))
+}

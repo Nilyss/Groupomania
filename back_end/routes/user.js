@@ -10,5 +10,6 @@ router.post('/signin', userController.signIn)
 router.get('/logout', userController.logout)
 router.get('/users', userController.getAllUsers)
 router.get('/users/:id', userController.getUserData)
+router.put('/users/:id', userController.updateUser)
 
 module.exports = router

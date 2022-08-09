@@ -16,7 +16,7 @@
   width: 40%;
 }
 
-.showUser__pp{
+.showUser__pp {
   width: 75px;
   height: 75px;
   object-fit: cover;
@@ -24,21 +24,24 @@
   border: 2px solid $colorTertiary;
   margin-left: 5em;
   margin-right: 2em;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
-.showUser__name{
+.showUser__name {
   font-size: 1.3em;
   &:after {
-  content: '';
-  display: flex;
-  margin-top: .5em;
-  margin-left: 15%;
-  margin-right: 15%;
-  background: #fd2d01;
-  width: 50%;
-  height: 0.5vh;
-  border-radius: 8px;
-}
+    content: '';
+    display: flex;
+    margin-top: 0.5em;
+    margin-left: 15%;
+    margin-right: 15%;
+    background: #fd2d01;
+    width: 50%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
 }
 
 .homeMain__fig__logo {
