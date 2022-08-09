@@ -117,3 +117,22 @@
   @include submitButton;
   margin-bottom: 1em;
 }
+
+.updateComment__textarea {
+  width: 100%;
+  padding: 1em 0 0 1em;
+  border: 2px solid $colorTertiary;
+  border-radius: 8px;
+}
+
+.updateComment__buttonContainer{
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.updateComment__buttonContainer__button {
+  @include submitButton;
+  margin-bottom: 1em;
+}

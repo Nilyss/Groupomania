@@ -17,12 +17,25 @@ module.exports.createComment = async (req, res) => {
     .catch((error) => res.status(500).json({ error }))
 }
 
+module.exports.editComment = async (req, res) => {
+  const commentObject = req.file
+    ? {
+        ...JSON.parse(req.body.article),
+      }
+    : { ...req.body }
+  Article.updateOne(
+    { _id: req.params.id },
+    {
+      $set: { comments: { ...commentObject, _id: req.params.id } },
+    }
+  )
+    .then(() => res.status(200).json({ message: 'Comment updated' }))
+    .catch((error) => res.status(400).json({ error }))
+}
+
 module.exports.deleteComment = async (req, res) => {
   Article.findOne({ _id: req.params.id })
     .then((article) => {
-      console.log('article =>', article)
-      console.log('req.params.id =>', req.params.id)
-      console.log('req.body.commentId =>', req.body.commentId)
       Article.updateOne(
         { _id: req.params.id },
         { $pull: { comments: { _id: req.body.commentId } } }

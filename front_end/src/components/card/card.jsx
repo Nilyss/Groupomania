@@ -19,11 +19,24 @@ import CreateComment from '../createComment/createComment'
 axios.defaults.withCredentials = true
 
 export default function Card() {
-  const { isLoading, getPosts, posts, getOnePost, getUsers, users, getUser } =
-    useContext(PostContext)
+  const {
+    isLoading,
+    getPosts,
+    posts,
+    getOnePost,
+    getUsers,
+    users,
+    getUser,
+    user,
+  } = useContext(PostContext)
 
+  // post edit state
   const [isUpdated, setIsUpdated] = useState(false)
-  const [messageUpdated, setMessageUpdate] = useState(null)
+  const [messageUpdate, setMessageUpdate] = useState(null)
+
+  // comment edit state
+  const [commentIsUpdated, setCommentIsUpdated] = useState(false)
+  const [commentUpdate, setCommentUpdate] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -59,12 +72,12 @@ export default function Card() {
         let userPoster = users.find((u) => u._id === post.posterId)
         const likesQuantity = post.likers.length
 
-        const updateItem = async (e) => {
+        const updateArticle = async (e) => {
           e.preventDefault()
 
           const data = {
             posterId: userPoster._id,
-            message: messageUpdated,
+            message: messageUpdate,
           }
           await axios.put(
             `${process.env.REACT_APP_API_URL}articles/` + post._id,
@@ -170,7 +183,7 @@ export default function Card() {
                         />
                         <div className="updatePost__buttonContainer">
                           <button
-                            onClick={(e) => updateItem(e)}
+                            onClick={(e) => updateArticle(e)}
                             className="updatePost__buttonContainer__button"
                           >
                             Edit post
@@ -181,6 +194,28 @@ export default function Card() {
                   </div>
                   <CreateComment commentId={post._id} />
                   {post.comments.map((comment, index) => {
+                    const updateComment = async (e) => {
+                      e.preventDefault()
+
+                      const data = {
+                        commentId: comment._id,
+                        commenterId: user._id,
+                        commenterFirstName: user.firstName,
+                        commenterLastName: user.lastName,
+                        commenterProfilePicture: user.profilePicture,
+                        text: commentUpdate,
+                      }
+
+                      await axios.put(
+                        `${process.env.REACT_APP_API_URL}articles/` +
+                          post._id +
+                          '/comment',
+                        data
+                      )
+                      setCommentIsUpdated(!commentIsUpdated)
+                      await getPosts()
+                    }
+
                     const deleteComment = async () => {
                       const data = {
                         commentId: comment._id,
@@ -198,6 +233,9 @@ export default function Card() {
                         <article className="comment">
                           <div className="comment__header">
                             <FontAwesomeIcon
+                              onClick={(e) => {
+                                setCommentIsUpdated(!commentIsUpdated)
+                              }}
                               className="comment__header__editIcon"
                               icon={faPenToSquare}
                               title="Edit post"
@@ -221,9 +259,30 @@ export default function Card() {
                             />
                           </div>
                           <div className="comment__body">
-                            <p className="comment__body__message">
-                              {comment.text}
-                            </p>
+                            {commentIsUpdated === false && (
+                              <p className="comment__body__message">
+                                {comment.text}
+                              </p>
+                            )}
+                            {commentIsUpdated === true && (
+                              <div className="updateComment">
+                                <textarea
+                                  className="updateComment__textarea"
+                                  defaultValue={comment.text}
+                                  onChange={(e) =>
+                                    setCommentUpdate(e.target.value)
+                                  }
+                                />
+                                <div className="updateComment__buttonContainer">
+                                  <button
+                                    onClick={(e) => updateComment(e)}
+                                    className="updateComment__buttonContainer__button"
+                                  >
+                                    Edit comment
+                                  </button>
+                                </div>
+                              </div>
+                            )}
                           </div>
                         </article>
                       </div>
