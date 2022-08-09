@@ -43,21 +43,20 @@ module.exports.createArticle = (req, res) => {
 }
 
 module.exports.updateArticle = (req, res) => {
-  const updatedRecord = {
-    message: req.body.message,
-  }
-  Article.findByIdAndUpdate(
-    req.params.id,
-    { $set: updatedRecord },
-    { new: true },
-    (err, docs) => {
-      if (!err) {
-        res.send(docs)
-      } else {
-        console.log('Update error : ' + err)
+  const articleObject = req.file
+    ? {
+        ...JSON.parse(req.body.article),
+        imageUrl: `${req.protocol}://${req.get('host')}/images/${
+          req.file.filename
+        }`,
       }
-    }
+    : { ...req.body }
+  Article.updateOne(
+    { _id: req.params.id },
+    { ...articleObject, _id: req.params.id }
   )
+    .then(() => res.status(200).json({ message: 'Article updated' }))
+    .catch((error) => res.status(400).json({ error }))
 }
 
 module.exports.deleteOneArticle = (req, res) => {

@@ -1,3 +1,6 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
 .postFlow__container{
   position: relative;
 }
@@ -33,9 +36,6 @@
   left: 3.8em;
   font-size: 1em;
 }
-
-@import '../../utils/styles/scss/utils/variables';
-@import '../../utils/styles/scss/utils/mixins';
 
 .comment {
   background: $colorTertiary;
@@ -84,8 +84,6 @@
   border: 2px solid $colorSecondary;
 }
 
-
-
 .comment__header__title {
   color: #ffffff;
   margin-left: 1em;
@@ -101,3 +99,21 @@
   justify-content: flex-start;
 }
 
+.updatePost__textarea {
+  width: 100%;
+  padding: 1em 0 0 1em;
+  border: 2px solid $colorTertiary;
+  border-radius: 8px;
+}
+
+.updatePost__buttonContainer{
+  margin-top: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.updatePost__buttonContainer__button {
+  @include submitButton;
+  margin-bottom: 1em;
+}

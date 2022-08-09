@@ -1,5 +1,5 @@
 // dependencies
-import { useEffect, useContext } from 'react'
+import { useEffect, useContext, useState } from 'react'
 import axios from 'axios'
 import { PostContext } from '../../context'
 
@@ -19,18 +19,11 @@ import CreateComment from '../createComment/createComment'
 axios.defaults.withCredentials = true
 
 export default function Card() {
-  const {
-    isLoading,
-    getPosts,
-    posts,
-    getOnePost,
-    post,
-    getUsers,
-    users,
-    getUser,
-    user,
-    // likes,
-  } = useContext(PostContext)
+  const { isLoading, getPosts, posts, getOnePost, getUsers, users, getUser } =
+    useContext(PostContext)
+
+  const [isUpdated, setIsUpdated] = useState(false)
+  const [messageUpdated, setMessageUpdate] = useState(null)
 
   useEffect(() => {
     async function fetchData() {
@@ -65,6 +58,21 @@ export default function Card() {
       {posts.map((post, index) => {
         let userPoster = users.find((u) => u._id === post.posterId)
         const likesQuantity = post.likers.length
+
+        const updateItem = async (e) => {
+          e.preventDefault()
+
+          const data = {
+            posterId: userPoster._id,
+            message: messageUpdated,
+          }
+          await axios.put(
+            `${process.env.REACT_APP_API_URL}articles/` + post._id,
+            data
+          )
+          setIsUpdated(!isUpdated)
+          await getPosts()
+        }
 
         const deletePost = async () => {
           await axios.delete(
@@ -107,6 +115,9 @@ export default function Card() {
                   <div className="postFlow__container__header">
                     <div className="postFlow__container__header__iconContainer">
                       <FontAwesomeIcon
+                        onClick={(e) => {
+                          setIsUpdated(!isUpdated)
+                        }}
                         className="postFlow__container__header__iconContainer__icon"
                         icon={faPenToSquare}
                         title="Edit post"
@@ -145,9 +156,28 @@ export default function Card() {
                     <p className="likeIcon__number">{likesQuantity}</p>
                   </div>
                   <div className="postFlow__container__body">
-                    <p className="postFlow__container__body__text">
-                      {post.message}
-                    </p>
+                    {isUpdated === false && (
+                      <p className="postFlow__container__body__text">
+                        {post.message}
+                      </p>
+                    )}
+                    {isUpdated === true && (
+                      <div className="updatePost">
+                        <textarea
+                          className="updatePost__textarea"
+                          defaultValue={post.message}
+                          onChange={(e) => setMessageUpdate(e.target.value)}
+                        />
+                        <div className="updatePost__buttonContainer">
+                          <button
+                            onClick={(e) => updateItem(e)}
+                            className="updatePost__buttonContainer__button"
+                          >
+                            Edit post
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   <CreateComment commentId={post._id} />
                   {post.comments.map((comment, index) => {
