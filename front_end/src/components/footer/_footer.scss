@@ -1,0 +1,16 @@
+@import '../../utils/styles/scss/utils/variables';
+
+.footerContainer{
+  margin-top: 3em;
+  width: 100%;
+  background: $colorTertiary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerContainer__fig__img{
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+}

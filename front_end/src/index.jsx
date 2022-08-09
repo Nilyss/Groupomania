@@ -12,6 +12,7 @@ import { composeWithDevTools } from 'redux-devtools-extension'
 
 // reducers
 import rootReducer from './redux/reducers'
+import { PostProvider } from './context'
 
 const store = createStore(
   rootReducer,
@@ -21,6 +22,8 @@ const store = createStore(
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <Provider store={store}>
-    <App />
+    <PostProvider>
+      <App />
+    </PostProvider>
   </Provider>
 )

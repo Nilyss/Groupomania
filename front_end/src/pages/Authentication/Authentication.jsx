@@ -1,5 +1,6 @@
-import { UidContext } from '../../context/appContext'
+import { UidContext } from '../../context/userIdContext'
 import { useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 //  import style
 import '../../utils/styles/Authentication.css'
@@ -13,7 +14,11 @@ import logo from '../../assets/icon-left-font-monochrome-black.png'
 
 export default function Authentification() {
   const uid = useContext(UidContext)
-  uid && (window.location = '/home')
+  const navigate = useNavigate()
+
+  if (uid) {
+    navigate('/home', { replace: true })
+  }
 
   return (
     <main className="authBody">

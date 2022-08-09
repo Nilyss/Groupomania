@@ -4,7 +4,7 @@
 .createPost {
   margin: auto;
   margin-top: 2em;
-  margin-bottom: -2.5em;
+  margin-bottom: 2em;
   padding: 2em;
   width: 80%;
   align-items: center;
@@ -45,8 +45,10 @@
   height: 50px;
   font-size: 16px;
   border-radius: 8px;
+  border: 2px solid $colorTertiary;
   padding: 12px 20px 20px 20px;
   resize: none;
+  overflow: hidden;
 }
 
 .createPost__body__form__bottom {

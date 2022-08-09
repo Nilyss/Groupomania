@@ -1,0 +1,76 @@
+import axios from 'axios'
+import { useState, createContext } from 'react'
+
+export const PostContext = createContext()
+
+export const PostProvider = ({ children }) => {
+  const [posts, setPosts] = useState([])
+  const [post, setPost] = useState([])
+  const [users, setUsers] = useState([])
+  const [user, setUser] = useState([])
+  // const [likes, setLikes] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+
+  const getPosts = async () => {
+    setIsLoading(true)
+    const res = await axios({
+      method: 'get',
+      url: `${process.env.REACT_APP_API_URL}articles`,
+      headers: { 'Content-Type': 'application/json' },
+    })
+    res.data.reverse()
+    setPosts(res.data)
+    setIsLoading(false)
+  }
+
+  const getOnePost = async () => {
+    setIsLoading(true)
+    await posts.forEach((e) => {
+      axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}articles/` + e._id,
+        headers: { 'Content-Type': 'application/json' },
+      }).then((res) => {
+        setPost(res.data)
+        // setLikes(res.data.likers.length)
+      })
+    })
+    setIsLoading(false)
+  }
+
+  const getUsers = async () => {
+    setIsLoading(true)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}users`)
+    setUsers(res.data)
+    setIsLoading(false)
+  }
+
+  const getUser = async () => {
+    setIsLoading(true)
+    const res = await axios.get(`${process.env.REACT_APP_API_URL}jwtid`)
+    const getUser = await axios.get(
+      `${process.env.REACT_APP_API_URL}users/` + res.data
+    )
+    setUser(getUser.data)
+    setIsLoading(false)
+  }
+
+  return (
+    <PostContext.Provider
+      value={{
+        isLoading,
+        getUsers,
+        users,
+        getUser,
+        user,
+        getPosts,
+        posts,
+        getOnePost,
+        post,
+        // likes,
+      }}
+    >
+      {children}
+    </PostContext.Provider>
+  )
+}

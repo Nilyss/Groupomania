@@ -11,10 +11,11 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
 }
-const helmet = require('helmet') // hide API stacks in browser  https://www.npmjs.com/package/helmet
+// const helmet = require('helmet') // hide API stacks in browser  https://www.npmjs.com/package/helmet
 const mongoSanitize = require('express-mongo-sanitize') // block some key operator https://www.npmjs.com/package/express-mongo-sanitize
 const dotenv = require('dotenv') // environment variable  https://www.npmjs.com/package/dotenv
 const result = dotenv.config()
+const path = require('path')
 
 // dev dependencies
 const morgan = require('morgan') // http middleware logger https://www.npmjs.com/package/morgan
@@ -28,11 +29,12 @@ const { checkUser, requireAuth } = require('./middleware/authMiddleware')
 // configure routes
 const apiRoute = '/api'
 const userRoute = require('./routes/user')
+const articleRoute = require('./routes/articles')
 
 // start app
 const app = express()
 
-app.use(helmet())
+// app.use(helmet())
 app.use(
   mongoSanitize({
     remplaceWith: '_',
@@ -52,6 +54,8 @@ app.get('/api/jwtid', requireAuth, (req, res) => {
 })
 
 // routes
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use('/api', userRoute)
+app.use('/api', articleRoute)
 
 module.exports = app

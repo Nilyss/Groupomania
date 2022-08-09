@@ -1,6 +1,6 @@
-import { createContext, useState, useEffect } from 'react'
+import { createContext, useState } from 'react'
 
-export const UserContext = createContext()
+export const FormContext = createContext()
 
 export function UserContextProvider(props) {
   // modal
@@ -25,8 +25,8 @@ export function UserContextProvider(props) {
   }
 
   return (
-    <UserContext.Provider value={{ modalState, toggleModals }}>
+    <FormContext.Provider value={{ modalState, toggleModals }}>
       {props.children}
-    </UserContext.Provider>
+    </FormContext.Provider>
   )
 }

@@ -1,6 +1,10 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 
+li {
+  list-style: none;
+}
+
 .postFlow {
   margin: auto;
   margin-top: 5em;
@@ -16,6 +20,7 @@
   background: $colorSecondary;
   box-shadow: $boxShadowCard;
   padding: 2em;
+  margin-bottom: 2em;
 }
 
 .postFlow__container__header {
@@ -44,10 +49,9 @@
 .postFlow__container__figure {
   margin-bottom: 1em;
   width: 100%;
-  height: 550px;
   &__img {
     border-radius: 8px;
-    border: 2px solid $colorTertiary;
+    //border: 2px solid $colorTertiary;
     object-fit: cover;
     width: 100%;
     height: 100%;

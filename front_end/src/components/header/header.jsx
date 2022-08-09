@@ -1,5 +1,3 @@
-import { useSelector } from 'react-redux'
-
 // components
 import Logout from '../logout/logout'
 
@@ -8,22 +6,37 @@ import './_header.scss'
 
 // images
 import logoOrange from '../../assets/orange_logo.png'
+import { useContext, useEffect } from 'react'
+import { PostContext } from '../../context'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 export default function Header() {
-  const userData = useSelector((state) => state.userReducer)
+  const { isLoading, getUser, user } = useContext(PostContext)
+
+  useEffect(() => {
+    getUser()
+  }, [])
 
   return (
     <>
       <header className="homeHeader">
         <div className="showUser">
           <figure>
-            <img
-              className="showUser__pp"
-              src={userData.profilePicture}
-              alt="profile"
-            />
+            {isLoading ? (
+              <FontAwesomeIcon
+                icon={faSpinner}
+                className="fa-spin fa-2x showUser__pp"
+              />
+            ) : (
+              <img
+                className="showUser__pp"
+                src={user.profilePicture}
+                alt="profile"
+              />
+            )}
           </figure>
-          <p className="showUser__name">Welcome {userData.firstName} !</p>
+          <p className="showUser__name">Welcome {user.firstName} !</p>
         </div>
         <figure className="authBody__fig">
           <img

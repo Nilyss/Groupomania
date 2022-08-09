@@ -1,5 +1,5 @@
 import { useContext, useState, useRef } from 'react'
-import { UserContext } from '../../context/userContext'
+import { FormContext } from '../../context/formContext'
 import Axios from 'axios'
 
 // css
@@ -8,7 +8,7 @@ import './_forms.scss'
 Axios.defaults.baseURL = 'http://localhost:8000/api'
 
 export default function SignUpModal() {
-  const { toggleModals, modalState } = useContext(UserContext)
+  const { toggleModals, modalState } = useContext(FormContext)
   const [validation, setValidation] = useState('')
 
   // push all inputs from form into inputs variable
