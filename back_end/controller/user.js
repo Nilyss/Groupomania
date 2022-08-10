@@ -71,8 +71,7 @@ module.exports.logout = (req, res) => {
 module.exports.updateUser = (req, res) => {
   const userObject = req.file
     ? {
-        ...JSON.parse(req.body.user),
-        imageURL: `${req.protocol}://${req.get('host')}//images/${
+        profilePicture: `${req.protocol}://${req.get('host')}/images/${
           req.file.filename
         }`,
       }

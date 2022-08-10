@@ -45,18 +45,6 @@ export default function CreatePost() {
     }
   }
 
-  const editPost = async () => {
-    const formData = new FormData()
-    formData.append('posterId', user._id)
-    formData.append('message')
-    formData.append('file', file)
-    try {
-      await axios.put(`${process.env.REACT_APP_API_URL}articles/` + post._id)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
   const handleFileSelect = (event) => {
     setFile(event.target.files[0])
   }
