@@ -25,7 +25,6 @@ export default function SignInModal() {
         .then((res) => {
           if (res.status === 200) {
             navigate('/home', { replace: true })
-            // window.location = '/home'
           } else {
             console.error('invalid identification')
           }

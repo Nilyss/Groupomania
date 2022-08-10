@@ -69,8 +69,7 @@ export default function Card() {
   return (
     <>
       {posts.map((post, index) => {
-        let userPoster = users.find((u) => u._id === post.posterId)
-        const likesQuantity = post.likers.length
+        const userPoster = users.find((u) => u._id === post.posterId)
 
         const updateArticle = async (e) => {
           e.preventDefault()
@@ -94,25 +93,81 @@ export default function Card() {
           await getPosts()
         }
 
-        const LikeAndUnlike = async (likersId) => {
-          post.likers.forEach((l) => {
-            return (likersId = l.likerId)
-          })
-          // if the user already like the post => unlike it
-          if (userPoster._id === likersId) {
-            const removeData = { likerId: userPoster._id }
-            await axios.post(
-              `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
-              removeData
-            )
-            // if the user didn't like the post => like it
-          } else {
-            const data = { like: 1, likerId: userPoster._id }
-            await axios.post(
-              `${process.env.REACT_APP_API_URL}articles/` + post._id + `/like`,
-              data
-            )
+        async function handleLike(e) {
+          e.preventDefault()
+
+          if (post.likers.length < 1) {
+            const likeData = {
+              likes: 1,
+              likerId: user._id,
+            }
+            try {
+              axios({
+                method: 'post',
+                url:
+                  `${process.env.REACT_APP_API_URL}articles/` +
+                  post._id +
+                  '/like',
+                data: likeData,
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+              }).then((res) => {
+                getPosts()
+              })
+            } catch (error) {
+              console.log(error)
+            }
           }
+
+          post.likers.find((e) => {
+            if (e.likerId === user._id) {
+              const unlikeData = {
+                likerId: e.likerId,
+                _id: e._id,
+              }
+              try {
+                axios({
+                  method: 'post',
+                  url:
+                    `${process.env.REACT_APP_API_URL}articles/` +
+                    post._id +
+                    '/like',
+                  data: unlikeData,
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                }).then((res) => {
+                  getPosts()
+                })
+              } catch (error) {
+                console.log(error)
+              }
+            }
+            if (e.likerId !== user._id) {
+              const likeData = {
+                likes: 1,
+                likerId: user._id,
+              }
+              try {
+                axios({
+                  method: 'post',
+                  url:
+                    `${process.env.REACT_APP_API_URL}articles/` +
+                    post._id +
+                    '/like',
+                  data: likeData,
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                }).then((res) => {
+                  getPosts()
+                })
+              } catch (error) {
+                console.log(error)
+              }
+            }
+          })
         }
 
         return (
@@ -162,11 +217,20 @@ export default function Card() {
                   </figure>
                   <div>
                     <FontAwesomeIcon
-                      onClick={LikeAndUnlike}
+                      onClick={handleLike}
                       className="likeIcon"
                       icon={faThumbsUp}
                     />
-                    <p className="likeIcon__number">{likesQuantity}</p>
+                    <p className="likeIcon__number">
+                      {isLoading ? (
+                        <FontAwesomeIcon
+                          icon={faSpinner}
+                          className="fa-spin fa-2x postFlow"
+                        />
+                      ) : (
+                        post.likes
+                      )}
+                    </p>
                   </div>
                   <div className="postFlow__container__body">
                     {isUpdated === false && (
@@ -192,7 +256,9 @@ export default function Card() {
                       </div>
                     )}
                   </div>
-                  <CreateComment commentId={post._id} />
+                  <h4 className="postFlow__container__commentTitle">
+                    Comments
+                  </h4>
                   {post.comments.map((comment, index) => {
                     const updateComment = async (e) => {
                       e.preventDefault()
@@ -288,6 +354,7 @@ export default function Card() {
                       </div>
                     )
                   })}
+                  <CreateComment commentId={post._id} />
                 </div>
               </article>
             )}

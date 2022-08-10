@@ -17,6 +17,9 @@ const articleSchema = new mongoose.Schema(
     video: {
       type: String,
     },
+
+    likes: { type: Number, default: 0 },
+
     likers: {
       type: Array({ likerId: String }),
       require: true,

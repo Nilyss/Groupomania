@@ -1,0 +1,20 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.navMenuContainer{
+  width: 100%;
+  display: flex;
+  flex-flow: wrap;
+  justify-content: flex-end;
+  text-align: center;
+  position: sticky;
+  top: 0;
+  right: 0;
+  padding: 3em;
+}
+
+.navMenuContainer__settings {
+  @include menuButton;
+  width: fit-content;
+  height: 35px;
+}

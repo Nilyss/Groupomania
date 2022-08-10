@@ -32,12 +32,12 @@ export default function Header() {
                 className="fa-spin fa-2x showUser__pp"
               />
             ) : (
-              <Link to={'/userSettings'}>
+              <Link to={'/home'}>
                 <img
                   className="showUser__pp"
                   src={user.profilePicture}
                   alt="profile"
-                  title={user.firstName + "'s settings"}
+                  title={user.firstName + "'s home page"}
                 />
               </Link>
             )}

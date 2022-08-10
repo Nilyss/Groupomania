@@ -1,28 +1,41 @@
 // import model
 const Article = require('../models/articles')
 
-exports.likeArticle = (req, res) => {
+module.exports.likeArticle = (req, res) => {
+  console.log('CLICK LIKE')
   Article.findOne({ _id: req.params.id })
     .then((article) => {
-      // if the user didn't like the article and click on like icon
-      if (!article.likers.includes(req.body.likerId) && req.body.like === 1) {
-        console.log('req.body, like route => ', req.body)
+      // if the user didn't already like the post and click on the like button
+      article.likers.find((e) => console.log('e =>', e))
+      if (!article.likers.find((e) => e.likerId === req.body.likerId)) {
         Article.updateOne(
           { _id: req.params.id },
-          { $push: { likers: req.body } }
+          {
+            $inc: {
+              likes: 1,
+            },
+            $push: {
+              likers: req.body,
+            },
+          }
         )
-          .then(() => res.status(201).json({ message: 'The post was liked' }))
+          .then(() => res.status(201).json({ message: 'Post liked !' }))
           .catch((error) => res.status(404).json({ error }))
       }
-
-      // if the user want to remove is like
-      else {
-        console.log('req.body, unlike route =>', req.body)
+      // if the user already like the post and click on the like button
+      if (article.likers.find((e) => e.likerId === req.body.likerId)) {
         Article.updateOne(
           { _id: req.params.id },
-          { $pull: { likers: req.body } }
+          {
+            $inc: {
+              likes: -1,
+            },
+            $pull: {
+              likers: req.body,
+            },
+          }
         )
-          .then(() => res.status(200).json({ message: 'The post was unliked' }))
+          .then(() => res.status(200).json({ message: 'Post unliked !' }))
           .catch((error) => res.status(404).json({ error }))
       }
     })
