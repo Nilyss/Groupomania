@@ -1,6 +1,5 @@
 // libraries
 import { useEffect } from 'react'
-// import { useNavigate } from 'react-router-dom'
 
 // Components
 import Header from '../../components/header/header'
@@ -16,7 +15,6 @@ import { useContext } from 'react'
 import { UidContext } from '../../context/userIdContext'
 
 export default function Home() {
-  // const navigate = useNavigate()
   const uid = useContext(UidContext)
 
   useEffect(() => {

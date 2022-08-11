@@ -170,6 +170,8 @@ export default function Card() {
           })
         }
 
+        const isUserPost = user._id === userPoster._id
+
         return (
           <li className="cardContainer" key={index}>
             {isLoading ? (
@@ -182,20 +184,24 @@ export default function Card() {
                 <div className="postFlow__container">
                   <div className="postFlow__container__header">
                     <div className="postFlow__container__header__iconContainer">
-                      <FontAwesomeIcon
-                        onClick={(e) => {
-                          setIsUpdated(!isUpdated)
-                        }}
-                        className="postFlow__container__header__iconContainer__icon"
-                        icon={faPenToSquare}
-                        title="Edit post"
-                      />
-                      <FontAwesomeIcon
-                        onClick={deletePost}
-                        className="postFlow__container__header__iconContainer__icon"
-                        icon={faTrashCan}
-                        title="Delete post"
-                      />
+                      {isUserPost && (
+                        <>
+                          <FontAwesomeIcon
+                            onClick={(e) => {
+                              setIsUpdated(!isUpdated)
+                            }}
+                            className="postFlow__container__header__iconContainer__icon"
+                            icon={faPenToSquare}
+                            title="Edit post"
+                          />
+                          <FontAwesomeIcon
+                            onClick={deletePost}
+                            className="postFlow__container__header__iconContainer__icon"
+                            icon={faTrashCan}
+                            title="Delete post"
+                          />
+                        </>
+                      )}
                     </div>
                     <figure className="createPost__body__form__top__fig">
                       <img
@@ -294,18 +300,23 @@ export default function Card() {
                       )
                       await getPosts()
                     }
+
+                    const isUserComment = user._id === comment.commenterId
+
                     return (
                       <div key={index}>
                         <article className="comment">
                           <div className="comment__header">
-                            <FontAwesomeIcon
-                              onClick={(e) => {
-                                setCommentIsUpdated(!commentIsUpdated)
-                              }}
-                              className="comment__header__editIcon"
-                              icon={faPenToSquare}
-                              title="Edit post"
-                            />
+                            {isUserComment && (
+                              <FontAwesomeIcon
+                                onClick={(e) => {
+                                  setCommentIsUpdated(!commentIsUpdated)
+                                }}
+                                className="comment__header__editIcon"
+                                icon={faPenToSquare}
+                                title="Edit post"
+                              />
+                            )}
                             <figure className="comment__header__fig">
                               <img
                                 src={comment.commenterProfilePicture}
@@ -317,12 +328,14 @@ export default function Card() {
                               {comment.commenterFirstName}{' '}
                               {comment.commenterLastName}
                             </h5>
-                            <FontAwesomeIcon
-                              onClick={deleteComment}
-                              className="comment__header__deleteIcon"
-                              icon={faTrashCan}
-                              title="Delete post"
-                            />
+                            {isUserComment && (
+                              <FontAwesomeIcon
+                                onClick={deleteComment}
+                                className="comment__header__deleteIcon"
+                                icon={faTrashCan}
+                                title="Delete post"
+                              />
+                            )}
                           </div>
                           <div className="comment__body">
                             {commentIsUpdated === false && (

@@ -5,7 +5,7 @@
   display: flex;
   flex-flow: wrap;
   position: relative;
-  background: rgb(235, 235, 235);
+  background: url('../../assets/appbackground.webp') no-repeat fixed center;
   margin-bottom: 2em;
   box-shadow: $boxShadowCard;
 }
