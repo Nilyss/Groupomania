@@ -170,7 +170,7 @@ export default function Card() {
           })
         }
 
-        const isUserPost = user._id === userPoster._id
+        const isUserPost = user._id === userPoster._id || user.isAdmin === 1
 
         return (
           <li className="cardContainer" key={index}>
@@ -301,7 +301,8 @@ export default function Card() {
                       await getPosts()
                     }
 
-                    const isUserComment = user._id === comment.commenterId
+                    const isUserComment =
+                      user._id === comment.commenterId || user.isAdmin === 1
 
                     return (
                       <div key={index}>
