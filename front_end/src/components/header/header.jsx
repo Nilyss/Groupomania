@@ -1,9 +1,6 @@
 // libraries
 import { Link } from 'react-router-dom'
 
-// components
-import Logout from '../logout/logout'
-
 //css
 import './_header.scss'
 
@@ -44,14 +41,13 @@ export default function Header() {
           </figure>
           <p className="showUser__name">Welcome {user.firstName} !</p>
         </div>
-        <figure className="authBody__fig">
+        <figure className="homeMain__fig">
           <img
             className="homeMain__fig__logo"
             src={logoOrange}
             alt="logo Groupomania"
           />
         </figure>
-        <Logout />
       </header>
     </>
   )

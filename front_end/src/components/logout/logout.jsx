@@ -28,7 +28,7 @@ export default function Logout() {
 
   return (
     <>
-      <Link to={'/'}>
+      <Link className="link" to={'/'}>
         <button onClick={logout} className="logoutBtn">
           Log-out
         </button>

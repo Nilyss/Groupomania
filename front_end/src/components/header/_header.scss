@@ -13,7 +13,8 @@
 .showUser {
   display: flex;
   align-items: center;
-  width: 40%;
+  width: 30%;
+  margin-top: 2em;
 }
 
 .showUser__pp {
@@ -22,7 +23,7 @@
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid $colorTertiary;
-  margin-left: 5em;
+  margin-left: 2em;
   margin-right: 2em;
   &:hover {
     cursor: pointer;
@@ -42,6 +43,14 @@
     height: 0.5vh;
     border-radius: 8px;
   }
+}
+
+.homeMain__fig {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
 }
 
 .homeMain__fig__logo {

@@ -12,6 +12,7 @@ import Footer from '../../components/footer/footer'
 import './_UserSettings.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import NavMenu from '../../components/navMenu/navMenu'
 
 export default function UserSettings() {
   axios.defaults.withCredentials = true
@@ -56,9 +57,6 @@ export default function UserSettings() {
     <>
       <Header />
       <main className="userSettingsMain">
-        <Link className="link" to={'/home'}>
-          Home
-        </Link>
         <section>
           <article className="userSettingsMain__form">
             <div className="userSettingsMain__form__header">

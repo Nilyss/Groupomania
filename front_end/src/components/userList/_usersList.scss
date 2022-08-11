@@ -5,7 +5,7 @@
   width: 80%;
   display: flex;
   flex-flow: wrap;
-  justify-content: flex-end;
+  align-self: center;
   text-align: center;
   position: sticky;
   top: 1em;
@@ -13,7 +13,6 @@
   padding: 1em;
   background: $colorSecondary;
   margin-top: 2em;
-  margin-right: 2em;
   border-radius: 8px;
   box-shadow: $boxShadowCard;
 }
@@ -37,12 +36,14 @@
 .userListContainer__ul {
   display: flex;
   flex-flow: column;
+  margin: auto;
 }
 
 .userListContainer__ul__list {
   display: flex;
   width: 100%;
   align-items: center;
+  justify-content: center;
   margin-bottom: 2em;
 }
 
@@ -53,4 +54,8 @@
   border-radius: 8px;
   margin-right: 1em;
   border: 2px solid $colorTertiary;
+}
+
+.userListContainer__ul__list__name {
+  width: 50%;
 }
