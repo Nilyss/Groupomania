@@ -1,0 +1,61 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.userListContainer{
+  width: 80%;
+  display: flex;
+  flex-flow: wrap;
+  align-self: center;
+  text-align: center;
+  position: sticky;
+  top: 1em;
+  right: 0;
+  padding: 1em;
+  background: $colorSecondary;
+  margin-top: 2em;
+  border-radius: 8px;
+  box-shadow: $boxShadowCard;
+}
+
+.userListContainer__Title {
+  width: 100%;
+  margin-bottom: 2em;
+  font-size: 1.5em;
+  &:after {
+    content: '';
+    display: flex;
+    margin: auto;
+    margin-top: .5em;
+    background: #fd2d01;
+    width: 30%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
+}
+
+.userListContainer__ul {
+  display: flex;
+  flex-flow: column;
+  margin: auto;
+}
+
+.userListContainer__ul__list {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.userListContainer__ul__list__img {
+  width: 40px;
+  height: 40px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-right: 1em;
+  border: 2px solid $colorTertiary;
+}
+
+.userListContainer__ul__list__name {
+  width: 50%;
+}

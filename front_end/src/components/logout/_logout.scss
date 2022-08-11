@@ -3,8 +3,9 @@
 
 .logoutBtn {
   @include submitButton;
-  position: absolute;
-  top: 40%;
-  right: 0;
-  margin-right: 5em;
+  margin-top: 2em;
+}
+
+.link {
+  text-decoration: none;
 }

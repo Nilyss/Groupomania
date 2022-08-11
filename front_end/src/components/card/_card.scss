@@ -37,6 +37,21 @@
   font-size: 1em;
 }
 
+.postFlow__container__commentTitle {
+  margin-top: 2em;
+  font-size: 1.2em;
+  &:after {
+    content: '';
+    display: flex;
+    margin: auto;
+    margin-top: 0.5em;
+    background: #fd2d01;
+    width: 30%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
+}
+
 .comment {
   background: $colorTertiary;
   margin-top: 2em;
@@ -82,6 +97,7 @@
   height: 50px;
   border-radius: 50%;
   border: 2px solid $colorSecondary;
+  object-fit: cover;
 }
 
 .comment__header__title {

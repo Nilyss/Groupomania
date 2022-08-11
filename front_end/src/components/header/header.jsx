@@ -1,5 +1,5 @@
-// components
-import Logout from '../logout/logout'
+// libraries
+import { Link } from 'react-router-dom'
 
 //css
 import './_header.scss'
@@ -29,23 +29,25 @@ export default function Header() {
                 className="fa-spin fa-2x showUser__pp"
               />
             ) : (
-              <img
-                className="showUser__pp"
-                src={user.profilePicture}
-                alt="profile"
-              />
+              <Link to={'/home'}>
+                <img
+                  className="showUser__pp"
+                  src={user.profilePicture}
+                  alt="profile"
+                  title={user.firstName + "'s home page"}
+                />
+              </Link>
             )}
           </figure>
           <p className="showUser__name">Welcome {user.firstName} !</p>
         </div>
-        <figure className="authBody__fig">
+        <figure className="homeMain__fig">
           <img
             className="homeMain__fig__logo"
             src={logoOrange}
             alt="logo Groupomania"
           />
         </figure>
-        <Logout />
       </header>
     </>
   )

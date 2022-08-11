@@ -1,7 +1,7 @@
 // dependencies
 import axios from 'axios'
 import cookie from 'js-cookie'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 // css
 import './_logout.scss'
@@ -19,17 +19,20 @@ export default function Logout() {
   const logout = async () => {
     await axios
       .get(`${process.env.REACT_APP_API_URL}logout`)
-      .then(() => removeCookie('jwt'))
+      .then(() => {
+        removeCookie('jwt')
+        navigate('/', { replace: true })
+      })
       .catch((err) => console.log(err))
-    navigate('/', { replace: true })
-    // window.location = '/'
   }
 
   return (
     <>
-      <button onClick={logout} className="logoutBtn">
-        Log-out
-      </button>
+      <Link className="link" to={'/'}>
+        <button onClick={logout} className="logoutBtn">
+          Log-out
+        </button>
+      </Link>
     </>
   )
 }

@@ -5,7 +5,8 @@
   display: flex;
   flex-flow: wrap;
   position: relative;
-  background: rgb(235, 235, 235);
+  background: url('../../assets/appbackground.webp') no-repeat fixed center;
+  background-size: cover;
   margin-bottom: 2em;
   box-shadow: $boxShadowCard;
 }
@@ -13,32 +14,44 @@
 .showUser {
   display: flex;
   align-items: center;
-  width: 40%;
+  width: 30%;
+  margin-top: 2em;
 }
 
-.showUser__pp{
+.showUser__pp {
   width: 75px;
   height: 75px;
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid $colorTertiary;
-  margin-left: 5em;
+  margin-left: 2em;
   margin-right: 2em;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
-.showUser__name{
+.showUser__name {
   font-size: 1.3em;
   &:after {
-  content: '';
-  display: flex;
-  margin-top: .5em;
-  margin-left: 15%;
-  margin-right: 15%;
-  background: #fd2d01;
-  width: 50%;
-  height: 0.5vh;
-  border-radius: 8px;
+    content: '';
+    display: flex;
+    margin-top: 0.5em;
+    margin-left: 15%;
+    margin-right: 15%;
+    background: #fd2d01;
+    width: 50%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
 }
+
+.homeMain__fig {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  width: 100%;
 }
 
 .homeMain__fig__logo {

@@ -1,0 +1,95 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.userSettingsMain{
+  border-radius: 2em;
+  background: url('../../assets/appbackground.webp') no-repeat fixed center;
+  background-size: cover;
+  position: relative;
+  height: border-box;
+  display: flex;
+  flex-flow: wrap;
+  box-shadow: $boxShadowCard;
+  align-items: center;
+  justify-content: center;
+}
+
+.userSettingsMain__form {
+  margin: 2em;
+  padding: 4em;
+  background: $colorSecondary;
+  border-radius: 8px;
+  border: 2px solid $colorTertiary;
+}
+
+.userSettingsMain__form__header__title{
+ margin-bottom: 1em;
+ text-align: center;
+ font-size: 2em;
+  &:after {
+    content: '';
+    display: flex;
+    margin: auto;
+    margin-top: .5em;
+    background: #fd2d01;
+    width: 75%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
+}
+
+.userSettingsMain__form__body__form{
+  p {
+    margin-bottom: 2em;
+    padding-left: 2em;
+    font-size: 1em;
+    strong {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+  }
+}
+
+.userSettingsMain__form__body__form__inputs {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: relative;
+  cursor: pointer;
+}
+
+.userSettingsMain__form__body__form__fig{
+  display: flex;
+  justify-content: center;
+}
+
+.userSettingsMain__form__body__form__fig__img{
+  width: 200px;
+  height: 200px;
+  border-radius: 10%;
+  border: 2px solid $colorTertiary;
+  margin-bottom: 2em;
+  object-fit: cover;
+}
+
+.pp__upload--label {
+  position: absolute;
+  top: .5em;
+  right: 2.4em;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+
+.userSettingsMain__form__body__form__input{
+  position: absolute;
+  top: 1em;
+  right: -45%;
+  opacity: 0;
+}
+
+.userSettingsMain__form__body__form__button{
+  @include submitButton;
+  margin:auto;
+  margin-bottom: -2em;
+}

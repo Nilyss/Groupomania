@@ -12,7 +12,7 @@ import { useContext } from 'react'
 export default function CreateComment({ commentId }) {
   axios.defaults.withCredentials = true
 
-  const { getPosts, getOnePost, post, getUser, user } = useContext(PostContext)
+  const { getPosts, getOnePost, getUser, user } = useContext(PostContext)
 
   useEffect(() => {
     async function fetchData() {
