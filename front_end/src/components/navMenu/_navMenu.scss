@@ -1,21 +1,48 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 
-.navMenuContainer{
+.navMenuModal{
+  @media(max-width: $breakpointMobile) {
+    position: absolute;
+    z-index: 999;
+    display: none;
+  }
+  cursor: pointer;
+  margin-left: 2em;
+  margin-top: 2em;
+  position: sticky;
+  top: 1em;
+  left: 0;
+  &:hover {
+    .navMenuModal__icon{
+      display: none;
+    }
+    .navMenuContainer {
+      transform: translateX(0);
+    }
+  }
+}
+
+.navMenuModal__icon {
+  cursor: pointer;
+}
+
+.navMenuContainer {
   width: 80%;
   position: sticky;
   top: 1em;
   left: 0;
   padding: 1em;
   background: $colorSecondary;
-  margin-top: 2em;
-  margin-left: 2em;
   border-radius: 8px;
   box-shadow: $boxShadowCard;
   display: flex;
   flex-flow: column;
   align-items: center;
+  transform: translateX(-400%);
+  transition: All 300ms ease-out;
 }
+
 .navMenuContainer__title {
   text-align:center;
    margin-bottom: 2em;

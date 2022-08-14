@@ -172,6 +172,11 @@ export default function Card() {
 
         const isUserPost = user._id === userPoster._id || user.isAdmin === 1
 
+        const clickHandler = (id) => {
+          console.log('index =>', id)
+          setIsUpdated(!isUpdated)
+        }
+
         return (
           <li className="cardContainer" key={index}>
             {isLoading ? (
@@ -187,8 +192,8 @@ export default function Card() {
                       {isUserPost && (
                         <>
                           <FontAwesomeIcon
-                            onClick={(e) => {
-                              setIsUpdated(!isUpdated)
+                            onClick={() => {
+                              clickHandler(post._id)
                             }}
                             className="postFlow__container__header__iconContainer__icon"
                             icon={faPenToSquare}

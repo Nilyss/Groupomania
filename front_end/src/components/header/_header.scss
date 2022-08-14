@@ -12,6 +12,9 @@
 }
 
 .showUser {
+  @media(max-width: $breakpointMobile) {
+    margin-top: 1em;
+  }
   display: flex;
   align-items: center;
   width: 30%;
@@ -19,6 +22,9 @@
 }
 
 .showUser__pp {
+  @media(max-width: $breakpointMobile) {
+    display: none;
+  }
   width: 75px;
   height: 75px;
   object-fit: cover;
@@ -32,6 +38,9 @@
 }
 
 .showUser__name {
+  @media(max-width: $breakpointMobile) {
+    display: none;
+  }
   font-size: 1.3em;
   &:after {
     content: '';
@@ -47,6 +56,9 @@
 }
 
 .homeMain__fig {
+  @media(max-width: $breakpointMobile){
+    margin-bottom: 1em;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -55,6 +67,10 @@
 }
 
 .homeMain__fig__logo {
+  @media(max-width: $breakpointMobile){
+    width: 50px;
+    height: 50px;
+  }
   width: 200px;
   height: 200px;
   object-fit: contain;

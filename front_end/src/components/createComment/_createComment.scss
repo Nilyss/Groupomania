@@ -25,6 +25,10 @@
 }
 
 .comment__form__button{
+  @media (max-width: $breakpointMobile) {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
   @include submitButton;
   margin: auto;
 }

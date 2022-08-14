@@ -2,6 +2,14 @@
 @import '../../utils/styles/scss/utils/mixins';
 
 .createPost {
+  @media (max-width: $breakpointMobile) {
+    margin-top: 0;
+    width: 100%;
+    padding: .5em;
+    border-radius: 0;
+    background: none;
+    box-shadow: none;
+  }
   margin: auto;
   margin-top: 2em;
   margin-bottom: 2em;
@@ -21,6 +29,9 @@
 }
 
 .createPost__body__form__top {
+  @media (max-width: $breakpointMobile) {
+    flex-flow: wrap;
+  }
   display: flex;
   width: 100%;
   align-items: center;
@@ -42,6 +53,10 @@
 }
 
 .createPost__body__form__top__textArea {
+  @media(max-width: $breakpointMobile) {
+    margin-top: .5em;
+    width: 100%;
+  }
   width: 60%;
   height: 50px;
   font-size: 16px;
@@ -53,6 +68,10 @@
 }
 
 .createPost__body__form__bottom {
+  @media (max-width: $breakpointMobile) {
+    justify-content: center;
+    margin-bottom: .5em;
+  }
   display: flex;
   margin-top: 1em;
   align-items: center;

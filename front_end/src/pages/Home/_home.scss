@@ -13,6 +13,10 @@
 }
 
 .sectionMain {
+  @media(max-width: $breakpointMobile) {
+    width: 100%;
+    background: none;
+  }
   width: 50%;
   border-radius: 8px;
   background: $colorTertiary;
@@ -25,11 +29,17 @@
 }
 
 .sectionNavMenu{
+  @media(max-width: $breakpointMobile) {
+    width: 0;
+  }
   width: 25%;
 }
 
 
 .sectionUserList{
+  @media(max-width: $breakpointMobile) {
+    display: none;
+  }
   width: 25%;
   display: flex;
   flex-flow: column nowrap;
