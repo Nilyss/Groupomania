@@ -5,30 +5,30 @@
   @media(max-width: $breakpointMobile) {
     position: absolute;
     z-index: 999;
-    display: none;
+    top: -1.5em;
+    width: 100%;
+    margin: 0;
   }
-  cursor: pointer;
   margin-left: 2em;
   margin-top: 2em;
   position: sticky;
   top: 1em;
   left: 0;
-  &:hover {
-    .navMenuModal__icon{
-      display: none;
-    }
-    .navMenuContainer {
-      transform: translateX(0);
-    }
-  }
 }
 
 .navMenuModal__icon {
+  @media(max-width: $breakpointMobile) {
+    font-size: 1.4em;
+    margin-left: 2em;
+    margin-top: 1.2em;
+  }
   cursor: pointer;
 }
 
 .navMenuContainer {
-  width: 80%;
+  @media(max-width: $breakpointMobile) {
+    margin-left: 2em;
+  }
   position: sticky;
   top: 1em;
   left: 0;
@@ -39,8 +39,8 @@
   display: flex;
   flex-flow: column;
   align-items: center;
-  transform: translateX(-400%);
-  transition: All 300ms ease-out;
+  max-width: 80%;
+  width: 0;
 }
 
 .navMenuContainer__title {

@@ -12,6 +12,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
 // components
 import CreateComment from '../createComment/createComment'
@@ -32,6 +33,7 @@ export default function Card() {
 
   // post edit state
   const [isUpdated, setIsUpdated] = useState(false)
+  const [userEnCours, setUserEnCours] = useState('')
   const [messageUpdate, setMessageUpdate] = useState(null)
 
   // comment edit state
@@ -95,86 +97,48 @@ export default function Card() {
 
         async function handleLike(e) {
           e.preventDefault()
+          console.log('POST.LIKERS =>', post.likers)
+          console.log('USER._ID  =>', user._id)
 
-          if (post.likers.length < 1) {
+          if (!post.likers.find((likers) => likers.likerId === user._id)) {
+            console.log('LIKE ROUTE')
             const likeData = {
-              likes: 1,
+              like: 1,
               likerId: user._id,
             }
-            try {
-              axios({
-                method: 'post',
-                url:
-                  `${process.env.REACT_APP_API_URL}articles/` +
-                  post._id +
-                  '/like',
-                data: likeData,
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              }).then((res) => {
-                getPosts()
-              })
-            } catch (error) {
-              console.log(error)
-            }
+            console.log('LIKE DATA =>', likeData)
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              likeData
+            )
+            getPosts()
           }
+          if (post.likers.find((likers) => likers.likerId === user._id)) {
+            console.log('UNLIKE ROUTE')
+            const unlikeData = {
+              like: 0,
+              likerId: user._id,
+            }
+            console.log('UNLIKE DATA =>', unlikeData)
+            axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              unlikeData
+            )
 
-          post.likers.find((e) => {
-            if (e.likerId === user._id) {
-              const unlikeData = {
-                likerId: e.likerId,
-                _id: e._id,
-              }
-              try {
-                axios({
-                  method: 'post',
-                  url:
-                    `${process.env.REACT_APP_API_URL}articles/` +
-                    post._id +
-                    '/like',
-                  data: unlikeData,
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                }).then((res) => {
-                  getPosts()
-                })
-              } catch (error) {
-                console.log(error)
-              }
-            }
-            if (e.likerId !== user._id) {
-              const likeData = {
-                likes: 1,
-                likerId: user._id,
-              }
-              try {
-                axios({
-                  method: 'post',
-                  url:
-                    `${process.env.REACT_APP_API_URL}articles/` +
-                    post._id +
-                    '/like',
-                  data: likeData,
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                }).then((res) => {
-                  getPosts()
-                })
-              } catch (error) {
-                console.log(error)
-              }
-            }
-          })
+            getPosts()
+          }
+        }
+
+        async function handleDislike(e) {
+          e.preventDefault()
         }
 
         const isUserPost = user._id === userPoster._id || user.isAdmin === 1
 
         const clickHandler = (id) => {
-          console.log('index =>', id)
+          console.log('index =>', index)
           setIsUpdated(!isUpdated)
+          setUserEnCours(id)
         }
 
         return (
@@ -232,7 +196,7 @@ export default function Card() {
                       className="likeIcon"
                       icon={faThumbsUp}
                     />
-                    <p className="likeIcon__number">
+                    <p className="likeIcon__quantity">
                       {isLoading ? (
                         <FontAwesomeIcon
                           icon={faSpinner}
@@ -243,13 +207,30 @@ export default function Card() {
                       )}
                     </p>
                   </div>
+                  <div>
+                    <FontAwesomeIcon
+                      onClick={handleDislike}
+                      className="dislikeIcon"
+                      icon={faThumbsDown}
+                    />
+                    <p className="dislikeIcon__quantity">
+                      {isLoading ? (
+                        <FontAwesomeIcon
+                          icon={faSpinner}
+                          className="fa-spin fa-2x postFlow"
+                        />
+                      ) : (
+                        post.dislikes
+                      )}
+                    </p>
+                  </div>
                   <div className="postFlow__container__body">
-                    {isUpdated === false && (
+                    {(isUpdated === false || userEnCours !== post._id) && (
                       <p className="postFlow__container__body__text">
                         {post.message}
                       </p>
                     )}
-                    {isUpdated === true && (
+                    {isUpdated === true && userEnCours === post._id && (
                       <div className="updatePost">
                         <textarea
                           className="updatePost__textarea"
