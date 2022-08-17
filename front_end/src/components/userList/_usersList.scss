@@ -2,6 +2,9 @@
 @import '../../utils/styles/scss/utils/mixins';
 
 .userListContainer{
+  @media (max-width: $breakpointMobile) {
+    display: none;
+  }
   width: 80%;
   display: flex;
   flex-flow: wrap;

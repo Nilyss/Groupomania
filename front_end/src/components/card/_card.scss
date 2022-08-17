@@ -5,7 +5,10 @@
   position: relative;
 }
 
-.postFlow__container__header__iconContainer{
+.postFlow__container__header__iconContainer {
+  @media(max-width: $breakpointMobile) {
+    padding: .5em;
+  }
   display: flex;
   justify-content: space-between;
   font-size: 1.2em;
@@ -19,6 +22,10 @@
 }
 
 .likeIcon {
+  @media(max-width: $breakpointMobile) {
+    top: 8em;
+    left: .5em;
+  }
   position: absolute;
   top: 8.2em;
   left: 1.8em;
@@ -30,18 +37,52 @@
   }
 }
 
-.likeIcon__number{
+.likeIconTrue {
+  color: rgb(39, 173, 33);
+}
+
+.dislikeIconTrue {
+color: red;
+}
+
+.likeIcon__quantity {
+  @media(max-width: $breakpointMobile) {
+    top: 9.7em;
+    left: 2em;
+  }
   position: absolute;
   top: 9.8em;
   left: 3.8em;
   font-size: 1em;
 }
 
+.dislikeIcon {
+  position: absolute;
+  top: 8.4em;
+  left: 4.3em;
+  font-size: 1.2em;
+  cursor:  pointer;
+  transition: all 200ms ease-out;
+  &:hover {
+    transform: scale(1.1)
+  }
+}
+
+.dislikeIcon__quantity {
+  position: absolute;
+  top: 9.8em;
+  left: 6.8em;
+  font-size: 1em;
+}
+
 .postFlow__container__commentTitle {
+  @media(max-width: $breakpointMobile) {
+    margin-top: 1em;
+  }
   margin-top: 2em;
   font-size: 1.2em;
   &:after {
-    content: '';
+      content: '';
     display: flex;
     margin: auto;
     margin-top: 0.5em;
@@ -53,7 +94,12 @@
 }
 
 .comment {
+  @media(max-width: $breakpointMobile) {
+    margin-top: 3em;
+
+  }
   background: $colorTertiary;
+  text-align: left;
   margin-top: 2em;
   padding: 1em;
   border-radius: 8px;
@@ -69,7 +115,11 @@
   position: relative;
 }
 
-.comment__header__editIcon{
+.comment__header__editIcon {
+  @media(max-width: $breakpointMobile) {
+    top: -2.3em;
+    left: 0;
+  }
   color: #ffffff;
   position: absolute;
   top: -.5em;
@@ -81,7 +131,11 @@
   }
 }
 
-.comment__header__deleteIcon{
+.comment__header__deleteIcon {
+  @media(max-width: $breakpointMobile) {
+    top: -2.3em;
+    right: 0;
+  }
   color: #ffffff;
   position: absolute;
   right: -2.1em;
@@ -122,7 +176,7 @@
   border-radius: 8px;
 }
 
-.updatePost__buttonContainer{
+.updatePost__buttonContainer {
   margin-top: 1em;
   display: flex;
   align-items: center;

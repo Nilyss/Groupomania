@@ -2,6 +2,7 @@
 @import '../../utils/styles/scss/utils/mixins';
 
 .userSettingsMain{
+  overflow: hidden;
   border-radius: 2em;
   background: url('../../assets/appbackground.webp') no-repeat fixed center;
   background-size: cover;
@@ -15,6 +16,11 @@
 }
 
 .userSettingsMain__form {
+  @media (max-width: $breakpointMobile) {
+    background: none;
+    padding: 0;
+    border: none;
+  }
   margin: 2em;
   padding: 4em;
   background: $colorSecondary;
@@ -89,6 +95,9 @@
 }
 
 .userSettingsMain__form__body__form__button{
+  @media(max-width: $breakpointMobile) {
+    margin-bottom: 0;
+  }
   @include submitButton;
   margin:auto;
   margin-bottom: -2em;

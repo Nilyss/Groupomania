@@ -12,6 +12,7 @@ import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
 // components
 import CreateComment from '../createComment/createComment'
@@ -32,6 +33,7 @@ export default function Card() {
 
   // post edit state
   const [isUpdated, setIsUpdated] = useState(false)
+  const [userEnCours, setUserEnCours] = useState('')
   const [messageUpdate, setMessageUpdate] = useState(null)
 
   // comment edit state
@@ -96,81 +98,85 @@ export default function Card() {
         async function handleLike(e) {
           e.preventDefault()
 
-          if (post.likers.length < 1) {
+          // if the user like an article
+          if (!post.likers.find((likers) => likers.likerId === user._id)) {
             const likeData = {
-              likes: 1,
+              like: 1,
               likerId: user._id,
             }
-            try {
-              axios({
-                method: 'post',
-                url:
-                  `${process.env.REACT_APP_API_URL}articles/` +
-                  post._id +
-                  '/like',
-                data: likeData,
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-              }).then((res) => {
-                getPosts()
-              })
-            } catch (error) {
-              console.log(error)
-            }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              likeData
+            )
+            getPosts()
           }
-
-          post.likers.find((e) => {
-            if (e.likerId === user._id) {
-              const unlikeData = {
-                likerId: e.likerId,
-                _id: e._id,
-              }
-              try {
-                axios({
-                  method: 'post',
-                  url:
-                    `${process.env.REACT_APP_API_URL}articles/` +
-                    post._id +
-                    '/like',
-                  data: unlikeData,
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                }).then((res) => {
-                  getPosts()
-                })
-              } catch (error) {
-                console.log(error)
-              }
+          // if the user unlike an article
+          if (post.likers.find((likers) => likers.likerId === user._id)) {
+            const unlikeData = {
+              like: 0,
+              likerId: user._id,
             }
-            if (e.likerId !== user._id) {
-              const likeData = {
-                likes: 1,
-                likerId: user._id,
-              }
-              try {
-                axios({
-                  method: 'post',
-                  url:
-                    `${process.env.REACT_APP_API_URL}articles/` +
-                    post._id +
-                    '/like',
-                  data: likeData,
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                }).then((res) => {
-                  getPosts()
-                })
-              } catch (error) {
-                console.log(error)
-              }
-            }
-          })
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              unlikeData
+            )
+            getPosts()
+          }
         }
 
+        async function handleDislike(e) {
+          e.preventDefault()
+
+          // if the user dislike an article
+          if (
+            !post.disLikers.find(
+              (dislikers) => dislikers.disLikerId === user._id
+            )
+          ) {
+            const dislikeData = {
+              like: -1,
+              disLikerId: user._id,
+            }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              dislikeData
+            )
+            getPosts()
+          }
+
+          // if the user un dislike an article
+          if (
+            post.disLikers.find(
+              (dislikers) => dislikers.disLikerId === user._id
+            )
+          ) {
+            const undislikeData = {
+              like: 0,
+              disLikerId: user._id,
+            }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              undislikeData
+            )
+            getPosts()
+          }
+        }
+
+        // Condition for deletion and editing post
         const isUserPost = user._id === userPoster._id || user.isAdmin === 1
+
+        // Condition for showing like or dislike button, if the post was already disliked or liked
+        const isLiked = post.likers.find(
+          (likers) => likers.likerId === user._id
+        )
+        const isDisliked = post.disLikers.find(
+          (dislikers) => dislikers.disLikerId === user._id
+        )
+
+        const clickHandler = (id) => {
+          setIsUpdated(!isUpdated)
+          setUserEnCours(id)
+        }
 
         return (
           <li className="cardContainer" key={index}>
@@ -187,8 +193,8 @@ export default function Card() {
                       {isUserPost && (
                         <>
                           <FontAwesomeIcon
-                            onClick={(e) => {
-                              setIsUpdated(!isUpdated)
+                            onClick={() => {
+                              clickHandler(post._id)
                             }}
                             className="postFlow__container__header__iconContainer__icon"
                             icon={faPenToSquare}
@@ -222,12 +228,24 @@ export default function Card() {
                     />
                   </figure>
                   <div>
-                    <FontAwesomeIcon
-                      onClick={handleLike}
-                      className="likeIcon"
-                      icon={faThumbsUp}
-                    />
-                    <p className="likeIcon__number">
+                    {isDisliked ? (
+                      <FontAwesomeIcon className="likeIcon" icon={faThumbsUp} />
+                    ) : (
+                      <FontAwesomeIcon
+                        onClick={handleLike}
+                        className="likeIcon"
+                        icon={faThumbsUp}
+                      />
+                    )}
+                    {isLiked && (
+                      <FontAwesomeIcon
+                        onClick={handleLike}
+                        className="likeIcon likeIconTrue"
+                        icon={faThumbsUp}
+                      />
+                    )}
+
+                    <p className="likeIcon__quantity">
                       {isLoading ? (
                         <FontAwesomeIcon
                           icon={faSpinner}
@@ -238,13 +256,44 @@ export default function Card() {
                       )}
                     </p>
                   </div>
+                  <div>
+                    {isLiked ? (
+                      <FontAwesomeIcon
+                        className="dislikeIcon"
+                        icon={faThumbsDown}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        onClick={handleDislike}
+                        className="dislikeIcon"
+                        icon={faThumbsDown}
+                      />
+                    )}
+                    {isDisliked && (
+                      <FontAwesomeIcon
+                        onClick={handleDislike}
+                        className="dislikeIcon dislikeIconTrue"
+                        icon={faThumbsDown}
+                      />
+                    )}
+                    <p className="dislikeIcon__quantity">
+                      {isLoading ? (
+                        <FontAwesomeIcon
+                          icon={faSpinner}
+                          className="fa-spin fa-2x postFlow"
+                        />
+                      ) : (
+                        post.dislikes
+                      )}
+                    </p>
+                  </div>
                   <div className="postFlow__container__body">
-                    {isUpdated === false && (
+                    {(isUpdated === false || userEnCours !== post._id) && (
                       <p className="postFlow__container__body__text">
                         {post.message}
                       </p>
                     )}
-                    {isUpdated === true && (
+                    {isUpdated === true && userEnCours === post._id && (
                       <div className="updatePost">
                         <textarea
                           className="updatePost__textarea"
