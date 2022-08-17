@@ -97,46 +97,74 @@ export default function Card() {
 
         async function handleLike(e) {
           e.preventDefault()
-          console.log('POST.LIKERS =>', post.likers)
-          console.log('USER._ID  =>', user._id)
 
+          // if the user like an article
           if (!post.likers.find((likers) => likers.likerId === user._id)) {
-            console.log('LIKE ROUTE')
             const likeData = {
               like: 1,
               likerId: user._id,
             }
-            console.log('LIKE DATA =>', likeData)
             await axios.post(
               `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
               likeData
             )
             getPosts()
           }
+          // if the user unlike an article
           if (post.likers.find((likers) => likers.likerId === user._id)) {
-            console.log('UNLIKE ROUTE')
             const unlikeData = {
               like: 0,
               likerId: user._id,
             }
-            console.log('UNLIKE DATA =>', unlikeData)
-            axios.post(
+            await axios.post(
               `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
               unlikeData
             )
-
             getPosts()
           }
         }
 
         async function handleDislike(e) {
           e.preventDefault()
+
+          // if the user dislike an article
+          if (
+            !post.disLikers.find(
+              (dislikers) => dislikers.disLikerId === user._id
+            )
+          ) {
+            const dislikeData = {
+              like: -1,
+              disLikerId: user._id,
+            }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              dislikeData
+            )
+            getPosts()
+          }
+
+          // if the user un dislike an article
+          if (
+            post.disLikers.find(
+              (dislikers) => dislikers.disLikerId === user._id
+            )
+          ) {
+            const undislikeData = {
+              like: 0,
+              disLikerId: user._id,
+            }
+            await axios.post(
+              `${process.env.REACT_APP_API_URL}articles/` + post._id + '/like',
+              undislikeData
+            )
+            getPosts()
+          }
         }
 
         const isUserPost = user._id === userPoster._id || user.isAdmin === 1
 
         const clickHandler = (id) => {
-          console.log('index =>', index)
           setIsUpdated(!isUpdated)
           setUserEnCours(id)
         }

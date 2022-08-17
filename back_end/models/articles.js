@@ -28,7 +28,7 @@ const articleSchema = new mongoose.Schema(
     },
 
     disLikers: {
-      type: Array({ dislikerId: String }),
+      type: Array({ disLikerId: String }),
       require: true,
     },
 
