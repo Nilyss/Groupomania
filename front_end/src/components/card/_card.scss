@@ -37,6 +37,14 @@
   }
 }
 
+.likeIconTrue {
+  color: rgb(39, 173, 33);
+}
+
+.dislikeIconTrue {
+color: red;
+}
+
 .likeIcon__quantity {
   @media(max-width: $breakpointMobile) {
     top: 9.7em;

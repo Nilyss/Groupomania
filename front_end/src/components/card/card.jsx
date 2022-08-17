@@ -162,7 +162,16 @@ export default function Card() {
           }
         }
 
+        // Condition for deletion and editing post
         const isUserPost = user._id === userPoster._id || user.isAdmin === 1
+
+        // Condition for showing like or dislike button, if the post was already disliked or liked
+        const isLiked = post.likers.find(
+          (likers) => likers.likerId === user._id
+        )
+        const isDisliked = post.disLikers.find(
+          (dislikers) => dislikers.disLikerId === user._id
+        )
 
         const clickHandler = (id) => {
           setIsUpdated(!isUpdated)
@@ -219,11 +228,23 @@ export default function Card() {
                     />
                   </figure>
                   <div>
-                    <FontAwesomeIcon
-                      onClick={handleLike}
-                      className="likeIcon"
-                      icon={faThumbsUp}
-                    />
+                    {isDisliked ? (
+                      <FontAwesomeIcon className="likeIcon" icon={faThumbsUp} />
+                    ) : (
+                      <FontAwesomeIcon
+                        onClick={handleLike}
+                        className="likeIcon"
+                        icon={faThumbsUp}
+                      />
+                    )}
+                    {isLiked && (
+                      <FontAwesomeIcon
+                        onClick={handleLike}
+                        className="likeIcon likeIconTrue"
+                        icon={faThumbsUp}
+                      />
+                    )}
+
                     <p className="likeIcon__quantity">
                       {isLoading ? (
                         <FontAwesomeIcon
@@ -236,11 +257,25 @@ export default function Card() {
                     </p>
                   </div>
                   <div>
-                    <FontAwesomeIcon
-                      onClick={handleDislike}
-                      className="dislikeIcon"
-                      icon={faThumbsDown}
-                    />
+                    {isLiked ? (
+                      <FontAwesomeIcon
+                        className="dislikeIcon"
+                        icon={faThumbsDown}
+                      />
+                    ) : (
+                      <FontAwesomeIcon
+                        onClick={handleDislike}
+                        className="dislikeIcon"
+                        icon={faThumbsDown}
+                      />
+                    )}
+                    {isDisliked && (
+                      <FontAwesomeIcon
+                        onClick={handleDislike}
+                        className="dislikeIcon dislikeIconTrue"
+                        icon={faThumbsDown}
+                      />
+                    )}
                     <p className="dislikeIcon__quantity">
                       {isLoading ? (
                         <FontAwesomeIcon
