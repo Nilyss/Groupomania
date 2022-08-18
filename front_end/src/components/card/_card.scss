@@ -21,17 +21,19 @@
   }
 }
 
+.likeSection {
+  display: flex;
+  margin-top: 1em;
+}
+
 .likeIcon {
-  @media(max-width: $breakpointMobile) {
-    top: 8em;
-    left: .5em;
-  }
-  position: absolute;
-  top: 8.2em;
-  left: 1.8em;
   font-size: 1.2em;
   cursor: pointer;
   transition: all 200ms ease-out;
+  position: relative;
+  top: 0;
+  left: .5em;
+  z-index: 0;
   &:hover {
     transform: scale(1.1)
   }
@@ -39,40 +41,45 @@
 
 .likeIconTrue {
   color: rgb(39, 173, 33);
+  position: relative;
+  margin-right: -1em;
+  top: 0;
+  left: -.5em;
+  z-index: 1;
 }
 
 .dislikeIconTrue {
 color: red;
+  position: relative;
+  top: .2em;
+  left: 2em;
+  margin-left: -1em;
 }
 
 .likeIcon__quantity {
-  @media(max-width: $breakpointMobile) {
-    top: 9.7em;
-    left: 2em;
-  }
-  position: absolute;
-  top: 9.8em;
-  left: 3.8em;
+  position: relative;
+  top: 0;
+  left: 1em;
   font-size: 1em;
 }
 
 .dislikeIcon {
-  position: absolute;
-  top: 8.4em;
-  left: 4.3em;
   font-size: 1.2em;
   cursor:  pointer;
   transition: all 200ms ease-out;
+  position: relative;
+  top: .2em;
+  left: 2em;
   &:hover {
     transform: scale(1.1)
   }
 }
 
 .dislikeIcon__quantity {
-  position: absolute;
-  top: 9.8em;
-  left: 6.8em;
   font-size: 1em;
+  position: relative;
+  top: 0;
+  left: 2.8em;
 }
 
 .postFlow__container__commentTitle {

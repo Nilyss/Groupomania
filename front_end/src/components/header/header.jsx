@@ -42,11 +42,13 @@ export default function Header() {
           <p className="showUser__name">Welcome {user.firstName} !</p>
         </div>
         <figure className="homeMain__fig">
-          <img
-            className="homeMain__fig__logo"
-            src={logoOrange}
-            alt="logo Groupomania"
-          />
+          <Link to={'/home'}>
+            <img
+              className="homeMain__fig__logo"
+              src={logoOrange}
+              alt="logo Groupomania"
+            />
+          </Link>
         </figure>
       </header>
     </>

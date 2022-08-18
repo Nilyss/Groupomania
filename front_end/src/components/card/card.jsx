@@ -227,7 +227,31 @@ export default function Card() {
                       alt=""
                     />
                   </figure>
-                  <div>
+                  <div className="postFlow__container__body">
+                    {(isUpdated === false || userEnCours !== post._id) && (
+                      <p className="postFlow__container__body__text">
+                        {post.message}
+                      </p>
+                    )}
+                    {isUpdated === true && userEnCours === post._id && (
+                      <div className="updatePost">
+                        <textarea
+                          className="updatePost__textarea"
+                          defaultValue={post.message}
+                          onChange={(e) => setMessageUpdate(e.target.value)}
+                        />
+                        <div className="updatePost__buttonContainer">
+                          <button
+                            onClick={(e) => updateArticle(e)}
+                            className="updatePost__buttonContainer__button"
+                          >
+                            Edit post
+                          </button>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  <div className="likeSection">
                     {isDisliked ? (
                       <FontAwesomeIcon className="likeIcon" icon={faThumbsUp} />
                     ) : (
@@ -244,7 +268,6 @@ export default function Card() {
                         icon={faThumbsUp}
                       />
                     )}
-
                     <p className="likeIcon__quantity">
                       {isLoading ? (
                         <FontAwesomeIcon
@@ -255,8 +278,6 @@ export default function Card() {
                         post.likes
                       )}
                     </p>
-                  </div>
-                  <div>
                     {isLiked ? (
                       <FontAwesomeIcon
                         className="dislikeIcon"
@@ -286,30 +307,6 @@ export default function Card() {
                         post.dislikes
                       )}
                     </p>
-                  </div>
-                  <div className="postFlow__container__body">
-                    {(isUpdated === false || userEnCours !== post._id) && (
-                      <p className="postFlow__container__body__text">
-                        {post.message}
-                      </p>
-                    )}
-                    {isUpdated === true && userEnCours === post._id && (
-                      <div className="updatePost">
-                        <textarea
-                          className="updatePost__textarea"
-                          defaultValue={post.message}
-                          onChange={(e) => setMessageUpdate(e.target.value)}
-                        />
-                        <div className="updatePost__buttonContainer">
-                          <button
-                            onClick={(e) => updateArticle(e)}
-                            className="updatePost__buttonContainer__button"
-                          >
-                            Edit post
-                          </button>
-                        </div>
-                      </div>
-                    )}
                   </div>
                   <h4 className="postFlow__container__commentTitle">
                     Comments
