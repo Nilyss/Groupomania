@@ -17,6 +17,7 @@
   background: $colorSecondary;
   border: $borderCard;
   border-radius: 1em;
+  color: $colorTertiary;
 }
 
 .auth__header {
@@ -155,5 +156,16 @@
   &:active {
     box-shadow: #fd2d01 0 3px 7px inset;
     transform: translateY(2px);
+  }
+}
+
+.createAccount {
+  display: flex;
+  color: $colorTertiary;
+  justify-content: center;
+  gap: 1em;
+  &__create {
+    color: #0645AD;
+    cursor: pointer;
   }
 }

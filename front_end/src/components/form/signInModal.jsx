@@ -78,7 +78,15 @@ export default function SignInModal() {
                 </div>
               </div>
               <button className="auth__body__form__submit">Enter</button>
-              <Link to="#">Forgot Password ?</Link>
+              <div className="createAccount">
+                <p className="createAccount__p">No account ? </p>
+                <p
+                  className="createAccount__create"
+                  onClick={() => toggleModals('signUp')}
+                >
+                  Create one !
+                </p>
+              </div>
             </form>
           </div>
         </section>
@@ -86,30 +94,3 @@ export default function SignInModal() {
     </>
   )
 }
-
-// try {
-//   axios({
-//     method: 'post',
-//     url: `${process.env.REACT_APP_API_URL}signin`,
-//     withCredentials: true,
-//     userData,
-//   }).then((res) => {
-//     if (res.status === 200) {
-//       navigate('/home', { replace: true })
-//     } else {
-//       console.log('An internal error occurred')
-//     }
-//   })
-
-//   axios
-//       .post(`${process.env.REACT_APP_API_URL}signin`, userData)
-//       .then((res) => {
-//         if (res.status === 200) {
-//           navigate('/home', { replace: true })
-//         } else {
-//           console.error('invalid identification')
-//         }
-//       })
-// } catch (err) {
-//   console.log(err, 'An internal error occurred')
-// }

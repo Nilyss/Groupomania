@@ -13,6 +13,7 @@
   justify-content: space-between;
   font-size: 1.2em;
   &__icon{
+    color: $colorTertiary;
     cursor: pointer;
     transition: all 300ms ease-in-out;
     &:hover {
@@ -24,6 +25,7 @@
 .likeSection {
   display: flex;
   margin-top: 1em;
+  color: $colorTertiary;
 }
 
 .likeIcon {
@@ -127,7 +129,7 @@ color: red;
     top: -2.3em;
     left: 0;
   }
-  color: #ffffff;
+  color: $colorTertiary;
   position: absolute;
   top: -.5em;
   right: -2.2em;
@@ -143,7 +145,7 @@ color: red;
     top: -2.3em;
     right: 0;
   }
-  color: #ffffff;
+  color: $colorTertiary;
   position: absolute;
   right: -2.1em;
   cursor: pointer;
