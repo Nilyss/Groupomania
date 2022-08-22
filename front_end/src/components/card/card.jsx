@@ -25,7 +25,7 @@ export default function Card() {
 
   // post edit state
   const [isUpdated, setIsUpdated] = useState(false)
-  const [userEnCours, setUserEnCours] = useState('')
+  const [targetElement, setTargetElement] = useState('')
   const [messageUpdate, setMessageUpdate] = useState(null)
 
   // comment edit state
@@ -149,9 +149,14 @@ export default function Card() {
           (dislikers) => dislikers.disLikerId === user._id
         )
 
-        const clickHandler = (id) => {
+        const handleEditPost = (id) => {
           setIsUpdated(!isUpdated)
-          setUserEnCours(id)
+          setTargetElement(id)
+        }
+
+        const handleEditComment = (id) => {
+          setCommentIsUpdated(!commentIsUpdated)
+          setTargetElement(id)
         }
 
         return (
@@ -170,7 +175,7 @@ export default function Card() {
                         <>
                           <FontAwesomeIcon
                             onClick={() => {
-                              clickHandler(post._id)
+                              handleEditPost(post._id)
                             }}
                             className="postFlow__container__header__iconContainer__icon"
                             icon={faPenToSquare}
@@ -204,12 +209,12 @@ export default function Card() {
                     />
                   </figure>
                   <div className="postFlow__container__body">
-                    {(isUpdated === false || userEnCours !== post._id) && (
+                    {(isUpdated === false || targetElement !== post._id) && (
                       <p className="postFlow__container__body__text">
                         {post.message}
                       </p>
                     )}
-                    {isUpdated === true && userEnCours === post._id && (
+                    {isUpdated === true && targetElement === post._id && (
                       <div className="updatePost">
                         <textarea
                           className="updatePost__textarea"
@@ -332,8 +337,8 @@ export default function Card() {
                           <div className="comment__header">
                             {isUserComment && (
                               <FontAwesomeIcon
-                                onClick={(e) => {
-                                  setCommentIsUpdated(!commentIsUpdated)
+                                onClick={() => {
+                                  handleEditComment(comment._id)
                                 }}
                                 className="comment__header__editIcon"
                                 icon={faPenToSquare}
@@ -361,30 +366,32 @@ export default function Card() {
                             )}
                           </div>
                           <div className="comment__body">
-                            {commentIsUpdated === false && (
+                            {(commentIsUpdated === false ||
+                              targetElement !== comment._id) && (
                               <p className="comment__body__message">
                                 {comment.text}
                               </p>
                             )}
-                            {commentIsUpdated === true && (
-                              <div className="updateComment">
-                                <textarea
-                                  className="updateComment__textarea"
-                                  defaultValue={comment.text}
-                                  onChange={(e) =>
-                                    setCommentUpdate(e.target.value)
-                                  }
-                                />
-                                <div className="updateComment__buttonContainer">
-                                  <button
-                                    onClick={(e) => updateComment(e)}
-                                    className="updateComment__buttonContainer__button"
-                                  >
-                                    Edit comment
-                                  </button>
+                            {commentIsUpdated === true &&
+                              targetElement === comment._id && (
+                                <div className="updateComment">
+                                  <textarea
+                                    className="updateComment__textarea"
+                                    defaultValue={comment.text}
+                                    onChange={(e) =>
+                                      setCommentUpdate(e.target.value)
+                                    }
+                                  />
+                                  <div className="updateComment__buttonContainer">
+                                    <button
+                                      onClick={(e) => updateComment(e)}
+                                      className="updateComment__buttonContainer__button"
+                                    >
+                                      Edit comment
+                                    </button>
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
                           </div>
                         </article>
                       </div>
