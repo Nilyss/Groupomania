@@ -11,12 +11,13 @@
   align-self: center;
   text-align: center;
   position: sticky;
-  top: 1em;
+  top: 4em;
   right: 0;
   padding: 1em;
   background: $colorSecondary;
-  margin-top: 2em;
+  margin-top: 5em;
   border-radius: 8px;
+  border: 2px solid $colorTertiary;
   box-shadow: $boxShadowCard;
   color: $colorTertiary;
 }

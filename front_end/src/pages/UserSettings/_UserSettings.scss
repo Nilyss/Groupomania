@@ -1,6 +1,20 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 
+.previousArrowIcon {
+  @media(max-width: $breakpointTablet) {
+    display: flex;
+    position: unset;
+    margin-bottom: .8em;
+    margin-left: 1em;
+  }
+  position: relative;
+  top: -3em;
+  left: 1.7em;
+  font-size: 2em;
+  color: $colorTertiary;
+}
+
 .userSettingsMain{
   overflow: hidden;
   border-radius: 2em;

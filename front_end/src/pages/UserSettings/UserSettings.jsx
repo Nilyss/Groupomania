@@ -11,8 +11,11 @@ import Footer from '../../components/footer/footer'
 // css
 import './_UserSettings.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import NavMenu from '../../components/navMenu/navMenu'
+import {
+  faImage,
+  faSpinner,
+  faArrowLeft,
+} from '@fortawesome/free-solid-svg-icons'
 
 export default function UserSettings() {
   axios.defaults.withCredentials = true
@@ -21,6 +24,11 @@ export default function UserSettings() {
   const [loadNewFile, setLoadNewFile] = useState(true)
   const [file, setFile] = useState(null)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
+  const arrowIcon = (
+    <Link to={'/home'}>
+      <FontAwesomeIcon icon={faArrowLeft} className="previousArrowIcon" />
+    </Link>
+  )
 
   async function handleFormSettings(e) {
     e.preventDefault()
@@ -35,7 +43,7 @@ export default function UserSettings() {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      }).then((res) => {
+      }).then(() => {
         getUser()
       })
     } catch (error) {
@@ -53,9 +61,12 @@ export default function UserSettings() {
     }
   }, [loadNewFile])
 
+  const isAdmin = user.isAdmin === 1
+
   return (
     <>
       <Header />
+      {arrowIcon}
       <main className="userSettingsMain">
         <section>
           <article className="userSettingsMain__form">
@@ -86,7 +97,8 @@ export default function UserSettings() {
                   <strong>email address:</strong> {user.email}
                 </p>
                 <p className="userSettingsMain__form__body__form__isAdmin">
-                  <strong>Is Admin ?</strong> {user.isAdmin}
+                  <strong>Administrator account: </strong>
+                  {isAdmin ? ' Yes' : ' No'}
                 </p>
                 <div className="userSettingsMain__form__body__form__inputs">
                   <figure className="userSettingsMain__form__body__form__fig">

@@ -37,9 +37,12 @@
   position: sticky;
   top: 1em;
   left: 0;
+  margin-top: 1em;
+  margin-left: 1em;
   padding: 1em;
   background: $colorSecondary;
   border: 2px solid $colorTertiary;
+  border-radius: 8px;
   box-shadow: $boxShadowCard;
   display: flex;
   flex-flow: column;
