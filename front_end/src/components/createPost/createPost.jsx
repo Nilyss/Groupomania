@@ -92,9 +92,6 @@ export default function CreatePost() {
                 href="#"
                 className="createPost__body__form__bottom__button__attachment"
               >
-                <div className="createPost__body__form__bottom__button__attachment__txt">
-                  Add photo or picture
-                </div>
                 <input
                   onChange={handleFileSelect}
                   accept=".jpg, .jpeg, .png"

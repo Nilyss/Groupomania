@@ -20,16 +20,8 @@ import CreateComment from '../createComment/createComment'
 axios.defaults.withCredentials = true
 
 export default function Card() {
-  const {
-    isLoading,
-    getPosts,
-    posts,
-    getOnePost,
-    getUsers,
-    users,
-    getUser,
-    user,
-  } = useContext(PostContext)
+  const { isLoading, getPosts, posts, getUsers, users, getUser, user } =
+    useContext(PostContext)
 
   // post edit state
   const [isUpdated, setIsUpdated] = useState(false)
@@ -41,31 +33,15 @@ export default function Card() {
   const [commentUpdate, setCommentUpdate] = useState(null)
 
   useEffect(() => {
-    async function fetchData() {
-      await getPosts()
-    }
-    fetchData()
+    getPosts()
   }, [])
 
   useEffect(() => {
-    async function fetchData() {
-      await getOnePost()
-    }
-    fetchData()
+    getUsers()
   }, [])
 
   useEffect(() => {
-    async function fetchData() {
-      await getUsers()
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    async function fetchData() {
-      await getUser()
-    }
-    fetchData()
+    getUser()
   }, [])
 
   return (

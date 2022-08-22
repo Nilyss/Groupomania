@@ -14,6 +14,9 @@
 
 .sectionMain {
   @media(max-width: $breakpointMobile) {
+    background: none;
+  }
+  @media(max-width: $breakpointTablet) {
     width: 100%;
     background: none;
   }
@@ -29,7 +32,7 @@
 }
 
 .sectionNavMenu{
-  @media(max-width: $breakpointMobile) {
+  @media(max-width: $breakpointTablet) {
     width: 0;
   }
   width: 25%;
@@ -37,7 +40,7 @@
 
 
 .sectionUserList{
-  @media(max-width: $breakpointMobile) {
+  @media(max-width: $breakpointTablet) {
     display: none;
   }
   width: 25%;
