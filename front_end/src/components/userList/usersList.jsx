@@ -17,31 +17,32 @@ export default function UsersList() {
       <div className="userListContainer">
         <h3 className="userListContainer__Title">Users list</h3>
         <ul className="userListContainer__ul">
-          {users.map((user, index) => {
-            return (
-              <li className="userListContainer__ul__list" key={index}>
-                {isLoading ? (
-                  <FontAwesomeIcon
-                    icon={faSpinner}
-                    className="fa-spin fa-2x postFlow"
-                  />
-                ) : (
-                  <>
-                    <figure>
-                      <img
-                        className="userListContainer__ul__list__img"
-                        src={user.profilePicture}
-                        alt="user profile"
-                      />
-                    </figure>
-                    <h4 className="userListContainer__ul__list__name">
-                      {user.firstName} {user.lastName}
-                    </h4>
-                  </>
-                )}
-              </li>
-            )
-          })}
+          {users &&
+            users.map((user, index) => {
+              return (
+                <li className="userListContainer__ul__list" key={index}>
+                  {isLoading ? (
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      className="fa-spin fa-2x postFlow"
+                    />
+                  ) : (
+                    <>
+                      <figure>
+                        <img
+                          className="userListContainer__ul__list__img"
+                          src={user.profilePicture}
+                          alt="user profile"
+                        />
+                      </figure>
+                      <h4 className="userListContainer__ul__list__name">
+                        {user.firstName} {user.lastName}
+                      </h4>
+                    </>
+                  )}
+                </li>
+              )
+            })}
         </ul>
       </div>
     </>

@@ -6,7 +6,7 @@ export const PostContext = createContext()
 export const PostProvider = ({ children }) => {
   const [posts, setPosts] = useState([])
   const [post, setPost] = useState([])
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState(null)
   const [user, setUser] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 

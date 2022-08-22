@@ -75,10 +75,16 @@ li {
   margin: auto;
 }
 
+.link {
+  text-decoration: none;
+}
+
 .postFlow__container__postCreatedAt {
   display: flex;
   justify-content: flex-end;
   padding:.5em;
+  font-size: .8em;
+  color: $colorTertiary;
 }
 
 .postFlow__container__body__text {

@@ -96,10 +96,11 @@ export default function UserSettings() {
                 <p className="userSettingsMain__form__body__form__email">
                   <strong>email address:</strong> {user.email}
                 </p>
-                <p className="userSettingsMain__form__body__form__isAdmin">
-                  <strong>Administrator account: </strong>
-                  {isAdmin ? ' Yes' : ' No'}
-                </p>
+                {isAdmin && (
+                  <p className="userSettingsMain__form__body__form__isAdmin">
+                    <strong>Administrator account: </strong> Yes
+                  </p>
+                )}
                 <div className="userSettingsMain__form__body__form__inputs">
                   <figure className="userSettingsMain__form__body__form__fig">
                     <img
