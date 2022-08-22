@@ -214,7 +214,7 @@ export default function Card() {
                       <h5 className="postFlow__container__title">
                         {userPoster.firstName} {userPoster.lastName}
                       </h5>
-                      <Link to={`/post/id=${post._id}`} className="link">
+                      <Link to={`/post/${post._id}`} className="link">
                         <Moment
                           format="YYYY/MM/DD - HH:mm"
                           className="postFlow__container__postCreatedAt"
