@@ -7,6 +7,8 @@ import { PostContext } from '../../context'
 import './_card.scss'
 
 // libraries
+import Moment from 'react-moment'
+import 'moment-timezone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 import { faTrashCan } from '@fortawesome/free-solid-svg-icons'
@@ -159,6 +161,8 @@ export default function Card() {
           setTargetElement(id)
         }
 
+        const dateToFormat = `${post.createdAt}`
+
         return (
           <li className="cardContainer" key={index}>
             {isLoading ? (
@@ -208,6 +212,12 @@ export default function Card() {
                       alt=""
                     />
                   </figure>
+                  <Moment
+                    format="HH:mm - YYYY/MM/DD"
+                    className="postFlow__container__postCreatedAt"
+                  >
+                    {dateToFormat}
+                  </Moment>
                   <div className="postFlow__container__body">
                     {(isUpdated === false || targetElement !== post._id) && (
                       <p className="postFlow__container__body__text">

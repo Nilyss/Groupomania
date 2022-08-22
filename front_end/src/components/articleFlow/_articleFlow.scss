@@ -75,6 +75,12 @@ li {
   margin: auto;
 }
 
+.postFlow__container__postCreatedAt {
+  display: flex;
+  justify-content: flex-end;
+  padding:.5em;
+}
+
 .postFlow__container__body__text {
   @media(max-width: $breakpointMobile) {
     padding: .5em;
