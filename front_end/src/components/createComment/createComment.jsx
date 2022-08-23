@@ -15,24 +15,15 @@ export default function CreateComment({ commentId }) {
   const { getPosts, getOnePost, getUser, user } = useContext(PostContext)
 
   useEffect(() => {
-    async function fetchData() {
-      await getPosts()
-    }
-    fetchData()
+    getPosts()
   }, [])
 
   useEffect(() => {
-    async function fetchData() {
-      await getOnePost()
-    }
-    fetchData()
+    getOnePost()
   }, [])
 
   useEffect(() => {
-    async function fetchData() {
-      await getUser()
-    }
-    fetchData()
+    getUser()
   }, [])
 
   async function handleFormComment(e) {
@@ -53,6 +44,7 @@ export default function CreateComment({ commentId }) {
     } catch (error) {
       console.log(error)
     }
+    e.target['commentMessage'].value = ''
     await getPosts()
   }
 
