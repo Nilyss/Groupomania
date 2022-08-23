@@ -1,8 +1,7 @@
 // libraries
-import { useContext, useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { useContext, useState, useEffect } from 'react'
+import { Link, useParams, useNavigate } from 'react-router-dom'
 import Moment from 'react-moment'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faArrowLeft,
@@ -12,6 +11,7 @@ import {
   faThumbsUp,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
+import axios from 'axios'
 
 // context
 import { PostContext } from '../../context'
@@ -22,10 +22,10 @@ import Footer from '../../components/footer/footer'
 
 // css
 import './_onePost.scss'
-import axios from 'axios'
+import CreateComment from '../../components/createComment/createComment'
 
 export default function OnePost() {
-  const { isLoading, posts, user, getUsers, users } = useContext(PostContext)
+  const { isLoading, getPosts, posts, users, user } = useContext(PostContext)
 
   const arrowIcon = (
     <Link to={'/home'}>
@@ -33,30 +33,28 @@ export default function OnePost() {
     </Link>
   )
 
-  // useParams hook from react router dom for extract post id requested
-  let params = useParams()
+  //axios config
+  axios.defaults.withCredentials = true
 
-  // useState section
-  // post edit state
+  // states
   const [isUpdated, setIsUpdated] = useState(false)
   const [targetElement, setTargetElement] = useState('')
   const [messageUpdate, setMessageUpdate] = useState(null)
-
-  // comment edit state
   const [commentIsUpdated, setCommentIsUpdated] = useState(false)
   const [commentUpdate, setCommentUpdate] = useState(null)
 
-  // useEffect section
-  useEffect(() => {
-    getUsers()
-  }, [])
+  // useNavigate hook from react router dom for change page after deleting post
+  const navigate = useNavigate()
+
+  // useParams hook from react router dom for extract post id requested
+  let params = useParams()
 
   const getRequestedPost = posts.find((p) => p._id === params.id)
 
   // get the poster ID of article
   const userPoster = users.find((u) => u._id === getRequestedPost.posterId)
 
-  // Condition for deletion and editing post
+  // check if the connected user is the user poster of article or if it's an admin
   const isUserPost = user._id === userPoster._id || user.isAdmin === 1
 
   // Condition for showing like or dislike button, if the post was already disliked or liked
@@ -67,10 +65,21 @@ export default function OnePost() {
     (dislikers) => dislikers.disLikerId === user._id
   )
 
-  // format date for Moment libraries
+  // dateFormat for Moment libraries
   const dateToFormat = `${getRequestedPost.createdAt}`
 
+  // useEffect
+  useEffect(() => {
+    getPosts()
+  }, [])
+
   // handle function
+
+  const handleEditPost = (id) => {
+    setIsUpdated(!isUpdated)
+    setTargetElement(id)
+  }
+
   const updateArticle = async (e) => {
     e.preventDefault()
 
@@ -83,6 +92,21 @@ export default function OnePost() {
       data
     )
     setIsUpdated(!isUpdated)
+    getPosts()
+  }
+
+  const deletePost = async () => {
+    await axios
+      .delete(
+        `${process.env.REACT_APP_API_URL}articles/` + getRequestedPost._id
+      )
+      .then((res) => {
+        if (res.status === 200) {
+          navigate('/home', { replace: true })
+        } else {
+          console.log('error while redirect')
+        }
+      })
   }
 
   async function handleLike(e) {
@@ -102,6 +126,7 @@ export default function OnePost() {
           '/like',
         likeData
       )
+      getPosts()
     }
     // if the user unlike an article
     if (getRequestedPost.likers.find((likers) => likers.likerId === user._id)) {
@@ -115,6 +140,7 @@ export default function OnePost() {
           '/like',
         unlikeData
       )
+      getPosts()
     }
   }
 
@@ -137,6 +163,7 @@ export default function OnePost() {
           '/like',
         dislikeData
       )
+      getPosts()
     }
 
     // if the user un dislike an article
@@ -155,7 +182,13 @@ export default function OnePost() {
           '/like',
         undislikeData
       )
+      getPosts()
     }
+  }
+
+  const handleEditComment = (id) => {
+    setCommentIsUpdated(!commentIsUpdated)
+    setTargetElement(id)
   }
 
   return (
@@ -164,66 +197,68 @@ export default function OnePost() {
       {arrowIcon}
       {users &&
         (getRequestedPost ? (
-          <>
-            <article className="postFlow">
-              <div className="postFlow__container">
-                <div className="postFlow__container__header">
-                  <div className="postFlow__container__header__iconContainer">
-                    {isUserPost && (
-                      <>
-                        <FontAwesomeIcon
-                          onClick={''}
-                          className="postFlow__container__header__iconContainer__icon"
-                          icon={faPenToSquare}
-                          title="Edit post"
-                        />
-                        <FontAwesomeIcon
-                          onClick={''}
-                          className="postFlow__container__header__iconContainer__icon"
-                          icon={faTrashCan}
-                          title="Delete post"
-                        />
-                      </>
-                    )}
-                  </div>
-                  <figure className="createPost__body__form__top__fig">
-                    <img
-                      className="createPost__body__form__top__fig__img"
-                      src={userPoster.profilePicture}
-                      alt="profile"
-                    />
-                  </figure>
-                  <h5 className="postFlow__container__title">
-                    {userPoster.firstName} {userPoster.lastName}
-                  </h5>
-                  <Link to={`/post/${getRequestedPost._id}`} className="link">
-                    <Moment
-                      format="YYYY/MM/DD - HH:mm"
-                      className="postFlow__container__postCreatedAt"
-                    >
-                      {dateToFormat}
-                    </Moment>
-                  </Link>
+          <article className="onePost">
+            <div className="onePostContainer">
+              <div className="onePostContainer__header">
+                <div className="onePostContainer__header__iconContainer">
+                  {isUserPost && (
+                    <>
+                      <FontAwesomeIcon
+                        onClick={() => {
+                          handleEditPost(getRequestedPost._id)
+                        }}
+                        className="postFlow__container__header__iconContainer__icon"
+                        icon={faPenToSquare}
+                        title="Edit post"
+                      />
+                      <FontAwesomeIcon
+                        onClick={deletePost}
+                        className="postFlow__container__header__iconContainer__icon"
+                        icon={faTrashCan}
+                        title="Delete post"
+                      />
+                    </>
+                  )}
                 </div>
-                <figure className="postFlow__container__figure">
+                <figure className="onePostContainer__header__fig">
                   <img
-                    className="postFlow__container__figure__img"
+                    className="onePostContainer__header__fig__posterPP"
+                    src={userPoster.profilePicture}
+                    alt="user poster"
+                  />
+                </figure>
+                <h5 className="onePostContainer__header__title">
+                  {userPoster.firstName} {userPoster.lastName}
+                </h5>
+                <Link to={`/post/${getRequestedPost._id}`} className="link">
+                  <Moment
+                    format="YYYY/MM/DD - HH:mm"
+                    className="postFlow__container__postCreatedAt"
+                  >
+                    {dateToFormat}
+                  </Moment>
+                </Link>
+              </div>
+              <div className="onePostContainer__body">
+                <figure className="onePostContainer__body__fig">
+                  <img
+                    className="onePostContainer__body__fig__img"
                     src={getRequestedPost.picture}
                     alt=""
                   />
                 </figure>
-                <div className="postFlow__container__body">
+                <div className="onePostContainer__body__message__container">
                   {(isUpdated === false ||
                     targetElement !== getRequestedPost._id) && (
-                    <p className="postFlow__container__body__text">
+                    <p className="onePostContainer__body__message__container__message">
                       {getRequestedPost.message}
                     </p>
                   )}
                   {isUpdated === true &&
                     targetElement === getRequestedPost._id && (
-                      <div className="updatePost">
+                      <div className="onePostContainer__body__message__container__updatePost">
                         <textarea
-                          className="updatePost__textarea"
+                          className="onePostContainer__body__message__container__updatePost__textArea"
                           defaultValue={getRequestedPost.message}
                           onChange={(e) => setMessageUpdate(e.target.value)}
                         />
@@ -238,67 +273,178 @@ export default function OnePost() {
                       </div>
                     )}
                 </div>
-                <div className="likeSection">
-                  {isDisliked ? (
-                    <FontAwesomeIcon className="likeIcon" icon={faThumbsUp} />
-                  ) : (
-                    <FontAwesomeIcon
-                      onClick={handleLike}
-                      className="likeIcon"
-                      icon={faThumbsUp}
-                    />
-                  )}
-                  {isLiked && (
-                    <FontAwesomeIcon
-                      onClick={handleLike}
-                      className="likeIcon likeIconTrue"
-                      icon={faThumbsUp}
-                    />
-                  )}
-                  <p className="likeIcon__quantity">
-                    {isLoading ? (
-                      <FontAwesomeIcon
-                        icon={faSpinner}
-                        className="fa-spin fa-2x postFlow"
-                      />
-                    ) : (
-                      getRequestedPost.likes
-                    )}
-                  </p>
-                  {isLiked ? (
-                    <FontAwesomeIcon
-                      className="dislikeIcon"
-                      icon={faThumbsDown}
-                    />
-                  ) : (
-                    <FontAwesomeIcon
-                      onClick={handleDislike}
-                      className="dislikeIcon"
-                      icon={faThumbsDown}
-                    />
-                  )}
-                  {isDisliked && (
-                    <FontAwesomeIcon
-                      onClick={handleDislike}
-                      className="dislikeIcon dislikeIconTrue"
-                      icon={faThumbsDown}
-                    />
-                  )}
-                  <p className="dislikeIcon__quantity">
-                    {isLoading ? (
-                      <FontAwesomeIcon
-                        icon={faSpinner}
-                        className="fa-spin fa-2x postFlow"
-                      />
-                    ) : (
-                      getRequestedPost.dislikes
-                    )}
-                  </p>
-                </div>
-                <h4 className="postFlow__container__commentTitle">Comments</h4>
               </div>
-            </article>
-          </>
+              <div className="likeSection">
+                {isDisliked ? (
+                  <FontAwesomeIcon className="likeIcon" icon={faThumbsUp} />
+                ) : (
+                  <FontAwesomeIcon
+                    onClick={handleLike}
+                    className="likeIcon"
+                    icon={faThumbsUp}
+                  />
+                )}
+                {isLiked && (
+                  <FontAwesomeIcon
+                    onClick={handleLike}
+                    className="likeIcon likeIconTrue"
+                    icon={faThumbsUp}
+                  />
+                )}
+                <p className="likeIcon__quantity">
+                  {isLoading ? (
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      className="fa-spin fa-2x postFlow"
+                    />
+                  ) : (
+                    getRequestedPost.likes
+                  )}
+                </p>
+                {isLiked ? (
+                  <FontAwesomeIcon
+                    className="dislikeIcon"
+                    icon={faThumbsDown}
+                  />
+                ) : (
+                  <FontAwesomeIcon
+                    onClick={handleDislike}
+                    className="dislikeIcon"
+                    icon={faThumbsDown}
+                  />
+                )}
+                {isDisliked && (
+                  <FontAwesomeIcon
+                    onClick={handleDislike}
+                    className="dislikeIcon dislikeIconTrue"
+                    icon={faThumbsDown}
+                  />
+                )}
+                <p className="dislikeIcon__quantity">
+                  {isLoading ? (
+                    <FontAwesomeIcon
+                      icon={faSpinner}
+                      className="fa-spin fa-2x postFlow"
+                    />
+                  ) : (
+                    getRequestedPost.dislikes
+                  )}
+                </p>
+              </div>
+              <div className="onePostContainer__footer">
+                <h4 className="onePostContainer__footer__title">Comments</h4>
+                {getRequestedPost.comments.map((comment, index) => {
+                  // check if connected user is the commenter poster
+                  const isUserComment =
+                    user._id === comment.commenterId || user.isAdmin === 1
+
+                  // comment handle function
+
+                  const updateComment = async (e) => {
+                    e.preventDefault()
+
+                    const data = {
+                      commentId: comment._id,
+                      commenterId: user._id,
+                      commenterFirstName: user.firstName,
+                      commenterLastName: user.lastName,
+                      commenterProfilePicture: user.profilePicture,
+                      text: commentUpdate,
+                    }
+
+                    await axios.put(
+                      `${process.env.REACT_APP_API_URL}articles/` +
+                        getRequestedPost._id +
+                        '/comment',
+                      data
+                    )
+                    setCommentIsUpdated(!commentIsUpdated)
+                    await getPosts()
+                  }
+
+                  const deleteComment = async () => {
+                    const data = {
+                      commentId: comment._id,
+                    }
+                    await axios.post(
+                      `${process.env.REACT_APP_API_URL}articles/` +
+                        getRequestedPost._id +
+                        '/comment/delete',
+                      data
+                    )
+                    await getPosts()
+                  }
+
+                  return (
+                    <ul key={index}>
+                      <li className="onePostContainer__footer__commentContainer">
+                        <div className="onePostContainer__footer__commentContainer__header">
+                          <figure className="onePostContainer__footer__commentContainer__header__fig">
+                            <img
+                              className="onePostContainer__footer__commentContainer__header__fig__img"
+                              src={comment.commenterProfilePicture}
+                              alt="user commenter"
+                            />
+                          </figure>
+                          <h5 className="onePostContainer__footer__commentContainer__header__title">
+                            {comment.commenterFirstName}{' '}
+                            {comment.commenterLastName}
+                          </h5>
+                          {isUserComment && (
+                            <div className="onePostContainer__footer__commentContainer__header__commentIcon">
+                              <FontAwesomeIcon
+                                onClick={() => {
+                                  handleEditComment(comment._id)
+                                }}
+                                className="onePostContainer__footer__commentContainer__header__commentIcon--editIcon"
+                                icon={faPenToSquare}
+                                title="Edit post"
+                              />
+                              <FontAwesomeIcon
+                                onClick={deleteComment}
+                                className="onePostContainer__footer__commentContainer__header__commentIcon--deleteIcon"
+                                icon={faTrashCan}
+                                title="Delete post"
+                              />
+                            </div>
+                          )}
+                        </div>
+                        <div className="onePostContainer__footer__commentContainer__body">
+                          {(commentIsUpdated === false ||
+                            targetElement !== comment._id) && (
+                            <p className="onePostContainer__footer__commentContainer__body__message">
+                              {comment.text}
+                            </p>
+                          )}
+                          {commentIsUpdated === true &&
+                            targetElement === comment._id && (
+                              <div className="updateComment">
+                                <textarea
+                                  className="updateComment__textarea"
+                                  defaultValue={comment.text}
+                                  onChange={(e) =>
+                                    setCommentUpdate(e.target.value)
+                                  }
+                                />
+                                <div className="updateComment__buttonContainer">
+                                  <button
+                                    onClick={(e) => updateComment(e)}
+                                    className="updateComment__buttonContainer__button"
+                                  >
+                                    Edit comment
+                                  </button>
+                                </div>
+                              </div>
+                            )}
+                        </div>
+                      </li>
+                    </ul>
+                  )
+                })}
+                <CreateComment commentId={getRequestedPost._id} />
+              </div>
+            </div>
+          </article>
         ) : (
           <FontAwesomeIcon
             icon={faSpinner}
