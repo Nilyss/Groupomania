@@ -14,7 +14,7 @@ const corsOptions = {
 // const helmet = require('helmet') // hide API stacks in browser  https://www.npmjs.com/package/helmet
 const mongoSanitize = require('express-mongo-sanitize') // block some key operator https://www.npmjs.com/package/express-mongo-sanitize
 const dotenv = require('dotenv') // environment variable  https://www.npmjs.com/package/dotenv
-const result = dotenv.config()
+dotenv.config()
 const path = require('path')
 
 // dev dependencies

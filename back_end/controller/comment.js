@@ -26,7 +26,7 @@ module.exports.editComment = async (req, res) => {
   Article.updateOne(
     { _id: req.params.id },
     {
-      $set: { comments: { ...commentObject, _id: req.params.id } },
+      $set: { comments: { _id: req.params.id, ...commentObject } },
     }
   )
     .then(() => res.status(200).json({ message: 'Comment updated' }))

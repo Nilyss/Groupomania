@@ -1,6 +1,6 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { FormContext } from '../../context/formContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 //css
@@ -10,6 +10,7 @@ export default function SignInModal() {
   axios.defaults.withCredentials = true
 
   const { toggleModals, modalState } = useContext(FormContext)
+  const [error, setError] = useState('')
 
   const navigate = useNavigate()
 
@@ -24,9 +25,17 @@ export default function SignInModal() {
         .post(`${process.env.REACT_APP_API_URL}signin`, userData)
         .then((res) => {
           if (res.status === 200) {
-            navigate('/home', { replace: true })
-          } else {
-            console.error('invalid identification')
+            // navigate('/home', { replace: true })
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            setError(
+              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+            )
+            console.log(
+              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+            )
           }
         })
     } catch (err) {
@@ -76,6 +85,12 @@ export default function SignInModal() {
                     placeholder="Enter your incredible password"
                   />
                 </div>
+                <p
+                  className="auth__body__form__error"
+                  style={{ marginBottom: '1em' }}
+                >
+                  {error}
+                </p>
               </div>
               <button className="auth__body__form__submit">Enter</button>
               <div className="createAccount">

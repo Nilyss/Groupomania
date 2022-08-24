@@ -13,7 +13,7 @@ import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
 export default function CreatePost() {
   axios.defaults.withCredentials = true
 
-  const { isLoading, getPosts, post, user } = useContext(PostContext)
+  const { isLoading, getPosts, user } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const [loadNewArticle, setLoadNewArticle] = useState(true)
   const [file, setFile] = useState(null)
