@@ -25,7 +25,7 @@ export default function SignInModal() {
         .post(`${process.env.REACT_APP_API_URL}signin`, userData)
         .then((res) => {
           if (res.status === 200) {
-            // navigate('/home', { replace: true })
+            navigate('/home', { replace: true })
           }
         })
         .catch((error) => {
