@@ -11,16 +11,24 @@ import Footer from '../../components/footer/footer'
 // css
 import './_UserSettings.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
-import NavMenu from '../../components/navMenu/navMenu'
+import {
+  faImage,
+  faSpinner,
+  faArrowLeft,
+} from '@fortawesome/free-solid-svg-icons'
 
 export default function UserSettings() {
   axios.defaults.withCredentials = true
 
-  const { isLoading, getUser, user } = useContext(PostContext)
+  const { isLoading, getUser, userData } = useContext(PostContext)
   const [loadNewFile, setLoadNewFile] = useState(true)
   const [file, setFile] = useState(null)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
+  const arrowIcon = (
+    <Link to={'/home'}>
+      <FontAwesomeIcon icon={faArrowLeft} className="previousArrowIcon" />
+    </Link>
+  )
 
   async function handleFormSettings(e) {
     e.preventDefault()
@@ -30,12 +38,12 @@ export default function UserSettings() {
     try {
       await axios({
         method: 'put',
-        url: `${process.env.REACT_APP_API_URL}users/` + user._id,
+        url: `${process.env.REACT_APP_API_URL}users/` + userData._id,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
         },
-      }).then((res) => {
+      }).then(() => {
         getUser()
       })
     } catch (error) {
@@ -53,9 +61,12 @@ export default function UserSettings() {
     }
   }, [loadNewFile])
 
+  const isAdmin = userData.isAdmin === 1
+
   return (
     <>
       <Header />
+      {arrowIcon}
       <main className="userSettingsMain">
         <section>
           <article className="userSettingsMain__form">
@@ -77,22 +88,24 @@ export default function UserSettings() {
                 className="userSettingsMain__form__body__form"
               >
                 <p className="userSettingsMain__form__body__form__firstName">
-                  <strong>First Name:</strong> {user.firstName}
+                  <strong>First Name:</strong> {userData.firstName}
                 </p>
                 <p className="userSettingsMain__form__body__form__lastName">
-                  <strong>Last Name:</strong> {user.lastName}
+                  <strong>Last Name:</strong> {userData.lastName}
                 </p>
                 <p className="userSettingsMain__form__body__form__email">
-                  <strong>email address:</strong> {user.email}
+                  <strong>email address:</strong> {userData.email}
                 </p>
-                <p className="userSettingsMain__form__body__form__isAdmin">
-                  <strong>Is Admin ?</strong> {user.isAdmin}
-                </p>
+                {isAdmin && (
+                  <p className="userSettingsMain__form__body__form__isAdmin">
+                    <strong>Administrator account: </strong> Yes
+                  </p>
+                )}
                 <div className="userSettingsMain__form__body__form__inputs">
                   <figure className="userSettingsMain__form__body__form__fig">
                     <img
                       className="userSettingsMain__form__body__form__fig__img"
-                      src={user.profilePicture}
+                      src={userData.profilePicture}
                       alt="avatar"
                     />
                   </figure>

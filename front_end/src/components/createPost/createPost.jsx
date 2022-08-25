@@ -1,6 +1,6 @@
 // dependencies
 import axios from 'axios'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { PostContext } from '../../context'
 
 //css
@@ -13,16 +13,15 @@ import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
 export default function CreatePost() {
   axios.defaults.withCredentials = true
 
-  const { isLoading, getPosts, post, user } = useContext(PostContext)
+  const { userData, isLoading, getArticles } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
-  const [loadNewArticle, setLoadNewArticle] = useState(true)
   const [file, setFile] = useState(null)
 
   async function handleFormArticle(e) {
     e.preventDefault()
 
     const formData = new FormData()
-    formData.append('posterId', user._id)
+    formData.append('posterId', userData._id)
     formData.append('message', e.target['message'].value)
     formData.append('file', file)
     try {
@@ -38,7 +37,7 @@ export default function CreatePost() {
           e.target['message'].value = ''
           e.target['message'].value = ''
         }
-        getPosts()
+        getArticles()
       })
     } catch (error) {
       console.log(error)
@@ -48,12 +47,6 @@ export default function CreatePost() {
   const handleFileSelect = (event) => {
     setFile(event.target.files[0])
   }
-
-  useEffect(() => {
-    if (loadNewArticle) {
-      setLoadNewArticle(false)
-    }
-  }, [loadNewArticle])
 
   return (
     <>
@@ -70,7 +63,7 @@ export default function CreatePost() {
                 ) : (
                   <img
                     className="createPost__body__form__top__fig__img"
-                    src={user.profilePicture}
+                    src={userData.profilePicture}
                     alt="profile pictures"
                   />
                 )}
@@ -79,7 +72,7 @@ export default function CreatePost() {
                 htmlFor="post"
                 className="createPost__body__form__top__label"
               >
-                What's on your mind {user.firstName} ?
+                What's on your mind {userData.firstName} ?
               </label>
               <textarea
                 name="message"
@@ -92,9 +85,6 @@ export default function CreatePost() {
                 href="#"
                 className="createPost__body__form__bottom__button__attachment"
               >
-                <div className="createPost__body__form__bottom__button__attachment__txt">
-                  Add photo or picture
-                </div>
                 <input
                   onChange={handleFileSelect}
                   accept=".jpg, .jpeg, .png"

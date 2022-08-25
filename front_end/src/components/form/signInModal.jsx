@@ -1,6 +1,6 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import { FormContext } from '../../context/formContext'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 
 //css
@@ -10,6 +10,7 @@ export default function SignInModal() {
   axios.defaults.withCredentials = true
 
   const { toggleModals, modalState } = useContext(FormContext)
+  const [error, setError] = useState('')
 
   const navigate = useNavigate()
 
@@ -25,8 +26,16 @@ export default function SignInModal() {
         .then((res) => {
           if (res.status === 200) {
             navigate('/home', { replace: true })
-          } else {
-            console.error('invalid identification')
+          }
+        })
+        .catch((error) => {
+          if (error.response.status === 401) {
+            setError(
+              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+            )
+            console.log(
+              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+            )
           }
         })
     } catch (err) {
@@ -76,9 +85,23 @@ export default function SignInModal() {
                     placeholder="Enter your incredible password"
                   />
                 </div>
+                <p
+                  className="auth__body__form__error"
+                  style={{ marginBottom: '1em' }}
+                >
+                  {error}
+                </p>
               </div>
               <button className="auth__body__form__submit">Enter</button>
-              <Link to="#">Forgot Password ?</Link>
+              <div className="createAccount">
+                <p className="createAccount__p">No account ? </p>
+                <p
+                  className="createAccount__create"
+                  onClick={() => toggleModals('signUp')}
+                >
+                  Create one !
+                </p>
+              </div>
             </form>
           </div>
         </section>
@@ -86,30 +109,3 @@ export default function SignInModal() {
     </>
   )
 }
-
-// try {
-//   axios({
-//     method: 'post',
-//     url: `${process.env.REACT_APP_API_URL}signin`,
-//     withCredentials: true,
-//     userData,
-//   }).then((res) => {
-//     if (res.status === 200) {
-//       navigate('/home', { replace: true })
-//     } else {
-//       console.log('An internal error occurred')
-//     }
-//   })
-
-//   axios
-//       .post(`${process.env.REACT_APP_API_URL}signin`, userData)
-//       .then((res) => {
-//         if (res.status === 200) {
-//           navigate('/home', { replace: true })
-//         } else {
-//           console.error('invalid identification')
-//         }
-//       })
-// } catch (err) {
-//   console.log(err, 'An internal error occurred')
-// }

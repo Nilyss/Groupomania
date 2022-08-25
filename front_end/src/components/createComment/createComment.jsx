@@ -1,5 +1,4 @@
 // librairies
-import { useEffect } from 'react'
 import axios from 'axios'
 
 // css
@@ -12,37 +11,16 @@ import { useContext } from 'react'
 export default function CreateComment({ commentId }) {
   axios.defaults.withCredentials = true
 
-  const { getPosts, getOnePost, getUser, user } = useContext(PostContext)
-
-  useEffect(() => {
-    async function fetchData() {
-      await getPosts()
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    async function fetchData() {
-      await getOnePost()
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    async function fetchData() {
-      await getUser()
-    }
-    fetchData()
-  }, [])
+  const { getArticles, userData } = useContext(PostContext)
 
   async function handleFormComment(e) {
     e.preventDefault()
 
     const data = {
-      commenterId: user._id,
-      commenterFirstName: user.firstName,
-      commenterLastName: user.lastName,
-      commenterProfilePicture: user.profilePicture,
+      commenterId: userData._id,
+      commenterFirstName: userData.firstName,
+      commenterLastName: userData.lastName,
+      commenterProfilePicture: userData.profilePicture,
       text: e.target['commentMessage'].value,
     }
     try {
@@ -53,7 +31,8 @@ export default function CreateComment({ commentId }) {
     } catch (error) {
       console.log(error)
     }
-    await getPosts()
+    e.target['commentMessage'].value = ''
+    await getArticles()
   }
 
   return (

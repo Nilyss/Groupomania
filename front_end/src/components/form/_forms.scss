@@ -17,6 +17,7 @@
   background: $colorSecondary;
   border: $borderCard;
   border-radius: 1em;
+  color: $colorTertiary;
 }
 
 .auth__header {
@@ -113,7 +114,7 @@
 }
 
 .auth__body__form__error {
-  color: #ff0000;
+  color: #C70000;
   text-align: center;
   margin-top: 2rem;
 }
@@ -130,7 +131,7 @@
   border-radius: 6px;
   box-shadow: rgba(45, 35, 66, 0.4) 0 2px 4px,
     rgba(45, 35, 66, 0.3) 0 7px 13px -3px, rgba(58, 65, 111, 0.5) 0 -3px 0 inset;
-  color: #fff;
+  color: $colorTertiary;
   display: inline-flex;
   justify-content: center;
   list-style: none;
@@ -155,5 +156,16 @@
   &:active {
     box-shadow: #fd2d01 0 3px 7px inset;
     transform: translateY(2px);
+  }
+}
+
+.createAccount {
+  display: flex;
+  color: $colorTertiary;
+  justify-content: center;
+  gap: 1em;
+  &__create {
+    color: #0645AD;
+    cursor: pointer;
   }
 }

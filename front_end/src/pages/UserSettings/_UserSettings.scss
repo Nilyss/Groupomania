@@ -1,6 +1,20 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 
+.previousArrowIcon {
+  @media(max-width: $breakpointTablet) {
+    display: flex;
+    position: unset;
+    margin-bottom: .8em;
+    margin-left: 1em;
+  }
+  position: relative;
+  top: -3em;
+  left: 1.7em;
+  font-size: 2em;
+  color: $colorTertiary;
+}
+
 .userSettingsMain{
   overflow: hidden;
   border-radius: 2em;
@@ -61,7 +75,6 @@
   flex-flow: column;
   align-items: center;
   position: relative;
-  cursor: pointer;
 }
 
 .userSettingsMain__form__body__form__fig{
@@ -79,19 +92,20 @@
 }
 
 .pp__upload--label {
-  position: absolute;
-  top: .5em;
-  right: 2.4em;
+  position: relative;
+  bottom: 9em;
+  left: 3em;
   font-size: 1.5em;
   cursor: pointer;
 }
 
 
 .userSettingsMain__form__body__form__input{
-  position: absolute;
-  top: 1em;
-  right: -45%;
+  position: relative;
+  bottom: 18em;
+  left: 11.5em;
   opacity: 0;
+  cursor: pointer;
 }
 
 .userSettingsMain__form__body__form__button{

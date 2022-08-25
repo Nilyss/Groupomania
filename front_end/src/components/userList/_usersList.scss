@@ -1,7 +1,7 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 
-.userListContainer{
+.userListContainer {
   @media (max-width: $breakpointMobile) {
     display: none;
   }
@@ -11,13 +11,15 @@
   align-self: center;
   text-align: center;
   position: sticky;
-  top: 1em;
+  top: 4em;
   right: 0;
   padding: 1em;
   background: $colorSecondary;
-  margin-top: 2em;
+  margin-top: 5em;
   border-radius: 8px;
+  border: 2px solid $colorTertiary;
   box-shadow: $boxShadowCard;
+  color: $colorTertiary;
 }
 
 .userListContainer__Title {
@@ -28,7 +30,7 @@
     content: '';
     display: flex;
     margin: auto;
-    margin-top: .5em;
+    margin-top: 0.5em;
     background: #fd2d01;
     width: 30%;
     height: 0.5vh;
@@ -44,10 +46,25 @@
 
 .userListContainer__ul__list {
   display: flex;
+  gap: 0.5em;
   width: 100%;
   align-items: center;
   justify-content: center;
   margin-bottom: 2em;
+}
+
+.online {
+  background: #45d53f;
+  width: 14px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.offline {
+  background: #c70039;
+  width: 14px;
+  height: 10px;
+  border-radius: 50%;
 }
 
 .userListContainer__ul__list__img {

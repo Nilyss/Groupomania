@@ -13,6 +13,7 @@ import { UserContextProvider } from './context/formContext'
 import Authentification from './pages/Authentication/Authentication'
 import Home from './pages/Home/Home'
 import UserSettings from './pages/UserSettings/UserSettings'
+import OnePost from './pages/onePost/onePost'
 
 // styles
 import GlobalStyle from './utils/styles/GlobalStyle'
@@ -50,6 +51,7 @@ export default function App() {
             <Route path="/" element={<Authentification />}></Route>
             <Route path="/home" element={<Home />}></Route>
             <Route path="/userSettings" element={<UserSettings />}></Route>
+            <Route path="/post/:id" element={<OnePost />}></Route>
             <Route path="*" element={<NotFound />}></Route>
           </Routes>
         </UserContextProvider>
