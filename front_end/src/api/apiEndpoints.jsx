@@ -1,9 +1,15 @@
 const apiEndpoints = {
-  // users endpoints
+  // **********  users endpoints **********
+
+  //getRequest
   getAllUsers: '/users',
   getIdCurrentUser: '/jwtid',
 
-  // articles endpoints
+  //post request
+  signIn: '/signin',
+  // ********** articles endpoints **********
+
+  // getRequest
   getAllArticles: '/articles',
 }
 

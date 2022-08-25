@@ -90,11 +90,11 @@ export const PostProvider = ({ children }) => {
     }
     getNewPost()
   }
-  const getOnePost = async () => {}
-
-  const getUsers = async () => {}
-
-  const getUser = async () => {}
+  // const getOnePost = async () => {}
+  //
+  // const getUsers = async () => {}
+  //
+  // const getUser = async () => {}
 
   return (
     <PostContext.Provider
@@ -103,11 +103,11 @@ export const PostProvider = ({ children }) => {
         articlesData,
         userData,
         oneArticleData,
-        isLoading,
-        getUsers,
-        getUser,
         getArticles,
-        getOnePost,
+        isLoading,
+        // getUsers,
+        // getUser,
+        // getOnePost,
       }}
     >
       {children}

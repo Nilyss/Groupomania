@@ -1,5 +1,5 @@
 import { UidContext } from '../../context/userIdContext'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 //  import style

@@ -5,6 +5,8 @@ import axios from 'axios'
 
 //css
 import './_forms.scss'
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 export default function SignInModal() {
   axios.defaults.withCredentials = true
@@ -14,30 +16,22 @@ export default function SignInModal() {
 
   const navigate = useNavigate()
 
-  function handleForm(e) {
+  async function handleForm(e) {
     e.preventDefault()
     try {
       const userData = {
         email: e.target['mail'].value,
         password: e.target['password'].value,
       }
-      axios
-        .post(`${process.env.REACT_APP_API_URL}signin`, userData)
-        .then((res) => {
-          if (res.status === 200) {
-            navigate('/home', { replace: true })
-          }
-        })
-        .catch((error) => {
-          if (error.response.status === 401) {
-            setError(
-              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
-            )
-            console.log(
-              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
-            )
-          }
-        })
+
+      const axiosResponse = await postRequest(apiEndpoints.signIn, userData)
+      if (axiosResponse.status === 200) {
+        navigate('/home', { replace: true })
+      } else {
+        setError(
+          ' Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+        )
+      }
     } catch (err) {
       console.log(err, 'An internal error occurred')
     }
