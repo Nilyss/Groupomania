@@ -1,5 +1,5 @@
 // libraries
-import { useContext, useState, useEffect } from 'react'
+import { useContext, useState } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import Moment from 'react-moment'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -25,7 +25,8 @@ import './_onePost.scss'
 import CreateComment from '../../components/createComment/createComment'
 
 export default function OnePost() {
-  const { isLoading, getPosts, posts, users, user } = useContext(PostContext)
+  const { articlesData, usersData, userData, getArticles, isLoading } =
+    useContext(PostContext)
 
   const arrowIcon = (
     <Link to={'/home'}>
@@ -49,29 +50,24 @@ export default function OnePost() {
   // useParams hook from react router dom for extract post id requested
   let params = useParams()
 
-  const getRequestedPost = posts.find((p) => p._id === params.id)
+  const getRequestedPost = articlesData.find((p) => p._id === params.id)
 
   // get the poster ID of article
-  const userPoster = users.find((u) => u._id === getRequestedPost.posterId)
+  const userPoster = usersData.find((u) => u._id === getRequestedPost.posterId)
 
   // check if the connected user is the user poster of article or if it's an admin
-  const isUserPost = user._id === userPoster._id || user.isAdmin === 1
+  const isUserPost = userData._id === userPoster._id || userData.isAdmin === 1
 
   // Condition for showing like or dislike button, if the post was already disliked or liked
   const isLiked = getRequestedPost.likers.find(
-    (likers) => likers.likerId === user._id
+    (likers) => likers.likerId === userData._id
   )
   const isDisliked = getRequestedPost.disLikers.find(
-    (dislikers) => dislikers.disLikerId === user._id
+    (dislikers) => dislikers.disLikerId === userData._id
   )
 
   // dateFormat for Moment libraries
   const dateToFormat = `${getRequestedPost.createdAt}`
-
-  // useEffect
-  useEffect(() => {
-    getPosts()
-  }, [])
 
   // handle function
 
@@ -92,7 +88,7 @@ export default function OnePost() {
       data
     )
     setIsUpdated(!isUpdated)
-    getPosts()
+    getArticles()
   }
 
   const deletePost = async () => {
@@ -114,11 +110,11 @@ export default function OnePost() {
 
     // if the user like an article
     if (
-      !getRequestedPost.likers.find((likers) => likers.likerId === user._id)
+      !getRequestedPost.likers.find((likers) => likers.likerId === userData._id)
     ) {
       const likeData = {
         like: 1,
-        likerId: user._id,
+        likerId: userData._id,
       }
       await axios.post(
         `${process.env.REACT_APP_API_URL}articles/` +
@@ -126,13 +122,15 @@ export default function OnePost() {
           '/like',
         likeData
       )
-      getPosts()
+      getArticles()
     }
     // if the user unlike an article
-    if (getRequestedPost.likers.find((likers) => likers.likerId === user._id)) {
+    if (
+      getRequestedPost.likers.find((likers) => likers.likerId === userData._id)
+    ) {
       const unlikeData = {
         like: 0,
-        likerId: user._id,
+        likerId: userData._id,
       }
       await axios.post(
         `${process.env.REACT_APP_API_URL}articles/` +
@@ -140,7 +138,7 @@ export default function OnePost() {
           '/like',
         unlikeData
       )
-      getPosts()
+      getArticles()
     }
   }
 
@@ -150,12 +148,12 @@ export default function OnePost() {
     // if the user dislike an article
     if (
       !getRequestedPost.disLikers.find(
-        (dislikers) => dislikers.disLikerId === user._id
+        (dislikers) => dislikers.disLikerId === userData._id
       )
     ) {
       const dislikeData = {
         like: -1,
-        disLikerId: user._id,
+        disLikerId: userData._id,
       }
       await axios.post(
         `${process.env.REACT_APP_API_URL}articles/` +
@@ -163,18 +161,18 @@ export default function OnePost() {
           '/like',
         dislikeData
       )
-      getPosts()
+      getArticles()
     }
 
     // if the user un dislike an article
     if (
       getRequestedPost.disLikers.find(
-        (dislikers) => dislikers.disLikerId === user._id
+        (dislikers) => dislikers.disLikerId === userData._id
       )
     ) {
       const undislikeData = {
         like: 0,
-        disLikerId: user._id,
+        disLikerId: userData._id,
       }
       await axios.post(
         `${process.env.REACT_APP_API_URL}articles/` +
@@ -182,7 +180,7 @@ export default function OnePost() {
           '/like',
         undislikeData
       )
-      getPosts()
+      getArticles()
     }
   }
 
@@ -195,7 +193,7 @@ export default function OnePost() {
     <>
       <Header />
       {arrowIcon}
-      {users &&
+      {usersData &&
         (getRequestedPost ? (
           <article className="onePost">
             <div className="onePostContainer">
@@ -336,7 +334,8 @@ export default function OnePost() {
                 {getRequestedPost.comments.map((comment, index) => {
                   // check if connected user is the commenter poster
                   const isUserComment =
-                    user._id === comment.commenterId || user.isAdmin === 1
+                    userData._id === comment.commenterId ||
+                    userData.isAdmin === 1
 
                   // comment handle function
 
@@ -345,10 +344,10 @@ export default function OnePost() {
 
                     const data = {
                       commentId: comment._id,
-                      commenterId: user._id,
-                      commenterFirstName: user.firstName,
-                      commenterLastName: user.lastName,
-                      commenterProfilePicture: user.profilePicture,
+                      commenterId: userData._id,
+                      commenterFirstName: userData.firstName,
+                      commenterLastName: userData.lastName,
+                      commenterProfilePicture: userData.profilePicture,
                       text: commentUpdate,
                     }
 
@@ -359,7 +358,7 @@ export default function OnePost() {
                       data
                     )
                     setCommentIsUpdated(!commentIsUpdated)
-                    await getPosts()
+                    await getArticles()
                   }
 
                   const deleteComment = async () => {
@@ -372,7 +371,7 @@ export default function OnePost() {
                         '/comment/delete',
                       data
                     )
-                    await getPosts()
+                    await getArticles()
                   }
 
                   return (

@@ -1,71 +1,113 @@
-import axios from 'axios'
-import { useState, createContext } from 'react'
+import { useState, useEffect, createContext } from 'react'
+import { getRequest } from '../api/apiCall'
+import apiEndpoints from '../api/apiEndpoints'
 
 export const PostContext = createContext()
 
 export const PostProvider = ({ children }) => {
-  const [posts, setPosts] = useState([])
-  const [post, setPost] = useState([])
-  const [users, setUsers] = useState(null)
-  const [user, setUser] = useState([])
+  // push API call into state
+  const [usersData, setUsersData] = useState([])
+  const [displayUsersData, setDisplayUsersData] = useState(true)
+  const [userData, setUserData] = useState([])
+  const [displayUserData, setDisplayUserData] = useState(true)
+  const [articlesData, setArticlesData] = useState([])
+  const [displayArticlesData, setDisplayArticlesData] = useState(true)
+  const [oneArticleData, setOneArticleData] = useState([])
+  const [displayOneArticleData, setDisplayOneArticleData] = useState(true)
+
   const [isLoading, setIsLoading] = useState(true)
 
-  const getPosts = async () => {
-    setIsLoading(true)
-    const res = await axios({
-      method: 'get',
-      url: `${process.env.REACT_APP_API_URL}articles`,
-      headers: { 'Content-Type': 'application/json' },
-    })
-    res.data.reverse()
-    setPosts(res.data)
-    setIsLoading(false)
-  }
+  // useEffect users
+  useEffect(() => {
+    const getUsers = async () => {
+      setIsLoading(true)
+      const axiosResponse = await getRequest(apiEndpoints.getAllUsers)
+      if (axiosResponse.status === 200) {
+        setUsersData(axiosResponse.data)
+        setIsLoading(false)
+      } else {
+        setDisplayUsersData(false)
+      }
+    }
+    getUsers()
+  }, [])
 
-  const getOnePost = async () => {
-    setIsLoading(true)
-    await posts.forEach((e) => {
-      axios({
-        method: 'get',
-        url: `${process.env.REACT_APP_API_URL}articles/` + e._id,
-        headers: { 'Content-Type': 'application/json' },
-      }).then((res) => {
-        setPost(res.data)
+  useEffect(() => {
+    const getUser = async () => {
+      setIsLoading(true)
+      const axiosResponse = await getRequest(apiEndpoints.getIdCurrentUser)
+      const idUserResponse = await getRequest(
+        apiEndpoints.getAllUsers + '/' + axiosResponse.data
+      )
+      if (idUserResponse.status === 200) {
+        setUserData(idUserResponse.data)
+        setIsLoading(false)
+      } else {
+        setDisplayUserData(false)
+      }
+    }
+    getUser()
+  }, [])
+
+  // useEffect articles
+  useEffect(() => {
+    const getAllArticles = async () => {
+      setIsLoading(true)
+      const axiosResponse = await getRequest(apiEndpoints.getAllArticles)
+      if (axiosResponse.status === 200) {
+        setArticlesData(axiosResponse.data.reverse())
+        setIsLoading(false)
+      } else {
+        setDisplayArticlesData(false)
+      }
+    }
+    getAllArticles()
+  }, [])
+
+  useEffect(() => {
+    const getOneArticle = async () => {
+      setIsLoading(true)
+      await articlesData.forEach((e) => {
+        getRequest(apiEndpoints.getAllArticles + '/' + e._id).then((res) => {
+          if (res.status === 200) {
+            setOneArticleData(res.data)
+            setIsLoading(false)
+          } else {
+            setDisplayOneArticleData(false)
+          }
+        })
       })
-    })
-    setIsLoading(false)
-  }
+    }
+    getOneArticle()
+  }, [])
 
-  const getUsers = async () => {
-    setIsLoading(true)
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}users`)
-    res.data.sort()
-    setUsers(res.data)
-    setIsLoading(false)
+  const getArticles = async () => {
+    const getNewPost = async () => {
+      const axiosResponse = await getRequest(apiEndpoints.getAllArticles)
+      if (axiosResponse.status === 200) {
+        setArticlesData(axiosResponse.data.reverse())
+      }
+    }
+    getNewPost()
   }
+  const getOnePost = async () => {}
 
-  const getUser = async () => {
-    setIsLoading(true)
-    const res = await axios.get(`${process.env.REACT_APP_API_URL}jwtid`)
-    const getUser = await axios.get(
-      `${process.env.REACT_APP_API_URL}users/` + res.data
-    )
-    setUser(getUser.data)
-    setIsLoading(false)
-  }
+  const getUsers = async () => {}
+
+  const getUser = async () => {}
 
   return (
     <PostContext.Provider
       value={{
+        usersData,
+        articlesData,
+        userData,
+        oneArticleData,
         isLoading,
         getUsers,
-        users,
         getUser,
-        user,
-        getPosts,
-        posts,
+        getArticles,
         getOnePost,
-        post,
       }}
     >
       {children}

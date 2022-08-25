@@ -20,7 +20,7 @@ import {
 export default function UserSettings() {
   axios.defaults.withCredentials = true
 
-  const { isLoading, getUser, user } = useContext(PostContext)
+  const { isLoading, getUser, userData } = useContext(PostContext)
   const [loadNewFile, setLoadNewFile] = useState(true)
   const [file, setFile] = useState(null)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
@@ -38,7 +38,7 @@ export default function UserSettings() {
     try {
       await axios({
         method: 'put',
-        url: `${process.env.REACT_APP_API_URL}users/` + user._id,
+        url: `${process.env.REACT_APP_API_URL}users/` + userData._id,
         data: formData,
         headers: {
           'Content-Type': 'multipart/form-data',
@@ -61,7 +61,7 @@ export default function UserSettings() {
     }
   }, [loadNewFile])
 
-  const isAdmin = user.isAdmin === 1
+  const isAdmin = userData.isAdmin === 1
 
   return (
     <>
@@ -88,13 +88,13 @@ export default function UserSettings() {
                 className="userSettingsMain__form__body__form"
               >
                 <p className="userSettingsMain__form__body__form__firstName">
-                  <strong>First Name:</strong> {user.firstName}
+                  <strong>First Name:</strong> {userData.firstName}
                 </p>
                 <p className="userSettingsMain__form__body__form__lastName">
-                  <strong>Last Name:</strong> {user.lastName}
+                  <strong>Last Name:</strong> {userData.lastName}
                 </p>
                 <p className="userSettingsMain__form__body__form__email">
-                  <strong>email address:</strong> {user.email}
+                  <strong>email address:</strong> {userData.email}
                 </p>
                 {isAdmin && (
                   <p className="userSettingsMain__form__body__form__isAdmin">
@@ -105,7 +105,7 @@ export default function UserSettings() {
                   <figure className="userSettingsMain__form__body__form__fig">
                     <img
                       className="userSettingsMain__form__body__form__fig__img"
-                      src={user.profilePicture}
+                      src={userData.profilePicture}
                       alt="avatar"
                     />
                   </figure>

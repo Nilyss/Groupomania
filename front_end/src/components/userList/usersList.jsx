@@ -10,17 +10,17 @@ import { PostContext } from '../../context'
 import './_usersList.scss'
 
 export default function UsersList() {
-  const { isLoading, users, user } = useContext(PostContext)
+  const { isLoading, usersData, userData } = useContext(PostContext)
 
   return (
     <>
       <div className="userListContainer">
         <h3 className="userListContainer__Title">Administrators</h3>
         <ul className="userListContainer__ul">
-          {users &&
-            users.map((userMap, index) => {
+          {usersData &&
+            usersData.map((userMap, index) => {
               const isAdmin = userMap.isAdmin === 1
-              const isOnline = userMap._id === user._id
+              const isOnline = userMap._id === userData._id
 
               return (
                 <li className="userListContainer__ul__list" key={index}>

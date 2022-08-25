@@ -1,5 +1,5 @@
 // dependencies
-import { useEffect, useContext, useState } from 'react'
+import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { PostContext } from '../../context'
@@ -23,7 +23,7 @@ import CreateComment from '../createComment/createComment'
 axios.defaults.withCredentials = true
 
 export default function Card() {
-  const { isLoading, getPosts, posts, getUsers, users, getUser, user } =
+  const { usersData, articlesData, userData, isLoading, getArticles } =
     useContext(PostContext)
 
   // post edit state
@@ -35,23 +35,12 @@ export default function Card() {
   const [commentIsUpdated, setCommentIsUpdated] = useState(false)
   const [commentUpdate, setCommentUpdate] = useState(null)
 
-  useEffect(() => {
-    getPosts()
-  }, [])
-
-  useEffect(() => {
-    getUsers()
-  }, [])
-
-  useEffect(() => {
-    getUser()
-  }, [])
-
   return (
     <>
-      {users &&
-        posts.map((post, index) => {
-          const userPoster = users.find((u) => u._id === post.posterId)
+      {usersData &&
+        userData &&
+        articlesData.map((post, index) => {
+          const userPoster = usersData.find((u) => u._id === post.posterId)
 
           const updateArticle = async (e) => {
             e.preventDefault()
@@ -65,24 +54,26 @@ export default function Card() {
               data
             )
             setIsUpdated(!isUpdated)
-            await getPosts()
+            await getArticles()
           }
 
           const deletePost = async () => {
             await axios.delete(
               `${process.env.REACT_APP_API_URL}articles/` + post._id
             )
-            await getPosts()
+            await getArticles()
           }
 
           async function handleLike(e) {
             e.preventDefault()
 
             // if the user like an article
-            if (!post.likers.find((likers) => likers.likerId === user._id)) {
+            if (
+              !post.likers.find((likers) => likers.likerId === userData._id)
+            ) {
               const likeData = {
                 like: 1,
-                likerId: user._id,
+                likerId: userData._id,
               }
               await axios.post(
                 `${process.env.REACT_APP_API_URL}articles/` +
@@ -90,13 +81,13 @@ export default function Card() {
                   '/like',
                 likeData
               )
-              getPosts()
+              getArticles()
             }
             // if the user unlike an article
-            if (post.likers.find((likers) => likers.likerId === user._id)) {
+            if (post.likers.find((likers) => likers.likerId === userData._id)) {
               const unlikeData = {
                 like: 0,
-                likerId: user._id,
+                likerId: userData._id,
               }
               await axios.post(
                 `${process.env.REACT_APP_API_URL}articles/` +
@@ -104,7 +95,7 @@ export default function Card() {
                   '/like',
                 unlikeData
               )
-              getPosts()
+              getArticles()
             }
           }
 
@@ -114,12 +105,12 @@ export default function Card() {
             // if the user dislike an article
             if (
               !post.disLikers.find(
-                (dislikers) => dislikers.disLikerId === user._id
+                (dislikers) => dislikers.disLikerId === userData._id
               )
             ) {
               const dislikeData = {
                 like: -1,
-                disLikerId: user._id,
+                disLikerId: userData._id,
               }
               await axios.post(
                 `${process.env.REACT_APP_API_URL}articles/` +
@@ -127,18 +118,18 @@ export default function Card() {
                   '/like',
                 dislikeData
               )
-              getPosts()
+              getArticles()
             }
 
             // if the user un dislike an article
             if (
               post.disLikers.find(
-                (dislikers) => dislikers.disLikerId === user._id
+                (dislikers) => dislikers.disLikerId === userData._id
               )
             ) {
               const undislikeData = {
                 like: 0,
-                disLikerId: user._id,
+                disLikerId: userData._id,
               }
               await axios.post(
                 `${process.env.REACT_APP_API_URL}articles/` +
@@ -146,19 +137,20 @@ export default function Card() {
                   '/like',
                 undislikeData
               )
-              getPosts()
+              getArticles()
             }
           }
 
           // Condition for deletion and editing post
-          const isUserPost = user._id === userPoster._id || user.isAdmin === 1
+          const isUserPost =
+            userData._id === userPoster._id || userData.isAdmin === 1
 
           // Condition for showing like or dislike button, if the post was already disliked or liked
           const isLiked = post.likers.find(
-            (likers) => likers.likerId === user._id
+            (likers) => likers.likerId === userData._id
           )
           const isDisliked = post.disLikers.find(
-            (dislikers) => dislikers.disLikerId === user._id
+            (dislikers) => dislikers.disLikerId === userData._id
           )
 
           const handleEditPost = (id) => {
@@ -323,10 +315,10 @@ export default function Card() {
 
                         const data = {
                           commentId: comment._id,
-                          commenterId: user._id,
-                          commenterFirstName: user.firstName,
-                          commenterLastName: user.lastName,
-                          commenterProfilePicture: user.profilePicture,
+                          commenterId: userData._id,
+                          commenterFirstName: userData.firstName,
+                          commenterLastName: userData.lastName,
+                          commenterProfilePicture: userData.profilePicture,
                           text: commentUpdate,
                         }
 
@@ -337,7 +329,7 @@ export default function Card() {
                           data
                         )
                         setCommentIsUpdated(!commentIsUpdated)
-                        await getPosts()
+                        await getArticles()
                       }
 
                       const deleteComment = async () => {
@@ -350,11 +342,12 @@ export default function Card() {
                             '/comment/delete',
                           data
                         )
-                        await getPosts()
+                        await getArticles()
                       }
 
                       const isUserComment =
-                        user._id === comment.commenterId || user.isAdmin === 1
+                        userData._id === comment.commenterId ||
+                        userData.isAdmin === 1
 
                       return (
                         <div key={index}>

@@ -6,17 +6,13 @@ import './_header.scss'
 
 // images
 import logoOrange from '../../assets/orange_logo.png'
-import { useContext, useEffect } from 'react'
+import { useContext } from 'react'
 import { PostContext } from '../../context'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 export default function Header() {
-  const { isLoading, getUser, user } = useContext(PostContext)
-
-  useEffect(() => {
-    getUser()
-  }, [])
+  const { userData, isLoading } = useContext(PostContext)
 
   return (
     <>
@@ -32,14 +28,14 @@ export default function Header() {
               <Link to={'/home'}>
                 <img
                   className="showUser__pp"
-                  src={user.profilePicture}
+                  src={userData.profilePicture}
                   alt="profile"
-                  title={user.firstName + "'s home page"}
+                  title={userData.firstName + "'s home page"}
                 />
               </Link>
             )}
           </figure>
-          <p className="showUser__name">Welcome {user.firstName} !</p>
+          <p className="showUser__name">Welcome {userData.firstName} !</p>
         </div>
         <figure className="homeMain__fig">
           <Link to={'/home'}>
