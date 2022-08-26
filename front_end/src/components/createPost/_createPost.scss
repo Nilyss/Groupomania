@@ -4,9 +4,7 @@
 .createPost {
   @media (max-width: $breakpointMobile) {
     padding: .5em;
-    border-radius: 0;
-    background: none;
-    box-shadow: none;
+    margin: 1em;
   }
   padding: 2em;
   align-items: center;
@@ -26,7 +24,7 @@
 
 .createPost__body__form__top {
   @media (max-width: $breakpointMobile) {
-    flex-flow: wrap;
+    flex-flow: column wrap;
     justify-content: center;
     gap: 1em;
   }

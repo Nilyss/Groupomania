@@ -1,6 +1,13 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 
+.userListContainer__icon--title {
+  display: flex;
+  margin: auto;
+  font-size: 1em;
+  cursor: pointer;
+}
+
 .userListContainer {
   @media (max-width: $breakpointMobile) {
     display: none;
@@ -11,7 +18,7 @@
   align-self: center;
   text-align: center;
   position: sticky;
-  top: 4em;
+  top: 5em;
   right: 0;
   padding: 1em;
   background: $colorSecondary;
@@ -26,16 +33,6 @@
   width: 100%;
   margin-bottom: 1em;
   font-size: 1.5em;
-  &:after {
-    content: '';
-    display: flex;
-    margin: auto;
-    margin-top: 0.5em;
-    background: #fd2d01;
-    width: 30%;
-    height: 0.5vh;
-    border-radius: 8px;
-  }
 }
 
 .userListContainer__ul {

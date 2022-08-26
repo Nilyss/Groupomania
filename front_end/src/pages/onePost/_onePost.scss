@@ -1,6 +1,9 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 .onePost {
+  @media(max-width: $breakpointTablet) {
+    margin: 0;
+  }
   margin: 2em;
 }
 
