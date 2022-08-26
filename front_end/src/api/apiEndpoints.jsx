@@ -14,19 +14,20 @@ const apiEndpoints = {
   //post request
   postArticle: '/articles',
   // put request
-  editArticle: '/articles/:id',
+  editArticle: '/articles',
   //delete request
-  deleteArticle: '/articles/:id',
+  deleteArticle: '/articles',
 
   // ********** comments endpoints **********
   //post request
   postComment: '/comment',
-  deleteComment: '/comment/delete',
   // put request
   editComment: '/comment',
+  // delete request
+  deleteComment: '/comment/delete',
 
   // ********** likes endpoints **********
   //post request
-  likes: '/articles/:id/like',
+  likes: '/like',
 }
 export default apiEndpoints

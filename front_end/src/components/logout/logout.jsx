@@ -10,7 +10,7 @@ import { getRequest } from '../../api/apiCall'
 import apiEndpoints from '../../api/apiEndpoints'
 
 export default function Logout() {
-  // remove token stored in cookies on http only if the backend didn't worked for safety
+  // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
   const removeCookie = (key) => {
     if (window !== undefined) {
       cookie.remove(key, { expires: 1 })

@@ -1,13 +1,6 @@
-// dependencies
+// libraries
 import { useContext, useState } from 'react'
 import { Link } from 'react-router-dom'
-import axios from 'axios'
-import { PostContext } from '../../context'
-
-// css
-import './_card.scss'
-
-// libraries
 import Moment from 'react-moment'
 import 'moment-timezone'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -17,10 +10,18 @@ import { faPenToSquare } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 
+// css
+import './_card.scss'
+
+// api
+import { deleteRequest, postRequest, putRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
+
+// context
+import { PostContext } from '../../context'
+
 // components
 import CreateComment from '../createComment/createComment'
-
-axios.defaults.withCredentials = true
 
 export default function Card() {
   const { usersData, articlesData, userData, isLoading, getArticles } =
@@ -35,6 +36,7 @@ export default function Card() {
   const [commentIsUpdated, setCommentIsUpdated] = useState(false)
   const [commentUpdate, setCommentUpdate] = useState(null)
 
+  // rendering DOM
   return (
     <>
       {usersData &&
@@ -42,6 +44,9 @@ export default function Card() {
         articlesData.map((post, index) => {
           const userPoster = usersData.find((u) => u._id === post.posterId)
 
+          // *************** handle function using map array ***************
+
+          // handle edit article function
           const updateArticle = async (e) => {
             e.preventDefault()
 
@@ -49,21 +54,39 @@ export default function Card() {
               posterId: userPoster._id,
               message: messageUpdate,
             }
-            await axios.put(
-              `${process.env.REACT_APP_API_URL}articles/` + post._id,
-              data
-            )
-            setIsUpdated(!isUpdated)
-            await getArticles()
+            try {
+              const axiosResponse = await putRequest(
+                apiEndpoints.editArticle + '/' + post._id,
+                data
+              )
+              if (axiosResponse.status === 200) {
+                setIsUpdated(!isUpdated)
+                await getArticles()
+              }
+            } catch (error) {
+              console.log(error)
+            }
           }
 
+          // handle delete article function
           const deletePost = async () => {
-            await axios.delete(
-              `${process.env.REACT_APP_API_URL}articles/` + post._id
-            )
-            await getArticles()
+            // eslint-disable-next-line no-restricted-globals
+            const confirmation = confirm('Delete article ?')
+            if (confirmation) {
+              try {
+                const axiosResponse = await deleteRequest(
+                  apiEndpoints.deleteArticle + '/' + post._id
+                )
+                if (axiosResponse.status === 200) {
+                  await getArticles()
+                }
+              } catch (error) {
+                console.log(error)
+              }
+            }
           }
 
+          // handle like article function
           async function handleLike(e) {
             e.preventDefault()
 
@@ -75,13 +98,17 @@ export default function Card() {
                 like: 1,
                 likerId: userData._id,
               }
-              await axios.post(
-                `${process.env.REACT_APP_API_URL}articles/` +
+
+              const axiosResponse = await postRequest(
+                apiEndpoints.getAllArticles +
+                  '/' +
                   post._id +
-                  '/like',
+                  apiEndpoints.likes,
                 likeData
               )
-              getArticles()
+              if (axiosResponse.status === 201) {
+                getArticles()
+              }
             }
             // if the user unlike an article
             if (post.likers.find((likers) => likers.likerId === userData._id)) {
@@ -89,16 +116,20 @@ export default function Card() {
                 like: 0,
                 likerId: userData._id,
               }
-              await axios.post(
-                `${process.env.REACT_APP_API_URL}articles/` +
+              const axiosResponse = await postRequest(
+                apiEndpoints.getAllArticles +
+                  '/' +
                   post._id +
-                  '/like',
+                  apiEndpoints.likes,
                 unlikeData
               )
-              getArticles()
+              if (axiosResponse.status === 200) {
+                getArticles()
+              }
             }
           }
 
+          // handle dislike article function
           async function handleDislike(e) {
             e.preventDefault()
 
@@ -112,13 +143,16 @@ export default function Card() {
                 like: -1,
                 disLikerId: userData._id,
               }
-              await axios.post(
-                `${process.env.REACT_APP_API_URL}articles/` +
+              const axiosResponse = await postRequest(
+                apiEndpoints.getAllArticles +
+                  '/' +
                   post._id +
-                  '/like',
+                  apiEndpoints.likes,
                 dislikeData
               )
-              getArticles()
+              if (axiosResponse.status === 201) {
+                getArticles()
+              }
             }
 
             // if the user un dislike an article
@@ -131,13 +165,16 @@ export default function Card() {
                 like: 0,
                 disLikerId: userData._id,
               }
-              await axios.post(
-                `${process.env.REACT_APP_API_URL}articles/` +
+              const axiosResponse = await postRequest(
+                apiEndpoints.getAllArticles +
+                  '/' +
                   post._id +
-                  '/like',
+                  apiEndpoints.likes,
                 undislikeData
               )
-              getArticles()
+              if (axiosResponse.status === 200) {
+                getArticles()
+              }
             }
           }
 
@@ -153,6 +190,7 @@ export default function Card() {
             (dislikers) => dislikers.disLikerId === userData._id
           )
 
+          // handle Functions for saving  edit post & comment messages in state
           const handleEditPost = (id) => {
             setIsUpdated(!isUpdated)
             setTargetElement(id)
@@ -163,8 +201,10 @@ export default function Card() {
             setTargetElement(id)
           }
 
+          // Variable for libraries Moment to format timestamp saved in database
           const dateToFormat = `${post.createdAt}`
 
+          // Rendering DOM articles
           return (
             <li className="cardContainer" key={index}>
               {isLoading ? (
@@ -310,6 +350,9 @@ export default function Card() {
                       Comments
                     </h4>
                     {post.comments.map((comment, index) => {
+                      // map comments to render them in DOM
+
+                      // handle function for updating comment
                       const updateComment = async (e) => {
                         e.preventDefault()
 
@@ -321,34 +364,50 @@ export default function Card() {
                           commenterProfilePicture: userData.profilePicture,
                           text: commentUpdate,
                         }
-
-                        await axios.put(
-                          `${process.env.REACT_APP_API_URL}articles/` +
-                            post._id +
-                            '/comment',
-                          data
-                        )
-                        setCommentIsUpdated(!commentIsUpdated)
-                        await getArticles()
+                        try {
+                          const axiosResponse = await putRequest(
+                            apiEndpoints.getAllArticles +
+                              '/' +
+                              post._id +
+                              apiEndpoints.editComment,
+                            data
+                          )
+                          if (axiosResponse.status === 200) {
+                            setCommentIsUpdated(!commentIsUpdated)
+                            await getArticles()
+                          }
+                        } catch (err) {
+                          console.log(err)
+                        }
                       }
 
+                      // handle function for deleting comment
                       const deleteComment = async () => {
                         const data = {
                           commentId: comment._id,
                         }
-                        await axios.post(
-                          `${process.env.REACT_APP_API_URL}articles/` +
-                            post._id +
-                            '/comment/delete',
-                          data
-                        )
-                        await getArticles()
+                        try {
+                          const axiosResponse = await postRequest(
+                            apiEndpoints.getAllArticles +
+                              '/' +
+                              post._id +
+                              apiEndpoints.deleteComment,
+                            data
+                          )
+                          if (axiosResponse.status === 201) {
+                            getArticles()
+                          }
+                        } catch (err) {
+                          console.log(err)
+                        }
                       }
 
+                      // check if user is the user poster of comment or if the user is admin for rendering icons who contain onClick function
                       const isUserComment =
                         userData._id === comment.commenterId ||
                         userData.isAdmin === 1
 
+                      // render article comments
                       return (
                         <div key={index}>
                           <article className="comment">
