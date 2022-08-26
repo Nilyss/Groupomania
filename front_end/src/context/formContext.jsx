@@ -1,9 +1,9 @@
+//  libraries
 import { createContext, useState } from 'react'
-
 export const FormContext = createContext()
 
 export function UserContextProvider(props) {
-  // modal
+  //  sign in & sign up form modal toggle
   const [modalState, setModalState] = useState({
     signUpModal: false,
     signInModal: true,

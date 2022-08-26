@@ -1,48 +1,42 @@
+// libraries
 import { useContext, useState } from 'react'
 import { FormContext } from '../../context/formContext'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
+
+// api
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 //css
 import './_forms.scss'
 
 export default function SignInModal() {
-  axios.defaults.withCredentials = true
-
+  // init hooks
   const { toggleModals, modalState } = useContext(FormContext)
   const [error, setError] = useState('')
-
   const navigate = useNavigate()
 
-  function handleForm(e) {
+  // sign In form submit
+  async function handleForm(e) {
     e.preventDefault()
     try {
       const userData = {
         email: e.target['mail'].value,
         password: e.target['password'].value,
       }
-      axios
-        .post(`${process.env.REACT_APP_API_URL}signin`, userData)
-        .then((res) => {
-          if (res.status === 200) {
-            navigate('/home', { replace: true })
-          }
-        })
-        .catch((error) => {
-          if (error.response.status === 401) {
-            setError(
-              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
-            )
-            console.log(
-              'Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
-            )
-          }
-        })
+
+      const axiosResponse = await postRequest(apiEndpoints.signIn, userData)
+      if (axiosResponse.status === 200) {
+        navigate('/home', { replace: true })
+      }
     } catch (err) {
-      console.log(err, 'An internal error occurred')
+      setError(
+        ' Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+      )
     }
   }
 
+  //  rendering DOM
   return (
     <>
       {modalState.signInModal && (
