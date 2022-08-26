@@ -1,5 +1,4 @@
 // dependencies
-import axios from 'axios'
 import { useState, useContext } from 'react'
 import { PostContext } from '../../context'
 
@@ -10,13 +9,17 @@ import './_createPost.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
-export default function CreatePost() {
-  axios.defaults.withCredentials = true
+// api
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
+export default function CreatePost() {
+  // init hooks
   const { userData, isLoading, getArticles } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const [file, setFile] = useState(null)
 
+  //  create post form submit
   async function handleFormArticle(e) {
     e.preventDefault()
 
@@ -25,29 +28,25 @@ export default function CreatePost() {
     formData.append('message', e.target['message'].value)
     formData.append('file', file)
     try {
-      await axios({
-        method: 'post',
-        url: `${process.env.REACT_APP_API_URL}articles`,
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }).then((res) => {
-        if (res.status === 201) {
-          e.target['message'].value = ''
-          e.target['message'].value = ''
-        }
+      const axiosResponse = await postRequest(
+        apiEndpoints.postArticle,
+        formData
+      )
+      if (axiosResponse.status === 201) {
+        e.target['message'].value = ''
+        e.target['message'].value = ''
         getArticles()
-      })
+      }
     } catch (error) {
       console.log(error)
     }
   }
-
+  // save in state the picture send by user
   const handleFileSelect = (event) => {
     setFile(event.target.files[0])
   }
 
+  // rendering dom
   return (
     <>
       <article className="createPost">

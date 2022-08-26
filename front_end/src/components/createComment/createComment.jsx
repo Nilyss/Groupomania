@@ -26,10 +26,7 @@ export default function CreateComment({ commentId }) {
     }
     try {
       const axiosResponse = await postRequest(
-        apiEndpoints.getAllArticles +
-          '/' +
-          commentId +
-          apiEndpoints.postComment,
+        apiEndpoints.postArticle + '/' + commentId + apiEndpoints.postComment,
         data
       )
       if (axiosResponse.status === 201) {
