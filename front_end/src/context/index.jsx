@@ -4,6 +4,7 @@ import { useState, useEffect, createContext } from 'react'
 // api
 import { getRequest } from '../api/apiCall'
 import apiEndpoints from '../api/apiEndpoints'
+import api from 'js-cookie'
 
 export const PostContext = createContext()
 
@@ -86,6 +87,20 @@ export const PostProvider = ({ children }) => {
     dispatch()
   }
 
+  // function for dispatching DOM rendering on users api call
+  const getUser = async () => {
+    const dispatch = async () => {
+      const axiosResponse = await getRequest(apiEndpoints.getIdCurrentUser)
+      const idUserResponse = await getRequest(
+        apiEndpoints.getAllUsers + '/' + axiosResponse.data
+      )
+      if (idUserResponse.status === 200) {
+        setUserData(idUserResponse.data)
+      }
+    }
+    dispatch()
+  }
+
   return (
     <PostContext.Provider
       value={{
@@ -94,6 +109,7 @@ export const PostProvider = ({ children }) => {
         userData,
         oneArticleData,
         getArticles,
+        getUser,
         isLoading,
       }}
     >

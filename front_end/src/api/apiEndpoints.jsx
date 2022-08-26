@@ -7,6 +7,8 @@ const apiEndpoints = {
   //post request
   signUp: '/signup',
   signIn: '/signin',
+  //put Request
+  updateUser: '/users',
 
   // ********** articles endpoints **********
   // get request

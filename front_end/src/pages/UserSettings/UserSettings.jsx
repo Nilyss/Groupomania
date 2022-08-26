@@ -16,6 +16,8 @@ import {
   faSpinner,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
+import { postRequest, putRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 export default function UserSettings() {
   axios.defaults.withCredentials = true
@@ -36,16 +38,13 @@ export default function UserSettings() {
     const formData = new FormData()
     formData.append('file', file)
     try {
-      await axios({
-        method: 'put',
-        url: `${process.env.REACT_APP_API_URL}users/` + userData._id,
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }).then(() => {
+      const axiosResponse = await putRequest(
+        apiEndpoints.updateUser + '/' + userData._id,
+        formData
+      )
+      if (axiosResponse.status === 200) {
         getUser()
-      })
+      }
     } catch (error) {
       console.log(error)
     }
