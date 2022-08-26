@@ -5,10 +5,10 @@
   @media(max-width: $breakpointTablet) {
     display: flex;
     position: unset;
-    margin-bottom: .8em;
     margin-left: 1em;
   }
   position: relative;
+  z-index: 999;
   left: 1.7em;
   font-size: 2em;
   color: $colorSecondary;
@@ -19,6 +19,8 @@
 }
 
 .userSettingsMain{
+  margin-top: -3em;
+  margin-bottom: 5em;
   overflow: hidden;
   position: relative;
   height: border-box;
@@ -30,13 +32,10 @@
 }
 
 .userSettingsMain__form {
-  @media (max-width: $breakpointMobile) {
-    background: none;
-    padding: 0;
-    border: none;
-  }
-  margin: 2em;
-  padding: 4em;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  padding: 1em 2em 1em 2em;
   background: url('../../assets/articlebg.webp') no-repeat  center;
   background-size: cover;
   border-radius: 8px;
@@ -62,7 +61,6 @@
 .userSettingsMain__form__body__form{
   p {
     margin-bottom: 2em;
-    padding-left: 2em;
     font-size: 1em;
     strong {
       font-weight: bold;
@@ -84,18 +82,17 @@
 }
 
 .userSettingsMain__form__body__form__fig__img{
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   border-radius: 10%;
   border: 2px solid $colorTertiary;
-  margin-bottom: 2em;
   object-fit: cover;
 }
 
 .pp__upload--label {
   position: relative;
-  bottom: 9em;
-  left: 3em;
+  bottom: 6em;
+  left: 2.2em;
   font-size: 1.5em;
   cursor: pointer;
 }
@@ -103,7 +100,7 @@
 
 .userSettingsMain__form__body__form__input{
   position: relative;
-  bottom: 18em;
+  bottom: 15em;
   left: 11.5em;
   opacity: 0;
   cursor: pointer;
@@ -115,5 +112,4 @@
   }
   @include submitButton;
   margin:auto;
-  margin-bottom: -2em;
 }

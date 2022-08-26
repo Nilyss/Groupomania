@@ -1,6 +1,12 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
 
+ul {
+  display: flex;
+  flex-flow: column;
+  gap: 2em;
+}
+
 li {
   margin-top: 1em;
   list-style: none;

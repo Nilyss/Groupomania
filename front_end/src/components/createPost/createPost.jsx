@@ -71,7 +71,7 @@ export default function CreatePost() {
                 htmlFor="post"
                 className="createPost__body__form__top__label"
               >
-                What's on your mind {userData.firstName} ?
+                Tell us everything {userData.firstName} !
               </label>
               <textarea
                 name="message"

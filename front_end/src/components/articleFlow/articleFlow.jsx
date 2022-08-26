@@ -7,7 +7,9 @@ import Card from '../card/card'
 export default function ArticleFlow() {
   return (
     <>
-      <Card />
+      <ul>
+        <Card />
+      </ul>
     </>
   )
 }

@@ -73,7 +73,7 @@ export const PostProvider = ({ children }) => {
       })
     }
     getOneArticle()
-  }, [])
+  }, [articlesData])
 
   // function for dispatching DOM rendering on every new api call
   const getArticles = async () => {
