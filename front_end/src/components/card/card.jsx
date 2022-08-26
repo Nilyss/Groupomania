@@ -61,7 +61,7 @@ export default function Card() {
               )
               if (axiosResponse.status === 200) {
                 setIsUpdated(!isUpdated)
-                await getArticles()
+                getArticles()
               }
             } catch (error) {
               console.log(error)
@@ -78,7 +78,7 @@ export default function Card() {
                   apiEndpoints.deleteArticle + '/' + post._id
                 )
                 if (axiosResponse.status === 200) {
-                  await getArticles()
+                  getArticles()
                 }
               } catch (error) {
                 console.log(error)
@@ -374,7 +374,7 @@ export default function Card() {
                           )
                           if (axiosResponse.status === 200) {
                             setCommentIsUpdated(!commentIsUpdated)
-                            await getArticles()
+                            getArticles()
                           }
                         } catch (err) {
                           console.log(err)
@@ -386,19 +386,23 @@ export default function Card() {
                         const data = {
                           commentId: comment._id,
                         }
-                        try {
-                          const axiosResponse = await postRequest(
-                            apiEndpoints.getAllArticles +
-                              '/' +
-                              post._id +
-                              apiEndpoints.deleteComment,
-                            data
-                          )
-                          if (axiosResponse.status === 201) {
-                            getArticles()
+                        // eslint-disable-next-line no-restricted-globals
+                        const confirmation = confirm('Delete comment ?')
+                        if (confirmation) {
+                          try {
+                            const axiosResponse = await postRequest(
+                              apiEndpoints.getAllArticles +
+                                '/' +
+                                post._id +
+                                apiEndpoints.deleteComment,
+                              data
+                            )
+                            if (axiosResponse.status === 201) {
+                              getArticles()
+                            }
+                          } catch (err) {
+                            console.log(err)
                           }
-                        } catch (err) {
-                          console.log(err)
                         }
                       }
 

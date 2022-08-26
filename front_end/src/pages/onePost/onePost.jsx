@@ -23,6 +23,8 @@ import Footer from '../../components/footer/footer'
 // css
 import './_onePost.scss'
 import CreateComment from '../../components/createComment/createComment'
+import { deleteRequest, postRequest, putRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 export default function OnePost() {
   const { articlesData, usersData, userData, getArticles, isLoading } =
@@ -69,13 +71,14 @@ export default function OnePost() {
   // dateFormat for Moment libraries
   const dateToFormat = `${getRequestedPost.createdAt}`
 
-  // handle function
+  //  ******** handle function ********
 
   const handleEditPost = (id) => {
     setIsUpdated(!isUpdated)
     setTargetElement(id)
   }
 
+  // handle edit article function
   const updateArticle = async (e) => {
     e.preventDefault()
 
@@ -83,28 +86,40 @@ export default function OnePost() {
       posterId: userPoster._id,
       message: messageUpdate,
     }
-    await axios.put(
-      `${process.env.REACT_APP_API_URL}articles/` + getRequestedPost._id,
-      data
-    )
-    setIsUpdated(!isUpdated)
-    getArticles()
-  }
-
-  const deletePost = async () => {
-    await axios
-      .delete(
-        `${process.env.REACT_APP_API_URL}articles/` + getRequestedPost._id
+    try {
+      const axiosResponse = await putRequest(
+        apiEndpoints.editArticle + '/' + getRequestedPost._id,
+        data
       )
-      .then((res) => {
-        if (res.status === 200) {
-          navigate('/home', { replace: true })
-        } else {
-          console.log('error while redirect')
-        }
-      })
+      if (axiosResponse.status === 200) {
+        setIsUpdated(!isUpdated)
+        getArticles()
+      }
+    } catch (error) {
+      console.log(error)
+    }
   }
 
+  // handle delete article function
+  const deletePost = async () => {
+    // eslint-disable-next-line no-restricted-globals
+    const confirmation = confirm('Delete article ?')
+    if (confirmation) {
+      try {
+        const axiosResponse = await deleteRequest(
+          apiEndpoints.deleteArticle + '/' + getRequestedPost._id
+        )
+        if (axiosResponse.status === 200) {
+          getArticles()
+          navigate('/home', { replace: true })
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  }
+
+  // handle like article function
   async function handleLike(e) {
     e.preventDefault()
 
@@ -116,13 +131,17 @@ export default function OnePost() {
         like: 1,
         likerId: userData._id,
       }
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}articles/` +
+
+      const axiosResponse = await postRequest(
+        apiEndpoints.getAllArticles +
+          '/' +
           getRequestedPost._id +
-          '/like',
+          apiEndpoints.likes,
         likeData
       )
-      getArticles()
+      if (axiosResponse.status === 201) {
+        getArticles()
+      }
     }
     // if the user unlike an article
     if (
@@ -132,16 +151,20 @@ export default function OnePost() {
         like: 0,
         likerId: userData._id,
       }
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}articles/` +
+      const axiosResponse = await postRequest(
+        apiEndpoints.getAllArticles +
+          '/' +
           getRequestedPost._id +
-          '/like',
+          apiEndpoints.likes,
         unlikeData
       )
-      getArticles()
+      if (axiosResponse.status === 200) {
+        getArticles()
+      }
     }
   }
 
+  // handle dislike article function
   async function handleDislike(e) {
     e.preventDefault()
 
@@ -155,13 +178,16 @@ export default function OnePost() {
         like: -1,
         disLikerId: userData._id,
       }
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}articles/` +
+      const axiosResponse = await postRequest(
+        apiEndpoints.getAllArticles +
+          '/' +
           getRequestedPost._id +
-          '/like',
+          apiEndpoints.likes,
         dislikeData
       )
-      getArticles()
+      if (axiosResponse.status === 201) {
+        getArticles()
+      }
     }
 
     // if the user un dislike an article
@@ -174,13 +200,16 @@ export default function OnePost() {
         like: 0,
         disLikerId: userData._id,
       }
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}articles/` +
+      const axiosResponse = await postRequest(
+        apiEndpoints.getAllArticles +
+          '/' +
           getRequestedPost._id +
-          '/like',
+          apiEndpoints.likes,
         undislikeData
       )
-      getArticles()
+      if (axiosResponse.status === 200) {
+        getArticles()
+      }
     }
   }
 
@@ -189,6 +218,7 @@ export default function OnePost() {
     setTargetElement(id)
   }
 
+  // rendering DOM
   return (
     <>
       <Header />
@@ -337,8 +367,7 @@ export default function OnePost() {
                     userData._id === comment.commenterId ||
                     userData.isAdmin === 1
 
-                  // comment handle function
-
+                  // handle function for updating comment
                   const updateComment = async (e) => {
                     e.preventDefault()
 
@@ -350,28 +379,46 @@ export default function OnePost() {
                       commenterProfilePicture: userData.profilePicture,
                       text: commentUpdate,
                     }
-
-                    await axios.put(
-                      `${process.env.REACT_APP_API_URL}articles/` +
-                        getRequestedPost._id +
-                        '/comment',
-                      data
-                    )
-                    setCommentIsUpdated(!commentIsUpdated)
-                    await getArticles()
+                    try {
+                      const axiosResponse = await putRequest(
+                        apiEndpoints.getAllArticles +
+                          '/' +
+                          getRequestedPost._id +
+                          apiEndpoints.editComment,
+                        data
+                      )
+                      if (axiosResponse.status === 200) {
+                        setCommentIsUpdated(!commentIsUpdated)
+                        getArticles()
+                      }
+                    } catch (err) {
+                      console.log(err)
+                    }
                   }
 
+                  // handle function for deleting comment
                   const deleteComment = async () => {
                     const data = {
                       commentId: comment._id,
                     }
-                    await axios.post(
-                      `${process.env.REACT_APP_API_URL}articles/` +
-                        getRequestedPost._id +
-                        '/comment/delete',
-                      data
-                    )
-                    await getArticles()
+                    // eslint-disable-next-line no-restricted-globals
+                    const confirmation = confirm('Delete comment ?')
+                    if (confirmation) {
+                      try {
+                        const axiosResponse = await postRequest(
+                          apiEndpoints.getAllArticles +
+                            '/' +
+                            getRequestedPost._id +
+                            apiEndpoints.deleteComment,
+                          data
+                        )
+                        if (axiosResponse.status === 201) {
+                          getArticles()
+                        }
+                      } catch (err) {
+                        console.log(err)
+                      }
+                    }
                   }
 
                   return (
