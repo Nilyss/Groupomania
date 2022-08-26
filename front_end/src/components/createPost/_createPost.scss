@@ -3,20 +3,15 @@
 
 .createPost {
   @media (max-width: $breakpointMobile) {
-    margin-top: 1em;
-    width: 100%;
     padding: .5em;
     border-radius: 0;
     background: none;
     box-shadow: none;
   }
-  margin: auto;
-  margin-top: 2em;
-  margin-bottom: 2em;
   padding: 2em;
-  width: 80%;
   align-items: center;
-  background: $colorSecondary;
+  background: url('../../assets/articlebg.webp') no-repeat  center;
+  background-size: cover;
   border-radius: 8px;
   box-shadow: $boxShadowCard;
   color: $colorTertiary;

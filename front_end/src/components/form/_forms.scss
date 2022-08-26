@@ -14,7 +14,7 @@
   padding: 1rem 1.5rem;
   display: flex;
   flex-flow: column;
-  background: $colorSecondary;
+  background: url('../../assets/appbackground.webp') no-repeat;
   border: $borderCard;
   border-radius: 1em;
   color: $colorTertiary;
@@ -49,7 +49,7 @@
 
 .auth__header__btn {
   align-items: center;
-  background-color: $colorSecondary;
+  background: url('../../assets/appbackground.webp') no-repeat;
   border: $borderCard;
   border-radius: 8px;
   display: flex;

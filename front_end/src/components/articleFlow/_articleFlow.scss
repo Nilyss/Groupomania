@@ -2,6 +2,7 @@
 @import '../../utils/styles/scss/utils/mixins';
 
 li {
+  margin-top: 1em;
   list-style: none;
 }
 
@@ -10,9 +11,6 @@ li {
   @media(max-width: $breakpointMobile) {
     width: 100%;
   }
-  margin: auto;
-  margin-top: 5em;
-  width: 80%;
   display: flex;
   justify-content: center;
   align-self: center;
@@ -26,10 +24,10 @@ li {
   }
   text-align: center;
   border-radius: 8px;
-  background: $colorSecondary;
+  background: url('../../assets/articlebg.webp') no-repeat  center;
+  background-size: cover;
   box-shadow: $boxShadowCard;
   padding: 2em;
-  margin-bottom: 2em;
 }
 
 .postFlow__container__header {

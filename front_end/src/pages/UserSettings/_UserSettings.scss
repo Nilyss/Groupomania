@@ -9,24 +9,24 @@
     margin-left: 1em;
   }
   position: relative;
-  top: -3em;
   left: 1.7em;
   font-size: 2em;
-  color: $colorTertiary;
+  color: $colorSecondary;
+  background:$colorTertiary;
+  border-radius: 25%;
+  padding: .2em;
+  box-shadow: $boxShadowCard;
 }
 
 .userSettingsMain{
   overflow: hidden;
-  border-radius: 2em;
-  background: url('../../assets/appbackground.webp') no-repeat fixed center;
-  background-size: cover;
   position: relative;
   height: border-box;
   display: flex;
   flex-flow: wrap;
-  box-shadow: $boxShadowCard;
   align-items: center;
   justify-content: center;
+  color: $colorTertiary;
 }
 
 .userSettingsMain__form {
@@ -37,7 +37,8 @@
   }
   margin: 2em;
   padding: 4em;
-  background: $colorSecondary;
+  background: url('../../assets/articlebg.webp') no-repeat  center;
+  background-size: cover;
   border-radius: 8px;
   border: 2px solid $colorTertiary;
 }

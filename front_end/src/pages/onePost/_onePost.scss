@@ -1,17 +1,12 @@
 @import '../../utils/styles/scss/utils/variables';
 @import '../../utils/styles/scss/utils/mixins';
-
-body {
-  background: url('../../assets/appbackground.webp') no-repeat fixed center;
-  background-size: cover;
-}
-
 .onePost {
   margin: 2em;
 }
 
 .onePostContainer {
-  background: $colorSecondary;
+  background: url('../../assets/articlebg.webp') no-repeat  center;
+  background-size: cover;
   border-radius: 8px;
   box-shadow: $boxShadowCard;
 }

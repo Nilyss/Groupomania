@@ -17,35 +17,37 @@ export default function Header() {
   return (
     <>
       <header className="homeHeader">
-        <div className="showUser">
-          <figure>
-            {isLoading ? (
-              <FontAwesomeIcon
-                icon={faSpinner}
-                className="fa-spin fa-2x showUser__pp"
-              />
-            ) : (
-              <Link to={'/home'}>
-                <img
-                  className="showUser__pp"
-                  src={userData.profilePicture}
-                  alt="profile"
-                  title={userData.firstName + "'s home page"}
+        <div className="homeHeaderContainer">
+          <div className="showUser">
+            <figure>
+              {isLoading ? (
+                <FontAwesomeIcon
+                  icon={faSpinner}
+                  className="fa-spin fa-2x showUser__pp"
                 />
-              </Link>
-            )}
+              ) : (
+                <Link to={'/home'}>
+                  <img
+                    className="showUser__pp"
+                    src={userData.profilePicture}
+                    alt="profile"
+                    title={userData.firstName + "'s home page"}
+                  />
+                </Link>
+              )}
+            </figure>
+            <p className="showUser__name">Welcome {userData.firstName} !</p>
+          </div>
+          <figure className="homeMain__fig">
+            <Link to={'/home'}>
+              <img
+                className="homeMain__fig__logo"
+                src={logoOrange}
+                alt="logo Groupomania"
+              />
+            </Link>
           </figure>
-          <p className="showUser__name">Welcome {userData.firstName} !</p>
         </div>
-        <figure className="homeMain__fig">
-          <Link to={'/home'}>
-            <img
-              className="homeMain__fig__logo"
-              src={logoOrange}
-              alt="logo Groupomania"
-            />
-          </Link>
-        </figure>
       </header>
     </>
   )
