@@ -3,6 +3,7 @@ const apiEndpoints = {
   //getRequest
   getAllUsers: '/users',
   getIdCurrentUser: '/jwtid',
+  logout: '/logout',
   //post request
   signUp: '/signup',
   signIn: '/signin',

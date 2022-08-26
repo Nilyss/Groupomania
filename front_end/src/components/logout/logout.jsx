@@ -1,31 +1,33 @@
 // dependencies
-import axios from 'axios'
 import cookie from 'js-cookie'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 // css
 import './_logout.scss'
 
-export default function Logout() {
-  axios.defaults.withCredentials = true
-  const navigate = useNavigate()
+// api
+import { getRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
+export default function Logout() {
+  // remove token stored in cookies on http only if the backend didn't worked for safety
   const removeCookie = (key) => {
-    if (window !== 'undefined') {
+    if (window !== undefined) {
       cookie.remove(key, { expires: 1 })
     }
   }
 
+  // request API and remove token from front-end and back-end
   const logout = async () => {
-    await axios
-      .get(`${process.env.REACT_APP_API_URL}logout`)
-      .then(() => {
-        removeCookie('jwt')
-        navigate('/', { replace: true })
-      })
-      .catch((err) => console.log(err))
+    try {
+      await getRequest(apiEndpoints.logout)
+      removeCookie('jwt')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
+  // rendering DOM
   return (
     <>
       <Link className="link" to={'/'}>

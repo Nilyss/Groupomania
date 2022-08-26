@@ -46,7 +46,7 @@ export default function CreatePost() {
     setFile(event.target.files[0])
   }
 
-  // rendering dom
+  // rendering DOM
   return (
     <>
       <article className="createPost">
