@@ -4,8 +4,6 @@ import { useState, useEffect, createContext } from 'react'
 // api
 import { getRequest } from '../api/apiCall'
 import apiEndpoints from '../api/apiEndpoints'
-import api from 'js-cookie'
-import axios from 'axios'
 
 export const PostContext = createContext()
 
@@ -101,7 +99,7 @@ export const PostProvider = ({ children }) => {
     }
     dispatch()
   }
-
+  // function for dispatching DOM rendering on user api call
   const getUsers = async () => {
     const dispatch = async () => {
       const axiosResponse = await getRequest(apiEndpoints.getAllUsers)

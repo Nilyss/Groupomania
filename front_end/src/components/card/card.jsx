@@ -42,7 +42,11 @@ export default function Card() {
       {usersData &&
         userData &&
         articlesData.map((post, index) => {
+          // get user poster data  for render them in DOM
           const userPoster = usersData.find((u) => u._id === post.posterId)
+
+          // check if post have a picture for rendering figure balise only if  the post have image
+          const haveAPicture = post.picture !== undefined
 
           // *************** handle function using map array ***************
 
@@ -255,13 +259,15 @@ export default function Card() {
                         </Moment>
                       </Link>
                     </div>
-                    <figure className="postFlow__container__figure">
-                      <img
-                        className="postFlow__container__figure__img"
-                        src={post.picture}
-                        alt=""
-                      />
-                    </figure>
+                    {haveAPicture && (
+                      <figure className="postFlow__container__figure">
+                        <img
+                          className="postFlow__container__figure__img"
+                          src={post.picture}
+                          alt=""
+                        />
+                      </figure>
+                    )}
                     <div className="postFlow__container__body">
                       {(isUpdated === false || targetElement !== post._id) && (
                         <p className="postFlow__container__body__text">
