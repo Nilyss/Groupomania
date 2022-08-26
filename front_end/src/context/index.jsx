@@ -5,6 +5,7 @@ import { useState, useEffect, createContext } from 'react'
 import { getRequest } from '../api/apiCall'
 import apiEndpoints from '../api/apiEndpoints'
 import api from 'js-cookie'
+import axios from 'axios'
 
 export const PostContext = createContext()
 
@@ -101,6 +102,16 @@ export const PostProvider = ({ children }) => {
     dispatch()
   }
 
+  const getUsers = async () => {
+    const dispatch = async () => {
+      const axiosResponse = await getRequest(apiEndpoints.getAllUsers)
+      if (axiosResponse.status === 200) {
+        setUsersData(axiosResponse.data)
+      }
+    }
+    dispatch()
+  }
+
   return (
     <PostContext.Provider
       value={{
@@ -110,6 +121,7 @@ export const PostProvider = ({ children }) => {
         oneArticleData,
         getArticles,
         getUser,
+        getUsers,
         isLoading,
       }}
     >

@@ -24,7 +24,7 @@ import {
 export default function UserSettings() {
   axios.defaults.withCredentials = true
 
-  const { isLoading, getUser, userData } = useContext(PostContext)
+  const { isLoading, getUser, getUsers, userData } = useContext(PostContext)
   const [loadNewFile, setLoadNewFile] = useState(true)
   const [file, setFile] = useState(null)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
@@ -46,6 +46,7 @@ export default function UserSettings() {
       )
       if (axiosResponse.status === 200) {
         getUser()
+        getUsers()
       }
     } catch (error) {
       console.log(error)
