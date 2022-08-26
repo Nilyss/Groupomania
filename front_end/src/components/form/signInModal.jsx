@@ -9,8 +9,11 @@ import apiEndpoints from '../../api/apiEndpoints'
 
 //css
 import './_forms.scss'
+import { PostContext } from '../../context'
 
 export default function SignInModal() {
+  // context
+  const { getUser } = useContext(PostContext)
   // init hooks
   const { toggleModals, modalState } = useContext(FormContext)
   const [error, setError] = useState('')
@@ -27,6 +30,7 @@ export default function SignInModal() {
 
       const axiosResponse = await postRequest(apiEndpoints.signIn, userData)
       if (axiosResponse.status === 200) {
+        getUser()
         navigate('/home', { replace: true })
       }
     } catch (err) {

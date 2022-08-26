@@ -8,6 +8,10 @@ import axios from 'axios'
 import Header from '../../components/header/header'
 import Footer from '../../components/footer/footer'
 
+// api
+import { putRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
+
 // css
 import './_UserSettings.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,8 +20,6 @@ import {
   faSpinner,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
-import { postRequest, putRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
 
 export default function UserSettings() {
   axios.defaults.withCredentials = true
