@@ -1,6 +1,7 @@
 // libraries
 import axios from 'axios'
 
+// axios configuration
 axios.defaults.baseURL = 'http://localhost:8000/api'
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 axios.defaults.timeout = 6000
@@ -16,6 +17,7 @@ const setRequest = (val) => {
   return config
 }
 
+// axios request
 export const getRequest = async (url, val = null) => {
   return await axios.get(url, { ...setRequest(val) })
 }

@@ -1,5 +1,6 @@
-// librairies
-import axios from 'axios'
+// api
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 // css
 import './_createComment.scss'
@@ -9,10 +10,10 @@ import { PostContext } from '../../context'
 import { useContext } from 'react'
 
 export default function CreateComment({ commentId }) {
-  axios.defaults.withCredentials = true
-
+  // init hooks
   const { getArticles, userData } = useContext(PostContext)
 
+  // create comment form submit
   async function handleFormComment(e) {
     e.preventDefault()
 
@@ -24,17 +25,23 @@ export default function CreateComment({ commentId }) {
       text: e.target['commentMessage'].value,
     }
     try {
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}articles/` + commentId + '/comment',
+      const axiosResponse = await postRequest(
+        apiEndpoints.getAllArticles +
+          '/' +
+          commentId +
+          apiEndpoints.postComment,
         data
       )
+      if (axiosResponse.status === 201) {
+        e.target['commentMessage'].value = ''
+        await getArticles()
+      }
     } catch (error) {
       console.log(error)
     }
-    e.target['commentMessage'].value = ''
-    await getArticles()
   }
 
+  // rendering DOM
   return (
     <>
       <form onSubmit={handleFormComment} className="comment__form">

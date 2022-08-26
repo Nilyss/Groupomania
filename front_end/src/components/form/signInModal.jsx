@@ -1,21 +1,22 @@
+// libraries
 import { useContext, useState } from 'react'
 import { FormContext } from '../../context/formContext'
 import { useNavigate } from 'react-router-dom'
-import axios from 'axios'
 
-//css
-import './_forms.scss'
+// api
 import { postRequest } from '../../api/apiCall'
 import apiEndpoints from '../../api/apiEndpoints'
 
-export default function SignInModal() {
-  axios.defaults.withCredentials = true
+//css
+import './_forms.scss'
 
+export default function SignInModal() {
+  // init hooks
   const { toggleModals, modalState } = useContext(FormContext)
   const [error, setError] = useState('')
-
   const navigate = useNavigate()
 
+  // sign In form submit
   async function handleForm(e) {
     e.preventDefault()
     try {
@@ -35,6 +36,7 @@ export default function SignInModal() {
     }
   }
 
+  //  rendering DOM
   return (
     <>
       {modalState.signInModal && (

@@ -1,11 +1,14 @@
+// libraries
 import { useContext, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormContext } from '../../context/formContext'
 
-// css
-import './_forms.scss'
+// api
 import { postRequest } from '../../api/apiCall'
 import apiEndpoints from '../../api/apiEndpoints'
+
+// css
+import './_forms.scss'
 
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(FormContext)
@@ -20,10 +23,11 @@ export default function SignUpModal() {
     }
   }
 
+  // init hooks
   const formRef = useRef()
-
   const navigate = useNavigate()
 
+  //sign up form submit
   const handleForm = async (e) => {
     e.preventDefault()
 
@@ -60,6 +64,7 @@ export default function SignUpModal() {
     }
   }
 
+  // rendering DOM
   return (
     <>
       {modalState.signUpModal && (

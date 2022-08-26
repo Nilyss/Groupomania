@@ -1,5 +1,6 @@
 import axios from 'axios'
 
+// using redux for verify if user is legit with user token in cookies (http only)
 export const GET_USER = 'GET_USER'
 export const getUser = (uid) => {
   return (dispatch) => {

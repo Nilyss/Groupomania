@@ -1,4 +1,7 @@
+// libraries
 import { useState, useEffect, createContext } from 'react'
+
+// api
 import { getRequest } from '../api/apiCall'
 import apiEndpoints from '../api/apiEndpoints'
 
@@ -7,17 +10,13 @@ export const PostContext = createContext()
 export const PostProvider = ({ children }) => {
   // push API call into state
   const [usersData, setUsersData] = useState([])
-  const [displayUsersData, setDisplayUsersData] = useState(true)
   const [userData, setUserData] = useState([])
-  const [displayUserData, setDisplayUserData] = useState(true)
   const [articlesData, setArticlesData] = useState([])
-  const [displayArticlesData, setDisplayArticlesData] = useState(true)
   const [oneArticleData, setOneArticleData] = useState([])
-  const [displayOneArticleData, setDisplayOneArticleData] = useState(true)
-
   const [isLoading, setIsLoading] = useState(true)
 
-  // useEffect users
+  // *********** useEffect users ***********
+  // get All the users
   useEffect(() => {
     const getUsers = async () => {
       setIsLoading(true)
@@ -25,13 +24,12 @@ export const PostProvider = ({ children }) => {
       if (axiosResponse.status === 200) {
         setUsersData(axiosResponse.data)
         setIsLoading(false)
-      } else {
-        setDisplayUsersData(false)
       }
     }
     getUsers()
   }, [])
 
+  // get One user
   useEffect(() => {
     const getUser = async () => {
       setIsLoading(true)
@@ -42,14 +40,13 @@ export const PostProvider = ({ children }) => {
       if (idUserResponse.status === 200) {
         setUserData(idUserResponse.data)
         setIsLoading(false)
-      } else {
-        setDisplayUserData(false)
       }
     }
     getUser()
   }, [])
 
-  // useEffect articles
+  //  *********** useEffect articles ***********
+  // get All articles
   useEffect(() => {
     const getAllArticles = async () => {
       setIsLoading(true)
@@ -57,13 +54,12 @@ export const PostProvider = ({ children }) => {
       if (axiosResponse.status === 200) {
         setArticlesData(axiosResponse.data.reverse())
         setIsLoading(false)
-      } else {
-        setDisplayArticlesData(false)
       }
     }
     getAllArticles()
   }, [])
 
+  // get One article
   useEffect(() => {
     const getOneArticle = async () => {
       setIsLoading(true)
@@ -72,8 +68,6 @@ export const PostProvider = ({ children }) => {
           if (res.status === 200) {
             setOneArticleData(res.data)
             setIsLoading(false)
-          } else {
-            setDisplayOneArticleData(false)
           }
         })
       })
@@ -81,20 +75,16 @@ export const PostProvider = ({ children }) => {
     getOneArticle()
   }, [])
 
+  // function for dispatching DOM rendering on every new api call
   const getArticles = async () => {
-    const getNewPost = async () => {
+    const dispatch = async () => {
       const axiosResponse = await getRequest(apiEndpoints.getAllArticles)
       if (axiosResponse.status === 200) {
         setArticlesData(axiosResponse.data.reverse())
       }
     }
-    getNewPost()
+    dispatch()
   }
-  // const getOnePost = async () => {}
-  //
-  // const getUsers = async () => {}
-  //
-  // const getUser = async () => {}
 
   return (
     <PostContext.Provider
@@ -105,9 +95,6 @@ export const PostProvider = ({ children }) => {
         oneArticleData,
         getArticles,
         isLoading,
-        // getUsers,
-        // getUser,
-        // getOnePost,
       }}
     >
       {children}
