@@ -6,6 +6,7 @@ const apiEndpoints = {
   getIdCurrentUser: '/jwtid',
 
   //post request
+  signUp: '/signup',
   signIn: '/signin',
   // ********** articles endpoints **********
 

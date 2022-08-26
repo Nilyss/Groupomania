@@ -27,13 +27,11 @@ export default function SignInModal() {
       const axiosResponse = await postRequest(apiEndpoints.signIn, userData)
       if (axiosResponse.status === 200) {
         navigate('/home', { replace: true })
-      } else {
-        setError(
-          ' Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
-        )
       }
     } catch (err) {
-      console.log(err, 'An internal error occurred')
+      setError(
+        ' Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+      )
     }
   }
 

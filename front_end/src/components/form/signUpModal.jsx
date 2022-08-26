@@ -1,14 +1,15 @@
 import { useContext, useState, useRef } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { FormContext } from '../../context/formContext'
-import Axios from 'axios'
 
 // css
 import './_forms.scss'
-
-Axios.defaults.baseURL = 'http://localhost:8000/api'
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(FormContext)
+  const [error, setError] = useState('')
   const [validation, setValidation] = useState('')
 
   // push all inputs from form into inputs variable
@@ -21,16 +22,18 @@ export default function SignUpModal() {
 
   const formRef = useRef()
 
-  const handleForm = (e) => {
+  const navigate = useNavigate()
+
+  const handleForm = async (e) => {
     e.preventDefault()
 
     if (
       (inputs.current[3].value.length || inputs.current[4].value.length) < 8 ||
       (inputs.current[3].value.length || inputs.current[4].value.length) > 16
     ) {
-      setValidation('Password must have between 8 and 16 characters')
+      setError('Password must have between 8 and 16 characters')
     } else if (inputs.current[3].value !== inputs.current[4].value) {
-      setValidation('Passwords do not match')
+      setError('Passwords do not match')
     } else {
       try {
         const userData = {
@@ -39,10 +42,21 @@ export default function SignUpModal() {
           email: inputs.current[2].value,
           password: inputs.current[3].value,
         }
-
-        Axios.post(`signup`, userData)
-        toggleModals('signIn')
-      } catch (err) {}
+        const axiosResponse = await postRequest(apiEndpoints.signUp, userData)
+        if (axiosResponse.status === 201) {
+          inputs.current[0].value = ''
+          inputs.current[1].value = ''
+          inputs.current[2].value = ''
+          inputs.current[3].value = ''
+          inputs.current[4].value = ''
+          setValidation('Account successfully created')
+        } else {
+          setError('An error occurs. Try again later')
+        }
+      } catch (err) {
+        setError('An error occurs. Try again later')
+        navigate('/', { replace: true })
+      }
     }
   }
 
@@ -134,7 +148,8 @@ export default function SignUpModal() {
                   id="confirmPassword"
                   placeholder="Confirm your insane password"
                 />
-                <p className="auth__body__form__error">{validation}</p>
+                <p className="auth__body__form__valid">{validation}</p>
+                <p className="auth__body__form__error">{error}</p>
               </div>
               <button className="auth__body__form__submit">Register</button>
             </form>

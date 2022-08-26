@@ -1,10 +1,7 @@
 @import '../../utils/styles/scss/utils/variables';
 
 .authBody {
-  @media (max-width: $breakpointMobile) {
-    background: url('../../assets/officepicture.webp') no-repeat fixed;
-  }
-  background: url('../../assets/officepicture.webp') no-repeat fixed center;
+  background: url('../../assets/welcomebg.webp') no-repeat fixed center;
   background-size: cover;
   position: absolute;
   z-index: 0;
@@ -19,6 +16,8 @@
       display: flex;
       position: unset;
       margin: 0 auto;
+      margin-top: -4em;
+      margin-bottom: -6em;
     }
     position: absolute;
     top: -23em;

@@ -9,8 +9,8 @@
   position: absolute;
   z-index: 999;
   width: 350px;
-  top: 20%;
-  left: 20%;
+  top: 19%;
+  left: 37.2%;
   padding: 1rem 1.5rem;
   display: flex;
   flex-flow: column;
@@ -43,7 +43,7 @@
   width: 48%;
   padding: 0.5em;
   border-radius: 8px;
-  box-shadow: rgba(78, 81, 102, 0.72) 3px 3px 6px 0px inset,
+  box-shadow: rgba(78, 81, 102, 0.72) 3px 3px 6px 0 inset,
     rgba(78, 81, 102, 0.07) -3px -3px 6px 1px inset;
 }
 
@@ -111,6 +111,12 @@
   margin-top: 1em;
   text-align: center;
   border-radius: 2px;
+}
+
+.auth__body__form__valid {
+  color: #45d53f;
+  text-align: center;
+  margin-top: 2rem;
 }
 
 .auth__body__form__error {
