@@ -16,11 +16,11 @@
   border-radius: 25%;
   padding: .2em;
   box-shadow: $boxShadowCard;
+  margin-bottom: -1em;
 }
 
 .userSettingsMain{
-  margin-top: -3em;
-  margin-bottom: 5em;
+  margin-top: 1em;
   overflow: hidden;
   position: relative;
   height: border-box;
@@ -112,4 +112,25 @@
   }
   @include submitButton;
   margin:auto;
+  margin-top: -1em;
+}
+
+.userSettingsMain__form__body__form__removeData {
+  margin-top: 1em;
+  display: flex;
+  gap: .5em;
+  flex-flow: column;
+  align-items: center;
+}
+
+.userSettingsMain__form__body__form__removeData__btn {
+  padding: .2em;
+  border-radius: 5px;
+  box-shadow: $boxShadowCard;
+  cursor: pointer;
+  &:hover {
+    background: $colorPrimary;
+    color: #f2f2f2;
+    border: 2px solid $colorTertiary;
+  }
 }

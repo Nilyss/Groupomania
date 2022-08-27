@@ -9,7 +9,7 @@ import Header from '../../components/header/header'
 import Footer from '../../components/footer/footer'
 
 // api
-import { putRequest, deleteRequest, getRequest } from '../../api/apiCall'
+import { putRequest, deleteRequest } from '../../api/apiCall'
 import apiEndpoints from '../../api/apiEndpoints'
 
 // css
@@ -22,7 +22,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 
 export default function UserSettings() {
-  const { isLoading, getUser, getUsers, userData, articlesData } =
+  // init hooks
+  const { isLoading, getUser, getUsers, getArticles, userData, articlesData } =
     useContext(PostContext)
   const [loadNewFile, setLoadNewFile] = useState(true)
   const [file, setFile] = useState(null)
@@ -34,6 +35,7 @@ export default function UserSettings() {
     </Link>
   )
 
+  // handle edit user function
   async function handleFormSettings(e) {
     e.preventDefault()
 
@@ -61,12 +63,13 @@ export default function UserSettings() {
   const deleteUser = async () => {
     // eslint-disable-next-line no-restricted-globals
     const fistConfirmation = confirm('Delete your account ?')
-    // eslint-disable-next-line no-restricted-globals
-    const secondConfirmation = confirm(
-      'Are you sure ? Every post and comments will be forever destroyed.'
-    )
     if (fistConfirmation) {
+      // eslint-disable-next-line no-restricted-globals
+      const secondConfirmation = confirm(
+        'Are you sure ? Every post and comments will be forever destroyed.'
+      )
       if (secondConfirmation) {
+        // if user confirm twice, get all user's articles, and delete them before deleting user's data
         try {
           articlesData.forEach((article) => {
             const isUserPost = article.posterId === userData._id
@@ -88,7 +91,12 @@ export default function UserSettings() {
                         }
                       }
                       removeCookie('jwt')
-
+                      // refresh articles states after one or multiples articles delete
+                      getArticles()
+                      alert('Account successfully deleted')
+                      // reload the app for cleaning cookies in browser
+                      window.location.reload()
+                      // after cleaning token & removing  all articles & user's data, return to the auth page
                       navigate('/', { replace: true })
                     }
                   }
@@ -102,11 +110,7 @@ export default function UserSettings() {
         } catch (error) {
           console.log(error)
         }
-      } else {
-        return
       }
-    } else {
-      return
     }
   }
 
@@ -185,9 +189,16 @@ export default function UserSettings() {
                   Save changes
                 </button>
               </form>
-              <form onSubmit={handleDeleteButton}>
-                <p>Delete account</p>
-                <button>Yes, i want wipe all my data</button>
+              <form
+                className="userSettingsMain__form__body__form__removeData"
+                onSubmit={handleDeleteButton}
+              >
+                <p className="userSettingsMain__form__body__form__removeData__text">
+                  Delete account ?
+                </p>
+                <button className="userSettingsMain__form__body__form__removeData__btn">
+                  Yes, wipe all my data
+                </button>
               </form>
             </div>
           </article>
