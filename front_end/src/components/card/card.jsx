@@ -417,6 +417,11 @@ export default function Card() {
                         userData._id === comment.commenterId ||
                         userData.isAdmin === 1
 
+                      // check if the commenter still existing in database or if he was removed
+                      const isCommenterExist = usersData.find(
+                        (user) => user._id === comment.commenterId
+                      )
+
                       // render article comments
                       return (
                         <div key={index}>
@@ -432,17 +437,34 @@ export default function Card() {
                                   title="Edit post"
                                 />
                               )}
-                              <figure className="comment__header__fig">
-                                <img
-                                  src={comment.commenterProfilePicture}
-                                  className="comment__header__fig__img"
-                                  alt=""
-                                />
-                              </figure>
-                              <h5 className="comment__header__title">
-                                {comment.commenterFirstName}{' '}
-                                {comment.commenterLastName}
-                              </h5>
+                              {isCommenterExist ? (
+                                <>
+                                  <figure className="comment__header__fig">
+                                    <img
+                                      src={comment.commenterProfilePicture}
+                                      className="comment__header__fig__img"
+                                      alt=""
+                                    />
+                                  </figure>
+                                  <h5 className="comment__header__title">
+                                    {comment.commenterFirstName}{' '}
+                                    {comment.commenterLastName}
+                                  </h5>
+                                </>
+                              ) : (
+                                <>
+                                  <figure className="comment__header__fig">
+                                    <img
+                                      src="https://i.imgur.com/FixNDJZ.jpg"
+                                      className="comment__header__fig__img"
+                                      alt=""
+                                    />
+                                  </figure>
+                                  <h5 className="comment__header__title">
+                                    Deleted User {comment.commenterId}
+                                  </h5>
+                                </>
+                              )}
                               {isUserComment && (
                                 <FontAwesomeIcon
                                   onClick={deleteComment}

@@ -93,7 +93,6 @@ module.exports.deleteUser = (req, res) => {
         })
         .catch((error) => res.status(400).json({ error }))
     } else {
-      console.log('user =>', user)
       const filename = user.profilePicture.split('/images')[1]
       fs.unlink(`images/${filename}`, () => {
         User.deleteOne({ _id: req.params.id })

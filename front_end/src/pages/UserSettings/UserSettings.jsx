@@ -79,26 +79,25 @@ export default function UserSettings() {
                   const axiosResponseDeletePost = await deleteRequest(
                     apiEndpoints.deleteArticle + '/' + article._id
                   )
-                  if (axiosResponseDeletePost.status === 200) {
-                    const axiosResponse = await deleteRequest(
-                      apiEndpoints.deleteUser + '/' + userData._id
-                    )
-                    if (axiosResponse.status === 200) {
-                      // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
-                      const removeCookie = (key) => {
-                        if (window !== undefined) {
-                          cookie.remove(key, { expires: 1 })
-                        }
+                  const axiosResponse = await deleteRequest(
+                    apiEndpoints.deleteUser + '/' + userData._id
+                  )
+                  if (
+                    axiosResponseDeletePost.status === 200 &&
+                    axiosResponse.status === 200
+                  ) {
+                    // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
+                    const removeCookie = (key) => {
+                      if (window !== undefined) {
+                        cookie.remove(key, { expires: 1 })
                       }
-                      removeCookie('jwt')
-                      // refresh articles states after one or multiples articles delete
-                      getArticles()
-                      alert('Account successfully deleted')
-                      // reload the app for cleaning cookies in browser
-                      window.location.reload()
-                      // after cleaning token & removing  all articles & user's data, return to the auth page
-                      navigate('/', { replace: true })
                     }
+                    removeCookie('jwt')
+                    // refresh articles states after one or multiples articles delete
+                    getArticles()
+                    alert('Account successfully deleted')
+                    // reload the app for cleaning cookies in browser and return to auth pages
+                    window.location.replace('/')
                   }
                 }
                 deleteUserPost()
