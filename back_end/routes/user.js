@@ -14,5 +14,6 @@ router.get('/logout', userController.logout)
 router.get('/users', userController.getAllUsers)
 router.get('/users/:id', userController.getUserData)
 router.put('/users/:id', multer, userController.updateUser)
+router.delete('/users/:id', multer, userController.deleteUser)
 
 module.exports = router

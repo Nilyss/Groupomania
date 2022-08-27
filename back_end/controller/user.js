@@ -1,8 +1,9 @@
 // import dependencies
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const fs = require('fs')
 const dotenv = require('dotenv')
-const result = dotenv.config()
+dotenv.config()
 
 // import Middleware
 const authMiddleware = require('../middleware/authMiddleware')
@@ -79,4 +80,33 @@ module.exports.updateUser = (req, res) => {
   User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
     .then(() => res.status(200).json({ message: 'User updated' }))
     .catch((error) => res.status(400).json({ error }))
+}
+
+module.exports.deleteUser = (req, res) => {
+  User.findOne({ _id: req.params.id }).then((user) => {
+    if (user.picture === 'https://i.imgur.com/FixNDJZ.jpg') {
+      User.deleteOne({ _id: req.params.id })
+        .then((user) => {
+          res
+            .status(200)
+            .json({ message: "User and user's data has been delete" })
+        })
+        .catch((error) => res.status(400).json({ error }))
+    } else {
+      console.log('user =>', user)
+      const filename = user.profilePicture.split('/images')[1]
+      fs.unlink(`images/${filename}`, () => {
+        User.deleteOne({ _id: req.params.id })
+          .then(() => {
+            res
+              .status(200)
+              .json({ message: "User and user's data has been delete" })
+          })
+          .catch((error) => res.status(400).json({ error }))
+      })
+    }
+    if (!user) {
+      res.status(404).json({ message: 'No user to delete' })
+    }
+  })
 }

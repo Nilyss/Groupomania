@@ -9,6 +9,8 @@ const apiEndpoints = {
   signIn: '/signin',
   //put Request
   updateUser: '/users',
+  // delete request
+  deleteUser: '/users',
 
   // ********** articles endpoints **********
   // get request
