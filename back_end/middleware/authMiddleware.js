@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken')
 const dotenv = require('dotenv')
-const result = dotenv.config()
+dotenv.config()
 const UserModel = require('../models/user')
 
 module.exports.checkUser = (req, res, next) => {
@@ -30,7 +30,6 @@ module.exports.requireAuth = (req, res, next) => {
       if (err) {
         console.log(err)
       } else {
-        console.log(decodedToken.id)
         next()
       }
     })
