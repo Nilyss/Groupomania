@@ -85,10 +85,6 @@ color: red;
 }
 
 .postFlow__container__commentTitle {
-  @media(max-width: $breakpointMobile) {
-    margin-top: 1em;
-  }
-  margin-top: 2em;
   font-size: 1.2em;
   &:after {
       content: '';
@@ -105,11 +101,10 @@ color: red;
 .comment {
   @media(max-width: $breakpointMobile) {
     margin-top: 3em;
-
   }
+  margin-top: .5em;
   background: $colorTertiary;
   text-align: left;
-  margin-top: 2em;
   padding: 1em;
   border-radius: 8px;
   display: flex;
@@ -156,8 +151,8 @@ color: red;
 }
 
 .comment__header__fig__img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 2px solid $colorSecondary;
   object-fit: cover;
@@ -166,16 +161,14 @@ color: red;
 .comment__header__title {
   color: #ffffff;
   margin-left: 1em;
-}
-
-.comment__body {
-  margin-top: 1em;
+  font-size: 1em;
 }
 
 .comment__body__message {
   color: #ffffff;
   display: flex;
   justify-content: flex-start;
+  font-size: 1em;
 }
 
 .updatePost__textarea {
@@ -214,4 +207,18 @@ color: red;
 .updateComment__buttonContainer__button {
   @include submitButton;
   margin-bottom: 1em;
+}
+
+.isThereMoreCommentContainer {
+  margin-top: 1em;
+  display: flex;
+  flex-flow: column;
+}
+
+.isThereMoreCommentContainer__icon {
+  font-size: 1.5em;
+}
+
+.isThereMoreCommentContainer__link {
+  color: $colorTertiary;
 }

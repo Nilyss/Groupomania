@@ -22,6 +22,7 @@ import { PostContext } from '../../context'
 
 // components
 import CreateComment from '../createComment/createComment'
+import { faEllipsis } from '@fortawesome/free-solid-svg-icons/faEllipsis'
 
 export default function Card() {
   const { usersData, articlesData, userData, isLoading, getArticles } =
@@ -208,6 +209,9 @@ export default function Card() {
           // Variable for libraries Moment to format timestamp saved in database
           const dateToFormat = `${post.createdAt}`
 
+          // check if there's more than 3 comments on the targeted post
+          const isThereMoreComment = post.comments.length > 3
+
           // Rendering DOM articles
           return (
             <li className="cardContainer" key={index}>
@@ -355,8 +359,8 @@ export default function Card() {
                     <h4 className="postFlow__container__commentTitle">
                       Comments
                     </h4>
-                    {post.comments.map((comment, index) => {
-                      // map comments to render them in DOM
+                    {post.comments.slice(0, 3).map((comment, index) => {
+                      // map comments to render them in DOM. Show only 3rd first comments in home page
 
                       // handle function for updating comment
                       const updateComment = async (e) => {
@@ -506,6 +510,20 @@ export default function Card() {
                         </div>
                       )
                     })}
+                    {isThereMoreComment && (
+                      <div className="isThereMoreCommentContainer">
+                        <FontAwesomeIcon
+                          className="isThereMoreCommentContainer__icon"
+                          icon={faEllipsis}
+                        />
+                        <Link
+                          to={`/post/${post._id}`}
+                          className="isThereMoreCommentContainer__link"
+                        >
+                          Click here for show more comments
+                        </Link>
+                      </div>
+                    )}
                     <CreateComment commentId={post._id} />
                   </div>
                 </article>
