@@ -2,15 +2,17 @@
 @import '../../utils/styles/scss/utils/mixins';
 
 .createPost {
-  margin: auto;
-  margin-top: 2em;
-  margin-bottom: 2em;
+  @media (max-width: $breakpointMobile) {
+    padding: .5em;
+    margin: 1em;
+  }
   padding: 2em;
-  width: 80%;
   align-items: center;
-  background: $colorSecondary;
+  background: url('../../assets/articlebg.webp') no-repeat  center;
+  background-size: cover;
   border-radius: 8px;
   box-shadow: $boxShadowCard;
+  color: $colorTertiary;
 }
 
 .createPost__body__form {
@@ -21,6 +23,11 @@
 }
 
 .createPost__body__form__top {
+  @media (max-width: $breakpointMobile) {
+    flex-flow: column wrap;
+    justify-content: center;
+    gap: 1em;
+  }
   display: flex;
   width: 100%;
   align-items: center;
@@ -38,9 +45,14 @@
 .createPost__body__form__top__label {
   display: flex;
   align-self: center;
+  text-align: center;
 }
 
 .createPost__body__form__top__textArea {
+  @media(max-width: $breakpointMobile) {
+    margin-top: .5em;
+    width: 100%;
+  }
   width: 60%;
   height: 50px;
   font-size: 16px;
@@ -52,6 +64,16 @@
 }
 
 .createPost__body__form__bottom {
+  @media (max-width: $breakpointMobile) {
+    justify-content: center;
+    align-items: center;
+    margin-bottom: .5em;
+    overflow-x: hidden;
+    padding-right: 3em;
+  }
+  @media (max-width: $breakpointTablet) {
+    width: 100%;
+  }
   display: flex;
   margin-top: 1em;
   align-items: center;
@@ -59,21 +81,30 @@
 }
 
 .createPost__body__form__bottom__button__attachment {
+  @media(max-width: $breakpointTablet) {
+    margin: auto;
+    width: 100%;
+    align-items: flex-end;
+    justify-content: flex-end;
+  }
   display: flex;
   align-items: center;
   margin-right: 3em;
   text-decoration: none;
 }
-.createPost__body__form__bottom__button__attachment__txt {
-  margin-right: 0.5em;
-}
 
 .createPost__body__form__bottom__button__attachment__input {
-  position: absolute;
+  position: relative;
+  left: 11em;
   opacity: 0;
 }
 
 .createPost__body__form__bottom__button__attachment__icon {
+  @media(max-width: $breakpointTablet) {
+    margin-right: .3em;
+    position: unset;
+    display: flex;
+  }
   font-size: 1.4em;
   position: relative;
   top: 0;

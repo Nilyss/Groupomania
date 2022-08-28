@@ -1,6 +1,5 @@
 // dependencies
-import axios from 'axios'
-import { useState, useEffect, useContext } from 'react'
+import { useState, useContext } from 'react'
 import { PostContext } from '../../context'
 
 //css
@@ -10,63 +9,44 @@ import './_createPost.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
-export default function CreatePost() {
-  axios.defaults.withCredentials = true
+// api
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
-  const { isLoading, getPosts, post, user } = useContext(PostContext)
+export default function CreatePost() {
+  // init hooks
+  const { userData, isLoading, getArticles } = useContext(PostContext)
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
-  const [loadNewArticle, setLoadNewArticle] = useState(true)
   const [file, setFile] = useState(null)
 
+  //  create post form submit
   async function handleFormArticle(e) {
     e.preventDefault()
 
     const formData = new FormData()
-    formData.append('posterId', user._id)
+    formData.append('posterId', userData._id)
     formData.append('message', e.target['message'].value)
     formData.append('file', file)
     try {
-      await axios({
-        method: 'post',
-        url: `${process.env.REACT_APP_API_URL}articles`,
-        data: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      }).then((res) => {
-        if (res.status === 201) {
-          e.target['message'].value = ''
-          e.target['message'].value = ''
-        }
-        getPosts()
-      })
+      const axiosResponse = await postRequest(
+        apiEndpoints.postArticle,
+        formData
+      )
+      if (axiosResponse.status === 201) {
+        e.target['message'].value = ''
+        e.target['message'].value = ''
+        getArticles()
+      }
     } catch (error) {
       console.log(error)
     }
   }
-
-  const editPost = async () => {
-    const formData = new FormData()
-    formData.append('posterId', user._id)
-    formData.append('message')
-    formData.append('file', file)
-    try {
-      await axios.put(`${process.env.REACT_APP_API_URL}articles/` + post._id)
-    } catch (error) {
-      console.log(error)
-    }
-  }
-
+  // save in state the picture send by user
   const handleFileSelect = (event) => {
     setFile(event.target.files[0])
   }
 
-  useEffect(() => {
-    if (loadNewArticle) {
-      setLoadNewArticle(false)
-    }
-  }, [loadNewArticle])
-
+  // rendering DOM
   return (
     <>
       <article className="createPost">
@@ -82,7 +62,7 @@ export default function CreatePost() {
                 ) : (
                   <img
                     className="createPost__body__form__top__fig__img"
-                    src={user.profilePicture}
+                    src={userData.profilePicture}
                     alt="profile pictures"
                   />
                 )}
@@ -91,7 +71,7 @@ export default function CreatePost() {
                 htmlFor="post"
                 className="createPost__body__form__top__label"
               >
-                What's on your mind {user.firstName} ?
+                Tell us everything {userData.firstName} !
               </label>
               <textarea
                 name="message"
@@ -104,9 +84,6 @@ export default function CreatePost() {
                 href="#"
                 className="createPost__body__form__bottom__button__attachment"
               >
-                <div className="createPost__body__form__bottom__button__attachment__txt">
-                  Add photo or picture
-                </div>
                 <input
                   onChange={handleFileSelect}
                   accept=".jpg, .jpeg, .png"

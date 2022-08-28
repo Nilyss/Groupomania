@@ -2,22 +2,45 @@
 @import '../../utils/styles/scss/utils/mixins';
 
 .homeMain {
-  border-radius: 2em;
-  background: url('../../assets/appbackground.webp') no-repeat fixed center;
-  background-size: cover;
   position: relative;
   z-index: 0;
   height: border-box;
   display: flex;
-  box-shadow: $boxShadowCard;
 }
 
 .sectionMain {
-  width: 100%;
-  margin: 0 10% 0 10%;
-
+  @media(max-width: $breakpointTablet) {
+    background: none;
+    margin: auto;
+    width: 100%;
+    padding: 0;
+  }
+  width: 50%;
+  border-radius: 8px;
+  background: rgba(78, 81, 102, .7);
+  box-shadow: $boxShadowCard;
+  padding: 1em;
 }
+
 .homeMain__fig__logo {
   width: 400px;
   margin: auto;
 }
+
+.sectionNavMenu{
+  @media(max-width: $breakpointTablet) {
+    width: 0;
+  }
+  width: 25%;
+}
+
+
+.sectionUserList{
+  @media(max-width: $breakpointTablet) {
+    display: none;
+  }
+  width: 25%;
+  display: flex;
+  flex-flow: column nowrap;
+}
+

@@ -5,45 +5,89 @@
   display: flex;
   flex-flow: wrap;
   position: relative;
-  background: rgb(235, 235, 235);
+  background: url('../../assets/articlebg.webp') no-repeat  center;
+  background-size: cover;
   margin-bottom: 2em;
   box-shadow: $boxShadowCard;
+  color: $colorTertiary;
+}
+
+.homeHeaderContainer {
+  @media(max-width: $breakpointTablet) {
+    flex-flow: column;
+  }
+  display: flex;
+width: 100%;
+  padding: 1em;
 }
 
 .showUser {
+  @media(max-width: $breakpointMobile) {
+    display: none;
+  }
+  @media(max-width: $breakpointTablet) {
+    width: 100%;
+    margin-bottom: 1em;
+  }
   display: flex;
+  gap: 1em;
   align-items: center;
-  width: 40%;
+  width: 25%;
 }
 
-.showUser__pp{
+.showUser__pp {
+  @media(max-width: $breakpointTablet) {
+    width: 50px;
+    height: 50px;
+  }
   width: 75px;
   height: 75px;
   object-fit: cover;
   border-radius: 50%;
   border: 2px solid $colorTertiary;
-  margin-left: 5em;
-  margin-right: 2em;
+  &:hover {
+    cursor: pointer;
+  }
 }
 
-.showUser__name{
-  font-size: 1.3em;
+.showUser__name {
+  @media(max-width: $breakpointMobile) {
+    display: none;
+  }
+  text-align: center;
+  font-size: 1.2em;
+  min-width: fit-content;
   &:after {
-  content: '';
-  display: flex;
-  margin-top: .5em;
-  margin-left: 15%;
-  margin-right: 15%;
-  background: #fd2d01;
-  width: 50%;
-  height: 0.5vh;
-  border-radius: 8px;
+    @media(max-width: $breakpointTablet) {
+      margin-left: 0;
+      margin-right: 0;
+      width: 100%;
+    }
+    content: '';
+    display: flex;
+    margin-top: 0.5em;
+    background: #fd2d01;
+    width: 100%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
 }
+
+.homeMain__fig {
+  @media(max-width: $breakpointTablet) {
+    width: 100%;
+  }
+  overflow-x: hidden;
+  display: flex;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
 }
 
 .homeMain__fig__logo {
-  width: 200px;
-  height: 200px;
+  @media(max-width: $breakpointMobile){
+    width: 50px;
+    height: 50px;
+  }
   object-fit: contain;
-  display: flex;
 }

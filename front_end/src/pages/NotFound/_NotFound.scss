@@ -1,0 +1,17 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.notFoundAsset {
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.notFoundAsset__link{
+  @include submitButton;
+  text-decoration: none;
+}

@@ -17,10 +17,21 @@ const articleSchema = new mongoose.Schema(
     video: {
       type: String,
     },
+
+    likes: { type: Number, default: 0 },
+
+    dislikes: { type: Number, default: 0 },
+
     likers: {
       type: Array({ likerId: String }),
       require: true,
     },
+
+    disLikers: {
+      type: Array({ disLikerId: String }),
+      require: true,
+    },
+
     comments: {
       type: Array({
         commenterId: String,

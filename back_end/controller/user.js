@@ -1,8 +1,9 @@
 // import dependencies
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const fs = require('fs')
 const dotenv = require('dotenv')
-const result = dotenv.config()
+dotenv.config()
 
 // import Middleware
 const authMiddleware = require('../middleware/authMiddleware')
@@ -28,7 +29,7 @@ exports.signUp = (req, res) => {
   user
     .save()
     .then(() => res.status(201).json({ message: 'User has been created' }))
-    .catch((error) => res.status(400).json({ error: 'User creation failed' }))
+    .catch((error) => res.status(400).json(error + 'user creation failed'))
 }
 
 exports.signIn = (req, res) => {
@@ -66,4 +67,45 @@ exports.getUserData = async (req, res) => {
 module.exports.logout = (req, res) => {
   res.cookie('jwt', ' ', { maxAge: 1 })
   res.redirect('/')
+}
+
+module.exports.updateUser = (req, res) => {
+  const userObject = req.file
+    ? {
+        profilePicture: `${req.protocol}://${req.get('host')}/images/${
+          req.file.filename
+        }`,
+      }
+    : { ...req.body }
+  User.updateOne({ _id: req.params.id }, { ...userObject, _id: req.params.id })
+    .then(() => res.status(200).json({ message: 'User updated' }))
+    .catch((error) => res.status(400).json({ error }))
+}
+
+module.exports.deleteUser = (req, res) => {
+  User.findOne({ _id: req.params.id }).then((user) => {
+    if (user.picture === 'https://i.imgur.com/FixNDJZ.jpg') {
+      User.deleteOne({ _id: req.params.id })
+        .then((user) => {
+          res
+            .status(200)
+            .json({ message: "User and user's data has been delete" })
+        })
+        .catch((error) => res.status(400).json({ error }))
+    } else {
+      const filename = user.profilePicture.split('/images')[1]
+      fs.unlink(`images/${filename}`, () => {
+        User.deleteOne({ _id: req.params.id })
+          .then(() => {
+            res
+              .status(200)
+              .json({ message: "User and user's data has been delete" })
+          })
+          .catch((error) => res.status(400).json({ error }))
+      })
+    }
+    if (!user) {
+      res.status(404).json({ message: 'No user to delete' })
+    }
+  })
 }

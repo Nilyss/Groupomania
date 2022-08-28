@@ -1,40 +1,46 @@
-import { useContext } from 'react'
+// libraries
+import { useContext, useState } from 'react'
 import { FormContext } from '../../context/formContext'
-import { Link, useNavigate } from 'react-router-dom'
-import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+
+// api
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 //css
 import './_forms.scss'
+import { PostContext } from '../../context'
 
 export default function SignInModal() {
-  axios.defaults.withCredentials = true
-
+  // context
+  const { getUser } = useContext(PostContext)
+  // init hooks
   const { toggleModals, modalState } = useContext(FormContext)
-
+  const [error, setError] = useState('')
   const navigate = useNavigate()
 
-  function handleForm(e) {
+  // sign In form submit
+  async function handleForm(e) {
     e.preventDefault()
     try {
       const userData = {
         email: e.target['mail'].value,
         password: e.target['password'].value,
       }
-      axios
-        .post(`${process.env.REACT_APP_API_URL}signin`, userData)
-        .then((res) => {
-          if (res.status === 200) {
-            navigate('/home', { replace: true })
-            // window.location = '/home'
-          } else {
-            console.error('invalid identification')
-          }
-        })
+
+      const axiosResponse = await postRequest(apiEndpoints.signIn, userData)
+      if (axiosResponse.status === 200) {
+        getUser()
+        navigate('/home', { replace: true })
+      }
     } catch (err) {
-      console.log(err, 'An internal error occurred')
+      setError(
+        ' Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
+      )
     }
   }
 
+  //  rendering DOM
   return (
     <>
       {modalState.signInModal && (
@@ -77,9 +83,23 @@ export default function SignInModal() {
                     placeholder="Enter your incredible password"
                   />
                 </div>
+                <p
+                  className="auth__body__form__error"
+                  style={{ marginBottom: '1em' }}
+                >
+                  {error}
+                </p>
               </div>
               <button className="auth__body__form__submit">Enter</button>
-              <Link to="#">Forgot Password ?</Link>
+              <div className="createAccount">
+                <p className="createAccount__p">No account ? </p>
+                <p
+                  className="createAccount__create"
+                  onClick={() => toggleModals('signUp')}
+                >
+                  Create one !
+                </p>
+              </div>
             </form>
           </div>
         </section>
@@ -87,30 +107,3 @@ export default function SignInModal() {
     </>
   )
 }
-
-// try {
-//   axios({
-//     method: 'post',
-//     url: `${process.env.REACT_APP_API_URL}signin`,
-//     withCredentials: true,
-//     userData,
-//   }).then((res) => {
-//     if (res.status === 200) {
-//       navigate('/home', { replace: true })
-//     } else {
-//       console.log('An internal error occurred')
-//     }
-//   })
-
-//   axios
-//       .post(`${process.env.REACT_APP_API_URL}signin`, userData)
-//       .then((res) => {
-//         if (res.status === 200) {
-//           navigate('/home', { replace: true })
-//         } else {
-//           console.error('invalid identification')
-//         }
-//       })
-// } catch (err) {
-//   console.log(err, 'An internal error occurred')
-// }

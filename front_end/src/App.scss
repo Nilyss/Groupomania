@@ -1,3 +1,9 @@
+body {
+  background: url('assets/welcomebg.webp') no-repeat fixed center;
+  background-size: cover;
+}
+
+
 // pages
 @import 'pages/Authentication/authentication';
 @import 'pages/Home/home';

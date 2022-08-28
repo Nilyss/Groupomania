@@ -5,11 +5,15 @@
   position: relative;
 }
 
-.postFlow__container__header__iconContainer{
+.postFlow__container__header__iconContainer {
+  @media(max-width: $breakpointMobile) {
+    padding: .5em;
+  }
   display: flex;
   justify-content: space-between;
   font-size: 1.2em;
   &__icon{
+    color: $colorTertiary;
     cursor: pointer;
     transition: all 300ms ease-in-out;
     &:hover {
@@ -18,28 +22,89 @@
   }
 }
 
+.likeSection {
+  display: flex;
+  margin-top: 1em;
+  color: $colorTertiary;
+}
+
 .likeIcon {
-  position: absolute;
-  top: 8.2em;
-  left: 1.8em;
   font-size: 1.2em;
   cursor: pointer;
   transition: all 200ms ease-out;
+  position: relative;
+  top: 0;
+  left: .5em;
+  z-index: 0;
   &:hover {
     transform: scale(1.1)
   }
 }
 
-.likeIcon__number{
-  position: absolute;
-  top: 9.8em;
-  left: 3.8em;
+.likeIconTrue {
+  color: rgb(39, 173, 33);
+  position: relative;
+  margin-right: -1em;
+  top: 0;
+  left: -.5em;
+  z-index: 1;
+}
+
+.dislikeIconTrue {
+color: red;
+  position: relative;
+  top: .2em;
+  left: 2em;
+  margin-left: -1em;
+}
+
+.likeIcon__quantity {
+  position: relative;
+  top: 0;
+  left: 1em;
   font-size: 1em;
 }
 
+.dislikeIcon {
+  font-size: 1.2em;
+  cursor:  pointer;
+  transition: all 200ms ease-out;
+  position: relative;
+  top: .2em;
+  left: 2em;
+  &:hover {
+    transform: scale(1.1)
+  }
+}
+
+.dislikeIcon__quantity {
+  font-size: 1em;
+  position: relative;
+  top: 0;
+  left: 2.8em;
+}
+
+.postFlow__container__commentTitle {
+  font-size: 1.2em;
+  &:after {
+      content: '';
+    display: flex;
+    margin: auto;
+    margin-top: 0.5em;
+    background: #fd2d01;
+    width: 30%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
+}
+
 .comment {
+  @media(max-width: $breakpointMobile) {
+    margin-top: 3em;
+  }
+  margin-top: .5em;
   background: $colorTertiary;
-  margin-top: 2em;
+  text-align: left;
   padding: 1em;
   border-radius: 8px;
   display: flex;
@@ -54,8 +119,12 @@
   position: relative;
 }
 
-.comment__header__editIcon{
-  color: #ffffff;
+.comment__header__editIcon {
+  @media(max-width: $breakpointMobile) {
+    top: -2.3em;
+    left: 0;
+  }
+  color: $colorTertiary;
   position: absolute;
   top: -.5em;
   right: -2.2em;
@@ -66,8 +135,12 @@
   }
 }
 
-.comment__header__deleteIcon{
-  color: #ffffff;
+.comment__header__deleteIcon {
+  @media(max-width: $breakpointMobile) {
+    top: -2.3em;
+    right: 0;
+  }
+  color: $colorTertiary;
   position: absolute;
   right: -2.1em;
   cursor: pointer;
@@ -78,25 +151,24 @@
 }
 
 .comment__header__fig__img {
-  width: 50px;
-  height: 50px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   border: 2px solid $colorSecondary;
+  object-fit: cover;
 }
 
 .comment__header__title {
   color: #ffffff;
   margin-left: 1em;
-}
-
-.comment__body {
-  margin-top: 1em;
+  font-size: 1em;
 }
 
 .comment__body__message {
   color: #ffffff;
   display: flex;
   justify-content: flex-start;
+  font-size: 1em;
 }
 
 .updatePost__textarea {
@@ -106,7 +178,7 @@
   border-radius: 8px;
 }
 
-.updatePost__buttonContainer{
+.updatePost__buttonContainer {
   margin-top: 1em;
   display: flex;
   align-items: center;
@@ -135,4 +207,18 @@
 .updateComment__buttonContainer__button {
   @include submitButton;
   margin-bottom: 1em;
+}
+
+.isThereMoreCommentContainer {
+  margin-top: 1em;
+  display: flex;
+  flex-flow: column;
+}
+
+.isThereMoreCommentContainer__icon {
+  font-size: 1.5em;
+}
+
+.isThereMoreCommentContainer__link {
+  color: $colorTertiary;
 }

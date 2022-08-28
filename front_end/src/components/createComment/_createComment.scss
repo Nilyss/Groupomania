@@ -15,8 +15,9 @@
 }
 
 .comment__form__input{
-  width: 80%;
-  margin-right: 2em;
+  width: 100%;
+  height: 2em;
+  margin-bottom: 1em;
   border-radius: 8px;
   border: 2px solid $colorTertiary;
   font-size: 1em;
@@ -24,5 +25,10 @@
 }
 
 .comment__form__button{
+  @media (max-width: $breakpointMobile) {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
   @include submitButton;
+  margin: auto;
 }

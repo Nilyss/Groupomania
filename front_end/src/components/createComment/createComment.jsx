@@ -1,6 +1,6 @@
-// librairies
-import { useEffect } from 'react'
-import axios from 'axios'
+// api
+import { postRequest } from '../../api/apiCall'
+import apiEndpoints from '../../api/apiEndpoints'
 
 // css
 import './_createComment.scss'
@@ -10,52 +10,35 @@ import { PostContext } from '../../context'
 import { useContext } from 'react'
 
 export default function CreateComment({ commentId }) {
-  axios.defaults.withCredentials = true
+  // init hooks
+  const { getArticles, userData } = useContext(PostContext)
 
-  const { getPosts, getOnePost, post, getUser, user } = useContext(PostContext)
-
-  useEffect(() => {
-    async function fetchData() {
-      await getPosts()
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    async function fetchData() {
-      await getOnePost()
-    }
-    fetchData()
-  }, [])
-
-  useEffect(() => {
-    async function fetchData() {
-      await getUser()
-    }
-    fetchData()
-  }, [])
-
+  // create comment form submit
   async function handleFormComment(e) {
     e.preventDefault()
 
     const data = {
-      commenterId: user._id,
-      commenterFirstName: user.firstName,
-      commenterLastName: user.lastName,
-      commenterProfilePicture: user.profilePicture,
+      commenterId: userData._id,
+      commenterFirstName: userData.firstName,
+      commenterLastName: userData.lastName,
+      commenterProfilePicture: userData.profilePicture,
       text: e.target['commentMessage'].value,
     }
     try {
-      await axios.post(
-        `${process.env.REACT_APP_API_URL}articles/` + commentId + '/comment',
+      const axiosResponse = await postRequest(
+        apiEndpoints.postArticle + '/' + commentId + apiEndpoints.postComment,
         data
       )
+      if (axiosResponse.status === 201) {
+        e.target['commentMessage'].value = ''
+        await getArticles()
+      }
     } catch (error) {
       console.log(error)
     }
-    await getPosts()
   }
 
+  // rendering DOM
   return (
     <>
       <form onSubmit={handleFormComment} className="comment__form">

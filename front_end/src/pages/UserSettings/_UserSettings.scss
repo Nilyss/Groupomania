@@ -1,0 +1,135 @@
+@import '../../utils/styles/scss/utils/variables';
+@import '../../utils/styles/scss/utils/mixins';
+
+.previousArrowIcon {
+  @media(max-width: $breakpointTablet) {
+    display: flex;
+    position: unset;
+    margin-left: 1em;
+  }
+  position: relative;
+  z-index: 999;
+  left: 1.7em;
+  font-size: 2em;
+  color: $colorSecondary;
+  background:$colorTertiary;
+  border-radius: 25%;
+  padding: .2em;
+  box-shadow: $boxShadowCard;
+}
+
+.userSettingsMain{
+  margin-top: 1em;
+  overflow: hidden;
+  position: relative;
+  height: border-box;
+  display: flex;
+  flex-flow: wrap;
+  align-items: center;
+  justify-content: center;
+  color: $colorTertiary;
+}
+
+.userSettingsMain__form {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  padding: 1em 2em 1em 2em;
+  background: url('../../assets/articlebg.webp') no-repeat  center;
+  background-size: cover;
+  border-radius: 8px;
+  border: 2px solid $colorTertiary;
+}
+
+.userSettingsMain__form__header__title{
+ margin-bottom: 1em;
+ text-align: center;
+ font-size: 2em;
+  &:after {
+    content: '';
+    display: flex;
+    margin: auto;
+    margin-top: .5em;
+    background: #fd2d01;
+    width: 75%;
+    height: 0.5vh;
+    border-radius: 8px;
+  }
+}
+
+.userSettingsMain__form__body__form{
+  p {
+    margin-bottom: 2em;
+    font-size: 1em;
+    strong {
+      font-weight: bold;
+      font-size: 1.1em;
+    }
+  }
+}
+
+.userSettingsMain__form__body__form__inputs {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  position: relative;
+}
+
+.userSettingsMain__form__body__form__fig{
+  display: flex;
+  justify-content: center;
+}
+
+.userSettingsMain__form__body__form__fig__img{
+  width: 150px;
+  height: 150px;
+  border-radius: 10%;
+  border: 2px solid $colorTertiary;
+  object-fit: cover;
+}
+
+.pp__upload--label {
+  position: relative;
+  bottom: 6em;
+  left: 2.2em;
+  font-size: 1.5em;
+  cursor: pointer;
+}
+
+
+.userSettingsMain__form__body__form__input{
+  position: relative;
+  bottom: 15em;
+  left: 11.5em;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.userSettingsMain__form__body__form__button{
+  @media(max-width: $breakpointMobile) {
+    margin-bottom: 0;
+  }
+  @include submitButton;
+  margin:auto;
+  margin-top: -1em;
+}
+
+.userSettingsMain__form__body__form__removeData {
+  margin-top: 1em;
+  display: flex;
+  gap: .5em;
+  flex-flow: column;
+  align-items: center;
+}
+
+.userSettingsMain__form__body__form__removeData__btn {
+  padding: .2em;
+  border-radius: 5px;
+  box-shadow: $boxShadowCard;
+  cursor: pointer;
+  &:hover {
+    background: $colorPrimary;
+    color: #f2f2f2;
+    border: 2px solid $colorTertiary;
+  }
+}
