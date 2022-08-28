@@ -69,46 +69,50 @@ export default function UserSettings() {
         'Are you sure ? Every post and comments will be forever destroyed.'
       )
       if (secondConfirmation) {
-        // if user confirm twice, get all user's articles, and delete them before deleting user's data
-        try {
-          articlesData.forEach((article) => {
-            const isUserPost = article.posterId === userData._id
-            if (isUserPost === true) {
-              try {
-                async function deleteUserPost() {
-                  const axiosResponseDeletePost = await deleteRequest(
-                    apiEndpoints.deleteArticle + '/' + article._id
-                  )
-                  const axiosResponse = await deleteRequest(
-                    apiEndpoints.deleteUser + '/' + userData._id
-                  )
-                  if (
-                    axiosResponseDeletePost.status === 200 &&
-                    axiosResponse.status === 200
-                  ) {
-                    // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
-                    const removeCookie = (key) => {
-                      if (window !== undefined) {
-                        cookie.remove(key, { expires: 1 })
-                      }
-                    }
-                    removeCookie('jwt')
-                    // refresh articles states after one or multiples articles delete
-                    getArticles()
-                    alert('Account successfully deleted')
-                    // reload the app for cleaning cookies in browser and return to auth pages
-                    window.location.replace('/')
+        // if user have articles, find them and delete them
+        articlesData.forEach((article) => {
+          const isUserPost = article.posterId === userData._id
+          if (isUserPost === true) {
+            try {
+              async function deleteUserPost() {
+                const axiosResponseDeletePost = await deleteRequest(
+                  apiEndpoints.deleteArticle + '/' + article._id
+                )
+                if (axiosResponseDeletePost.status === 200) {
+                  console.log('every post get removed')
+                }
+              }
+              deleteUserPost()
+            } catch (err) {
+              console.log(err + ": Can't delete user's articles")
+            }
+          }
+          // After deleting article, wipe all users data except comments
+          try {
+            async function deleteUserData() {
+              const axiosResponse = await deleteRequest(
+                apiEndpoints.deleteUser + '/' + userData._id
+              )
+              if (axiosResponse.status === 200) {
+                // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
+                const removeCookie = (key) => {
+                  if (window !== undefined) {
+                    cookie.remove(key, { expires: 1 })
                   }
                 }
-                deleteUserPost()
-              } catch (err) {
-                console.log(err)
+                removeCookie('jwt')
+                // refresh articles states after one or multiples articles delete
+                getArticles()
+                alert('Account successfully deleted')
+                // reload the app for cleaning cookies in browser and return to auth pages
+                window.location.replace('/')
               }
             }
-          })
-        } catch (error) {
-          console.log(error)
-        }
+            deleteUserData()
+          } catch (error) {
+            console.log(error + " : Can't delete user Data")
+          }
+        })
       }
     }
   }
