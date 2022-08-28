@@ -53,4 +53,10 @@ styled-components@5.3.5
 prettier@2.7.1
 dotenv@16.0.1
 js-cookie@3.01
+moment@2.29.4
+react-moment@1.1.2
+moment-timezone@0.5.34
+fortawesome/fontawesome-svg-core@6.1.2
+fortawesome/free-solid-svg-icons@6.1.2
+fortawesome/react-fontawesome@0.2.0
 ```

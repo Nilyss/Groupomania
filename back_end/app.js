@@ -11,7 +11,7 @@ const corsOptions = {
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   preflightContinue: false,
 }
-// const helmet = require('helmet') // hide API stacks in browser  https://www.npmjs.com/package/helmet
+const helmet = require('helmet') // hide API stacks in browser  https://www.npmjs.com/package/helmet
 const mongoSanitize = require('express-mongo-sanitize') // block some key operator https://www.npmjs.com/package/express-mongo-sanitize
 const dotenv = require('dotenv') // environment variable  https://www.npmjs.com/package/dotenv
 dotenv.config()
@@ -34,7 +34,12 @@ const articleRoute = require('./routes/articles')
 // start app
 const app = express()
 
-// app.use(helmet())
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false, // allow img in cors for http
+    crossOriginEmbedderPolicy: false, // allow img in cors for https
+  })
+)
 app.use(
   mongoSanitize({
     remplaceWith: '_',
