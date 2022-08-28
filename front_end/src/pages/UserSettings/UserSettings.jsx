@@ -1,7 +1,7 @@
 // libraries
 import { useContext, useState, useEffect } from 'react'
 import { PostContext } from '../../context'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import cookie from 'js-cookie'
 
 // components
@@ -27,7 +27,6 @@ export default function UserSettings() {
     useContext(PostContext)
   const [loadNewFile, setLoadNewFile] = useState(true)
   const [file, setFile] = useState(null)
-  const navigate = useNavigate()
   const imageIcon = <FontAwesomeIcon icon={faImage} size="1x" />
   const arrowIcon = (
     <Link to={'/home'}>

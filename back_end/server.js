@@ -3,7 +3,7 @@ const app = require('./app')
 
 // import dependencies
 const dotenv = require('dotenv')
-const result = dotenv.config()
+dotenv.config()
 
 // configure port
 const normalizePort = (val) => {

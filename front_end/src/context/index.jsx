@@ -1,3 +1,4 @@
+/* eslint-disable */
 // libraries
 import { useState, useEffect, createContext } from 'react'
 
