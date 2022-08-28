@@ -9,13 +9,10 @@
 }
 
 .sectionMain {
-  @media(max-width: $breakpointMobile) {
-    background: none;
-  }
   @media(max-width: $breakpointTablet) {
     background: none;
     margin: auto;
-    width: 90%;
+    width: 100%;
     padding: 0;
   }
   width: 50%;
