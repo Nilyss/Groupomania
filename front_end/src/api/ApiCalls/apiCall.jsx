@@ -19,17 +19,37 @@ const setRequest = (val) => {
 
 // axios request
 export const getRequest = async (url, val = null) => {
-  return await axios.get(url, { ...setRequest(val) })
+  const result = await axios.get(url, { ...setRequest(val) })
+  if (result.status === 200) {
+    return result
+  } else {
+    throw result.status
+  }
 }
 
 export const postRequest = async (url, data = null, val = null) => {
-  return await axios.post(url, data, { ...setRequest(val) })
+  const result = await axios.post(url, data, { ...setRequest(val) })
+  if (result.status === 201 || result.status === 200) {
+    return result
+  } else {
+    throw result.status
+  }
 }
 
 export const deleteRequest = async (url, val = null) => {
-  return await axios.delete(url, { ...setRequest(val) })
+  const result = await axios.delete(url, { ...setRequest(val) })
+  if (result.status === 200) {
+    return result
+  } else {
+    throw result.status
+  }
 }
 
 export const putRequest = async (url, data = null, val = null) => {
-  return await axios.put(url, data, { ...setRequest(val) })
+  const result = await axios.put(url, data, { ...setRequest(val) })
+  if (result.status === 200) {
+    return result
+  } else {
+    throw result.status
+  }
 }

@@ -11,7 +11,6 @@ import {
   faThumbsUp,
   faTrashCan,
 } from '@fortawesome/free-solid-svg-icons'
-import axios from 'axios'
 
 // context
 import { PostContext } from '../../context'
@@ -23,8 +22,10 @@ import Footer from '../../components/footer/footer'
 // css
 import './_onePost.scss'
 import CreateComment from '../../components/createComment/createComment'
-import { deleteRequest, postRequest, putRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
+
+// api
+import ArticleServices from '../../api/Services/ArticleServices'
+const articleServices = new ArticleServices()
 
 export default function OnePost() {
   const { articlesData, usersData, userData, getArticles, isLoading } =
@@ -35,9 +36,6 @@ export default function OnePost() {
       <FontAwesomeIcon icon={faArrowLeft} className="previousArrowIcon" />
     </Link>
   )
-
-  //axios config
-  axios.defaults.withCredentials = true
 
   // states
   const [isUpdated, setIsUpdated] = useState(false)
@@ -52,24 +50,32 @@ export default function OnePost() {
   // useParams hook from react router dom for extract post id requested
   let params = useParams()
 
-  const getRequestedPost = articlesData.find((p) => p._id === params.id)
+  const getRequestedPost =
+    articlesData && articlesData.find((p) => p._id === params.id)
 
   // get the poster ID of article
-  const userPoster = usersData.find((u) => u._id === getRequestedPost.posterId)
+  const userPoster =
+    usersData &&
+    getRequestedPost &&
+    usersData.find((u) => u._id === getRequestedPost.posterId)
 
   // check if the connected user is the user poster of article or if it's an admin
-  const isUserPost = userData._id === userPoster._id || userData.isAdmin === 1
+  const isUserPost =
+    getRequestedPost &&
+    (userData._id === userPoster._id || userData.isAdmin === 1)
 
   // Condition for showing like or dislike button, if the post was already disliked or liked
-  const isLiked = getRequestedPost.likers.find(
-    (likers) => likers.likerId === userData._id
-  )
-  const isDisliked = getRequestedPost.disLikers.find(
-    (dislikers) => dislikers.disLikerId === userData._id
-  )
+  const isLiked =
+    getRequestedPost &&
+    getRequestedPost.likers.find((likers) => likers.likerId === userData._id)
+  const isDisliked =
+    getRequestedPost &&
+    getRequestedPost.disLikers.find(
+      (dislikers) => dislikers.disLikerId === userData._id
+    )
 
   // dateFormat for Moment libraries
-  const dateToFormat = `${getRequestedPost.createdAt}`
+  const dateToFormat = getRequestedPost && `${getRequestedPost.createdAt}`
 
   //  ******** handle function ********
 
@@ -87,14 +93,9 @@ export default function OnePost() {
       message: messageUpdate,
     }
     try {
-      const axiosResponse = await putRequest(
-        apiEndpoints.editArticle + '/' + getRequestedPost._id,
-        data
-      )
-      if (axiosResponse.status === 200) {
-        setIsUpdated(!isUpdated)
-        getArticles()
-      }
+      await articleServices.putArticle(getRequestedPost._id, data)
+      setIsUpdated(!isUpdated)
+      getArticles()
     } catch (error) {
       console.log(error)
     }
@@ -106,13 +107,9 @@ export default function OnePost() {
     const confirmation = confirm('Delete article ?')
     if (confirmation) {
       try {
-        const axiosResponse = await deleteRequest(
-          apiEndpoints.deleteArticle + '/' + getRequestedPost._id
-        )
-        if (axiosResponse.status === 200) {
-          getArticles()
-          navigate('/home', { replace: true })
-        }
+        await articleServices.deleteArticle(getRequestedPost._id)
+        getArticles()
+        navigate('/home', { replace: true })
       } catch (error) {
         console.log(error)
       }
@@ -131,17 +128,8 @@ export default function OnePost() {
         like: 1,
         likerId: userData._id,
       }
-
-      const axiosResponse = await postRequest(
-        apiEndpoints.getAllArticles +
-          '/' +
-          getRequestedPost._id +
-          apiEndpoints.likes,
-        likeData
-      )
-      if (axiosResponse.status === 201) {
-        getArticles()
-      }
+      await articleServices.postLike(getRequestedPost._id, likeData)
+      getArticles()
     }
     // if the user unlike an article
     if (
@@ -151,16 +139,8 @@ export default function OnePost() {
         like: 0,
         likerId: userData._id,
       }
-      const axiosResponse = await postRequest(
-        apiEndpoints.getAllArticles +
-          '/' +
-          getRequestedPost._id +
-          apiEndpoints.likes,
-        unlikeData
-      )
-      if (axiosResponse.status === 200) {
-        getArticles()
-      }
+      await articleServices.postLike(getRequestedPost._id, unlikeData)
+      getArticles()
     }
   }
 
@@ -178,16 +158,8 @@ export default function OnePost() {
         like: -1,
         disLikerId: userData._id,
       }
-      const axiosResponse = await postRequest(
-        apiEndpoints.getAllArticles +
-          '/' +
-          getRequestedPost._id +
-          apiEndpoints.likes,
-        dislikeData
-      )
-      if (axiosResponse.status === 201) {
-        getArticles()
-      }
+      await articleServices.postLike(getRequestedPost._id, dislikeData)
+      getArticles()
     }
 
     // if the user un dislike an article
@@ -200,16 +172,8 @@ export default function OnePost() {
         like: 0,
         disLikerId: userData._id,
       }
-      const axiosResponse = await postRequest(
-        apiEndpoints.getAllArticles +
-          '/' +
-          getRequestedPost._id +
-          apiEndpoints.likes,
-        undislikeData
-      )
-      if (axiosResponse.status === 200) {
-        getArticles()
-      }
+      await articleServices.postLike(getRequestedPost._id, undislikeData)
+      getArticles()
     }
   }
 
@@ -223,8 +187,8 @@ export default function OnePost() {
     <>
       <Header />
       {arrowIcon}
-      {usersData &&
-        (getRequestedPost ? (
+      {getRequestedPost &&
+        (usersData ? (
           <article className="onePost">
             <div className="onePostContainer">
               <div className="onePostContainer__header">
@@ -371,7 +335,7 @@ export default function OnePost() {
                   const updateComment = async (e) => {
                     e.preventDefault()
 
-                    const data = {
+                    const commentData = {
                       commentId: comment._id,
                       commenterId: userData._id,
                       commenterFirstName: userData.firstName,
@@ -380,17 +344,12 @@ export default function OnePost() {
                       text: commentUpdate,
                     }
                     try {
-                      const axiosResponse = await putRequest(
-                        apiEndpoints.getAllArticles +
-                          '/' +
-                          getRequestedPost._id +
-                          apiEndpoints.editComment,
-                        data
+                      await articleServices.putComment(
+                        getRequestedPost._id,
+                        commentData
                       )
-                      if (axiosResponse.status === 200) {
-                        setCommentIsUpdated(!commentIsUpdated)
-                        getArticles()
-                      }
+                      setCommentIsUpdated(!commentIsUpdated)
+                      getArticles()
                     } catch (err) {
                       console.log(err)
                     }
@@ -398,23 +357,18 @@ export default function OnePost() {
 
                   // handle function for deleting comment
                   const deleteComment = async () => {
-                    const data = {
+                    const deleteData = {
                       commentId: comment._id,
                     }
                     // eslint-disable-next-line no-restricted-globals
                     const confirmation = confirm('Delete comment ?')
                     if (confirmation) {
                       try {
-                        const axiosResponse = await postRequest(
-                          apiEndpoints.getAllArticles +
-                            '/' +
-                            getRequestedPost._id +
-                            apiEndpoints.deleteComment,
-                          data
+                        await articleServices.deleteComment(
+                          getRequestedPost._id,
+                          deleteData
                         )
-                        if (axiosResponse.status === 201) {
-                          getArticles()
-                        }
+                        getArticles()
                       } catch (err) {
                         console.log(err)
                       }

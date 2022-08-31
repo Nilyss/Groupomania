@@ -8,10 +8,6 @@ import cookie from 'js-cookie'
 import Header from '../../components/header/header'
 import Footer from '../../components/footer/footer'
 
-// api
-import { putRequest, deleteRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
-
 // css
 import './_UserSettings.scss'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -20,6 +16,19 @@ import {
   faSpinner,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
+
+// api
+import UserService from '../../api/Services/UserService'
+import ArticleServices from '../../api/Services/ArticleServices'
+const userServices = new UserService()
+const articleServices = new ArticleServices()
+
+// in case of account deletion force the removing cookies in front
+const removeCookie = (key) => {
+  if (window !== undefined) {
+    cookie.remove(key, { expires: 1 })
+  }
+}
 
 export default function UserSettings() {
   // init hooks
@@ -41,14 +50,9 @@ export default function UserSettings() {
     const formData = new FormData()
     formData.append('file', file)
     try {
-      const axiosResponse = await putRequest(
-        apiEndpoints.updateUser + '/' + userData._id,
-        formData
-      )
-      if (axiosResponse.status === 200) {
-        getUser()
-        getUsers()
-      }
+      await userServices.editUser(userData._id, formData)
+      getUser()
+      getUsers()
     } catch (error) {
       console.log(error)
     }
@@ -74,12 +78,8 @@ export default function UserSettings() {
           if (isUserPost === true) {
             try {
               async function deleteUserPost() {
-                const axiosResponseDeletePost = await deleteRequest(
-                  apiEndpoints.deleteArticle + '/' + article._id
-                )
-                if (axiosResponseDeletePost.status === 200) {
-                  console.log('every post get removed')
-                }
+                await articleServices.deleteArticle(article._id)
+                console.log('every post get removed')
               }
               deleteUserPost()
             } catch (err) {
@@ -89,23 +89,17 @@ export default function UserSettings() {
           // After deleting article, wipe all users data except comments
           try {
             async function deleteUserData() {
-              const axiosResponse = await deleteRequest(
-                apiEndpoints.deleteUser + '/' + userData._id
-              )
-              if (axiosResponse.status === 200) {
-                // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
-                const removeCookie = (key) => {
-                  if (window !== undefined) {
-                    cookie.remove(key, { expires: 1 })
-                  }
-                }
-                removeCookie('jwt')
-                // refresh articles states after one or multiples articles delete
-                getArticles()
-                alert('Account successfully deleted')
-                // reload the app for cleaning cookies in browser and return to auth pages
-                window.location.replace('/')
-              }
+              await userServices.deleteUser(userData._id)
+
+              // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
+              removeCookie('jwt')
+
+              // refresh articles states after one or multiples articles delete
+              getArticles()
+              alert('Account successfully deleted')
+
+              // reload the app for cleaning cookies in browser and return to auth pages
+              window.location.replace('/')
             }
             deleteUserData()
           } catch (error) {

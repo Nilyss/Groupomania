@@ -1,13 +1,13 @@
-// api
-import { postRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
-
 // css
 import './_createComment.scss'
 
 // context
 import { PostContext } from '../../context'
 import { useContext } from 'react'
+
+// api
+import ArticleServices from '../../api/Services/ArticleServices'
+const articleServices = new ArticleServices()
 
 export default function CreateComment({ commentId }) {
   // init hooks
@@ -17,7 +17,7 @@ export default function CreateComment({ commentId }) {
   async function handleFormComment(e) {
     e.preventDefault()
 
-    const data = {
+    const commentData = {
       commenterId: userData._id,
       commenterFirstName: userData.firstName,
       commenterLastName: userData.lastName,
@@ -25,14 +25,9 @@ export default function CreateComment({ commentId }) {
       text: e.target['commentMessage'].value,
     }
     try {
-      const axiosResponse = await postRequest(
-        apiEndpoints.postArticle + '/' + commentId + apiEndpoints.postComment,
-        data
-      )
-      if (axiosResponse.status === 201) {
-        e.target['commentMessage'].value = ''
-        await getArticles()
-      }
+      await articleServices.postComment(commentId, commentData)
+      e.target['commentMessage'].value = ''
+      getArticles()
     } catch (error) {
       console.log(error)
     }

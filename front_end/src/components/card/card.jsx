@@ -13,16 +13,16 @@ import { faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 // css
 import './_card.scss'
 
-// api
-import { deleteRequest, postRequest, putRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
-
 // context
 import { PostContext } from '../../context'
 
 // components
 import CreateComment from '../createComment/createComment'
 import { faEllipsis } from '@fortawesome/free-solid-svg-icons/faEllipsis'
+
+// api
+import ArticleServices from '../../api/Services/ArticleServices'
+const articleServices = new ArticleServices()
 
 export default function Card() {
   const { usersData, articlesData, userData, isLoading, getArticles } =
@@ -46,7 +46,7 @@ export default function Card() {
           // get user poster data  for render them in DOM
           const userPoster = usersData.find((u) => u._id === post.posterId)
 
-          // check if post have a picture for rendering figure balise only if  the post have image
+          // check if post have a picture for rendering figure tags only if  the post have image
           const haveAPicture = post.picture !== undefined
 
           // *************** handle function using map array ***************
@@ -60,14 +60,9 @@ export default function Card() {
               message: messageUpdate,
             }
             try {
-              const axiosResponse = await putRequest(
-                apiEndpoints.editArticle + '/' + post._id,
-                data
-              )
-              if (axiosResponse.status === 200) {
-                setIsUpdated(!isUpdated)
-                getArticles()
-              }
+              await articleServices.putArticle(post._id, data)
+              setIsUpdated(!isUpdated)
+              getArticles()
             } catch (error) {
               console.log(error)
             }
@@ -79,12 +74,8 @@ export default function Card() {
             const confirmation = confirm('Delete article ?')
             if (confirmation) {
               try {
-                const axiosResponse = await deleteRequest(
-                  apiEndpoints.deleteArticle + '/' + post._id
-                )
-                if (axiosResponse.status === 200) {
-                  getArticles()
-                }
+                await articleServices.deleteArticle(post._id)
+                getArticles()
               } catch (error) {
                 console.log(error)
               }
@@ -103,17 +94,8 @@ export default function Card() {
                 like: 1,
                 likerId: userData._id,
               }
-
-              const axiosResponse = await postRequest(
-                apiEndpoints.getAllArticles +
-                  '/' +
-                  post._id +
-                  apiEndpoints.likes,
-                likeData
-              )
-              if (axiosResponse.status === 201) {
-                getArticles()
-              }
+              await articleServices.postLike(post._id, likeData)
+              getArticles()
             }
             // if the user unlike an article
             if (post.likers.find((likers) => likers.likerId === userData._id)) {
@@ -121,16 +103,8 @@ export default function Card() {
                 like: 0,
                 likerId: userData._id,
               }
-              const axiosResponse = await postRequest(
-                apiEndpoints.getAllArticles +
-                  '/' +
-                  post._id +
-                  apiEndpoints.likes,
-                unlikeData
-              )
-              if (axiosResponse.status === 200) {
-                getArticles()
-              }
+              await articleServices.postLike(post._id, unlikeData)
+              getArticles()
             }
           }
 
@@ -148,16 +122,8 @@ export default function Card() {
                 like: -1,
                 disLikerId: userData._id,
               }
-              const axiosResponse = await postRequest(
-                apiEndpoints.getAllArticles +
-                  '/' +
-                  post._id +
-                  apiEndpoints.likes,
-                dislikeData
-              )
-              if (axiosResponse.status === 201) {
-                getArticles()
-              }
+              await articleServices.postLike(post._id, dislikeData)
+              getArticles()
             }
 
             // if the user un dislike an article
@@ -170,16 +136,8 @@ export default function Card() {
                 like: 0,
                 disLikerId: userData._id,
               }
-              const axiosResponse = await postRequest(
-                apiEndpoints.getAllArticles +
-                  '/' +
-                  post._id +
-                  apiEndpoints.likes,
-                undislikeData
-              )
-              if (axiosResponse.status === 200) {
-                getArticles()
-              }
+              await articleServices.postLike(post._id, undislikeData)
+              getArticles()
             }
           }
 
@@ -359,157 +317,148 @@ export default function Card() {
                     <h4 className="postFlow__container__commentTitle">
                       Comments
                     </h4>
-                    {post.comments.slice(0, 3).map((comment, index) => {
+                    {
                       // map comments to render them in DOM. Show only 3rd first comments in home page
+                      post.comments.slice(0, 3).map((comment, index) => {
+                        // handle function for updating comment
+                        const updateComment = async (e) => {
+                          e.preventDefault()
 
-                      // handle function for updating comment
-                      const updateComment = async (e) => {
-                        e.preventDefault()
-
-                        const data = {
-                          commentId: comment._id,
-                          commenterId: userData._id,
-                          commenterFirstName: userData.firstName,
-                          commenterLastName: userData.lastName,
-                          commenterProfilePicture: userData.profilePicture,
-                          text: commentUpdate,
-                        }
-                        try {
-                          const axiosResponse = await putRequest(
-                            apiEndpoints.getAllArticles +
-                              '/' +
-                              post._id +
-                              apiEndpoints.editComment,
-                            data
-                          )
-                          if (axiosResponse.status === 200) {
+                          const commentData = {
+                            commentId: comment._id,
+                            commenterId: userData._id,
+                            commenterFirstName: userData.firstName,
+                            commenterLastName: userData.lastName,
+                            commenterProfilePicture: userData.profilePicture,
+                            text: commentUpdate,
+                          }
+                          try {
+                            await articleServices.putComment(
+                              post._id,
+                              commentData
+                            )
                             setCommentIsUpdated(!commentIsUpdated)
                             getArticles()
-                          }
-                        } catch (err) {
-                          console.log(err)
-                        }
-                      }
-
-                      // handle function for deleting comment
-                      const deleteComment = async () => {
-                        const data = {
-                          commentId: comment._id,
-                        }
-                        // eslint-disable-next-line no-restricted-globals
-                        const confirmation = confirm('Delete comment ?')
-                        if (confirmation) {
-                          try {
-                            const axiosResponse = await postRequest(
-                              apiEndpoints.getAllArticles +
-                                '/' +
-                                post._id +
-                                apiEndpoints.deleteComment,
-                              data
-                            )
-                            if (axiosResponse.status === 201) {
-                              getArticles()
-                            }
                           } catch (err) {
                             console.log(err)
                           }
                         }
-                      }
 
-                      // check if user is the user poster of comment or if the user is admin for rendering icons who contain onClick function
-                      const isUserComment =
-                        userData._id === comment.commenterId ||
-                        userData.isAdmin === 1
+                        // handle function for deleting comment
+                        const deleteComment = async () => {
+                          const deleteData = {
+                            commentId: comment._id,
+                          }
+                          // eslint-disable-next-line no-restricted-globals
+                          const confirmation = confirm('Delete comment ?')
+                          if (confirmation) {
+                            try {
+                              await articleServices.deleteComment(
+                                post._id,
+                                deleteData
+                              )
+                              getArticles()
+                            } catch (err) {
+                              console.log(err)
+                            }
+                          }
+                        }
 
-                      // check if the commenter still existing in database or if he was removed
-                      const isCommenterExist = usersData.find(
-                        (user) => user._id === comment.commenterId
-                      )
+                        // check if user is the user poster of comment or if the user is admin for rendering icons who contain onClick function
+                        const isUserComment =
+                          userData._id === comment.commenterId ||
+                          userData.isAdmin === 1
 
-                      // render article comments
-                      return (
-                        <div key={index}>
-                          <article className="comment">
-                            <div className="comment__header">
-                              {isUserComment && (
-                                <FontAwesomeIcon
-                                  onClick={() => {
-                                    handleEditComment(comment._id)
-                                  }}
-                                  className="comment__header__editIcon"
-                                  icon={faPenToSquare}
-                                  title="Edit post"
-                                />
-                              )}
-                              {isCommenterExist ? (
-                                <>
-                                  <figure className="comment__header__fig">
-                                    <img
-                                      src={comment.commenterProfilePicture}
-                                      className="comment__header__fig__img"
-                                      alt=""
-                                    />
-                                  </figure>
-                                  <h5 className="comment__header__title">
-                                    {comment.commenterFirstName}{' '}
-                                    {comment.commenterLastName}
-                                  </h5>
-                                </>
-                              ) : (
-                                <>
-                                  <figure className="comment__header__fig">
-                                    <img
-                                      src="https://i.imgur.com/FixNDJZ.jpg"
-                                      className="comment__header__fig__img"
-                                      alt=""
-                                    />
-                                  </figure>
-                                  <h5 className="comment__header__title">
-                                    Deleted User {comment.commenterId}
-                                  </h5>
-                                </>
-                              )}
-                              {isUserComment && (
-                                <FontAwesomeIcon
-                                  onClick={deleteComment}
-                                  className="comment__header__deleteIcon"
-                                  icon={faTrashCan}
-                                  title="Delete post"
-                                />
-                              )}
-                            </div>
-                            <div className="comment__body">
-                              {(commentIsUpdated === false ||
-                                targetElement !== comment._id) && (
-                                <p className="comment__body__message">
-                                  {comment.text}
-                                </p>
-                              )}
-                              {commentIsUpdated === true &&
-                                targetElement === comment._id && (
-                                  <div className="updateComment">
-                                    <textarea
-                                      className="updateComment__textarea"
-                                      defaultValue={comment.text}
-                                      onChange={(e) =>
-                                        setCommentUpdate(e.target.value)
-                                      }
-                                    />
-                                    <div className="updateComment__buttonContainer">
-                                      <button
-                                        onClick={(e) => updateComment(e)}
-                                        className="updateComment__buttonContainer__button"
-                                      >
-                                        Edit comment
-                                      </button>
-                                    </div>
-                                  </div>
+                        // check if the commenter still existing in database or if he was removed
+                        const isCommenterExist = usersData.find(
+                          (user) => user._id === comment.commenterId
+                        )
+
+                        // render article comments
+                        return (
+                          <div key={index}>
+                            <article className="comment">
+                              <div className="comment__header">
+                                {isUserComment && (
+                                  <FontAwesomeIcon
+                                    onClick={() => {
+                                      handleEditComment(comment._id)
+                                    }}
+                                    className="comment__header__editIcon"
+                                    icon={faPenToSquare}
+                                    title="Edit post"
+                                  />
                                 )}
-                            </div>
-                          </article>
-                        </div>
-                      )
-                    })}
+                                {isCommenterExist ? (
+                                  <>
+                                    <figure className="comment__header__fig">
+                                      <img
+                                        src={comment.commenterProfilePicture}
+                                        className="comment__header__fig__img"
+                                        alt=""
+                                      />
+                                    </figure>
+                                    <h5 className="comment__header__title">
+                                      {comment.commenterFirstName}{' '}
+                                      {comment.commenterLastName}
+                                    </h5>
+                                  </>
+                                ) : (
+                                  <>
+                                    <figure className="comment__header__fig">
+                                      <img
+                                        src="https://i.imgur.com/FixNDJZ.jpg"
+                                        className="comment__header__fig__img"
+                                        alt=""
+                                      />
+                                    </figure>
+                                    <h5 className="comment__header__title">
+                                      Deleted User {comment.commenterId}
+                                    </h5>
+                                  </>
+                                )}
+                                {isUserComment && (
+                                  <FontAwesomeIcon
+                                    onClick={deleteComment}
+                                    className="comment__header__deleteIcon"
+                                    icon={faTrashCan}
+                                    title="Delete post"
+                                  />
+                                )}
+                              </div>
+                              <div className="comment__body">
+                                {(commentIsUpdated === false ||
+                                  targetElement !== comment._id) && (
+                                  <p className="comment__body__message">
+                                    {comment.text}
+                                  </p>
+                                )}
+                                {commentIsUpdated === true &&
+                                  targetElement === comment._id && (
+                                    <div className="updateComment">
+                                      <textarea
+                                        className="updateComment__textarea"
+                                        defaultValue={comment.text}
+                                        onChange={(e) =>
+                                          setCommentUpdate(e.target.value)
+                                        }
+                                      />
+                                      <div className="updateComment__buttonContainer">
+                                        <button
+                                          onClick={(e) => updateComment(e)}
+                                          className="updateComment__buttonContainer__button"
+                                        >
+                                          Edit comment
+                                        </button>
+                                      </div>
+                                    </div>
+                                  )}
+                              </div>
+                            </article>
+                          </div>
+                        )
+                      })
+                    }
                     {isThereMoreComment && (
                       <div className="isThereMoreCommentContainer">
                         <FontAwesomeIcon

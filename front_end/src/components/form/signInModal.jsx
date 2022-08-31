@@ -3,17 +3,18 @@ import { useContext, useState } from 'react'
 import { FormContext } from '../../context/formContext'
 import { useNavigate } from 'react-router-dom'
 
-// api
-import { postRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
-
 //css
 import './_forms.scss'
 import { PostContext } from '../../context'
 
+// api
+import UserService from '../../api/Services/UserService'
+const userServices = new UserService()
+
 export default function SignInModal() {
   // context
   const { getUser } = useContext(PostContext)
+
   // init hooks
   const { toggleModals, modalState } = useContext(FormContext)
   const [error, setError] = useState('')
@@ -28,11 +29,9 @@ export default function SignInModal() {
         password: e.target['password'].value,
       }
 
-      const axiosResponse = await postRequest(apiEndpoints.signIn, userData)
-      if (axiosResponse.status === 200) {
-        getUser()
-        navigate('/home', { replace: true })
-      }
+      await userServices.connectUser(userData)
+      getUser()
+      navigate('/home', { replace: true })
     } catch (err) {
       setError(
         ' Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '

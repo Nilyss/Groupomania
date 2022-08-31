@@ -10,8 +10,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faImage, faSpinner } from '@fortawesome/free-solid-svg-icons'
 
 // api
-import { postRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
+import ArticleServices from '../../api/Services/ArticleServices'
+const articleServices = new ArticleServices()
 
 export default function CreatePost() {
   // init hooks
@@ -28,15 +28,10 @@ export default function CreatePost() {
     formData.append('message', e.target['message'].value)
     formData.append('file', file)
     try {
-      const axiosResponse = await postRequest(
-        apiEndpoints.postArticle,
-        formData
-      )
-      if (axiosResponse.status === 201) {
-        e.target['message'].value = ''
-        e.target['message'].value = ''
-        getArticles()
-      }
+      await articleServices.postArticle(formData)
+      e.target['message'].value = ''
+      e.target['message'].value = ''
+      getArticles()
     } catch (error) {
       console.log(error)
     }
@@ -80,10 +75,7 @@ export default function CreatePost() {
               ></textarea>
             </div>
             <div className="createPost__body__form__bottom">
-              <label
-                href="#"
-                className="createPost__body__form__bottom__button__attachment"
-              >
+              <label className="createPost__body__form__bottom__button__attachment">
                 <input
                   onChange={handleFileSelect}
                   accept=".jpg, .jpeg, .png"

@@ -3,12 +3,12 @@ import { useContext, useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { FormContext } from '../../context/formContext'
 
-// api
-import { postRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
-
 // css
 import './_forms.scss'
+
+// api
+import UserService from '../../api/Services/UserService'
+const userServices = new UserService()
 
 export default function SignUpModal() {
   const { toggleModals, modalState } = useContext(FormContext)
@@ -46,17 +46,13 @@ export default function SignUpModal() {
           email: inputs.current[2].value,
           password: inputs.current[3].value,
         }
-        const axiosResponse = await postRequest(apiEndpoints.signUp, userData)
-        if (axiosResponse.status === 201) {
-          inputs.current[0].value = ''
-          inputs.current[1].value = ''
-          inputs.current[2].value = ''
-          inputs.current[3].value = ''
-          inputs.current[4].value = ''
-          setValidation('Account successfully created')
-        } else {
-          setError('An error occurs. Try again later')
-        }
+        await userServices.createUser(userData)
+        inputs.current[0].value = ''
+        inputs.current[1].value = ''
+        inputs.current[2].value = ''
+        inputs.current[3].value = ''
+        inputs.current[4].value = ''
+        setValidation('Account successfully created')
       } catch (err) {
         setError('An error occurs. Try again later')
         navigate('/', { replace: true })

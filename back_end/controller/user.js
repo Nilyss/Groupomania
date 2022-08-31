@@ -8,7 +8,7 @@ dotenv.config()
 // import Middleware
 const authMiddleware = require('../middleware/authMiddleware')
 
-// import models
+// import Models
 const User = require('../models/user')
 
 // create token and defined duration of him
@@ -84,26 +84,17 @@ module.exports.updateUser = (req, res) => {
 
 module.exports.deleteUser = (req, res) => {
   User.findOne({ _id: req.params.id }).then((user) => {
-    if (user.picture === 'https://i.imgur.com/FixNDJZ.jpg') {
+    const filename = user.profilePicture.split('/images')[1]
+    fs.unlink(`images/${filename}`, () => {
       User.deleteOne({ _id: req.params.id })
-        .then((user) => {
+        .then(() => {
           res
             .status(200)
             .json({ message: "User and user's data has been delete" })
         })
         .catch((error) => res.status(400).json({ error }))
-    } else {
-      const filename = user.profilePicture.split('/images')[1]
-      fs.unlink(`images/${filename}`, () => {
-        User.deleteOne({ _id: req.params.id })
-          .then(() => {
-            res
-              .status(200)
-              .json({ message: "User and user's data has been delete" })
-          })
-          .catch((error) => res.status(400).json({ error }))
-      })
-    }
+    })
+    // }
     if (!user) {
       res.status(404).json({ message: 'No user to delete' })
     }
