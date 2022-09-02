@@ -82,6 +82,14 @@ export default function Card() {
             }
           }
 
+          // for accessibility if item is focus, by pressing space or enter, trigger the deletePost Function
+          const keyDownDeletePost = (e) => {
+            let code = e.which
+            if (code === 13 || code === 32) {
+              deletePost()
+            }
+          }
+
           // handle like article function
           async function handleLike(e) {
             e.preventDefault()
@@ -143,7 +151,8 @@ export default function Card() {
 
           // Condition for deletion and editing post
           const isUserPost =
-            userData._id === userPoster._id || userData.isAdmin === 1
+            userPoster &&
+            (userData._id === userPoster._id || userData.isAdmin === 1)
 
           // Condition for showing like or dislike button, if the post was already disliked or liked
           const isLiked = post.likers.find(
@@ -157,6 +166,14 @@ export default function Card() {
           const handleEditPost = (id) => {
             setIsUpdated(!isUpdated)
             setTargetElement(id)
+          }
+
+          // for accessibility if item is focus, by pressing space or enter, trigger the handleEditPost Function
+          const keyDownEditPost = (e) => {
+            let code = e.which
+            if (code === 13 || code === 32) {
+              handleEditPost(post._id)
+            }
           }
 
           const handleEditComment = (id) => {
@@ -186,6 +203,9 @@ export default function Card() {
                         {isUserPost && (
                           <>
                             <FontAwesomeIcon
+                              tabIndex="0"
+                              role="button"
+                              onKeyDown={keyDownEditPost}
                               onClick={() => {
                                 handleEditPost(post._id)
                               }}
@@ -194,6 +214,9 @@ export default function Card() {
                               title="Edit post"
                             />
                             <FontAwesomeIcon
+                              tabIndex="0"
+                              role="button"
+                              onKeyDown={keyDownDeletePost}
                               onClick={deletePost}
                               className="postFlow__container__header__iconContainer__icon"
                               icon={faTrashCan}
@@ -202,16 +225,19 @@ export default function Card() {
                           </>
                         )}
                       </div>
-                      <figure className="createPost__body__form__top__fig">
+                      <figure
+                        aria-label="photo de profil du créateur du post"
+                        className="createPost__body__form__top__fig"
+                      >
                         <img
                           className="createPost__body__form__top__fig__img"
                           src={userPoster.profilePicture}
                           alt="profile"
                         />
                       </figure>
-                      <h5 className="postFlow__container__title">
+                      <h2 className="postFlow__container__title">
                         {userPoster.firstName} {userPoster.lastName}
-                      </h5>
+                      </h2>
                       <Link to={`/post/${post._id}`} className="link">
                         <Moment
                           format="YYYY/MM/DD - HH:mm"
@@ -222,11 +248,14 @@ export default function Card() {
                       </Link>
                     </div>
                     {haveAPicture && (
-                      <figure className="postFlow__container__figure">
+                      <figure
+                        aria-label="Photo ou image jointe au post"
+                        className="postFlow__container__figure"
+                      >
                         <img
                           className="postFlow__container__figure__img"
                           src={post.picture}
-                          alt=""
+                          alt="post"
                         />
                       </figure>
                     )}
@@ -314,9 +343,9 @@ export default function Card() {
                         )}
                       </p>
                     </div>
-                    <h4 className="postFlow__container__commentTitle">
+                    <h3 className="postFlow__container__commentTitle">
                       Comments
-                    </h4>
+                    </h3>
                     {
                       // map comments to render them in DOM. Show only 3rd first comments in home page
                       post.comments.slice(0, 3).map((comment, index) => {
@@ -344,6 +373,14 @@ export default function Card() {
                           }
                         }
 
+                        // for accessibility if item is focus, by pressing space or enter, trigger the handleEditComment Function
+                        const keyDownEditComment = (e) => {
+                          let code = e.which
+                          if (code === 13 || code === 32) {
+                            handleEditComment(comment._id)
+                          }
+                        }
+
                         // handle function for deleting comment
                         const deleteComment = async () => {
                           const deleteData = {
@@ -364,6 +401,14 @@ export default function Card() {
                           }
                         }
 
+                        // for accessibility if item is focus, by pressing space or enter, trigger the handleEditComment Function
+                        const keyDownDeleteComment = (e) => {
+                          let code = e.which
+                          if (code === 13 || code === 32) {
+                            deleteComment()
+                          }
+                        }
+
                         // check if user is the user poster of comment or if the user is admin for rendering icons who contain onClick function
                         const isUserComment =
                           userData._id === comment.commenterId ||
@@ -381,6 +426,9 @@ export default function Card() {
                               <div className="comment__header">
                                 {isUserComment && (
                                   <FontAwesomeIcon
+                                    tabIndex="0"
+                                    role="button"
+                                    onKeyDown={keyDownEditComment}
                                     onClick={() => {
                                       handleEditComment(comment._id)
                                     }}
@@ -391,21 +439,27 @@ export default function Card() {
                                 )}
                                 {isCommenterExist ? (
                                   <>
-                                    <figure className="comment__header__fig">
+                                    <figure
+                                      aria-label="Photo de profil de l'utilisateur qui commente"
+                                      className="comment__header__fig"
+                                    >
                                       <img
                                         src={comment.commenterProfilePicture}
                                         className="comment__header__fig__img"
                                         alt=""
                                       />
                                     </figure>
-                                    <h5 className="comment__header__title">
+                                    <h4 className="comment__header__title">
                                       {comment.commenterFirstName}{' '}
                                       {comment.commenterLastName}
-                                    </h5>
+                                    </h4>
                                   </>
                                 ) : (
                                   <>
-                                    <figure className="comment__header__fig">
+                                    <figure
+                                      aria-label="Photo utilisateur par defaut du commentaire"
+                                      className="comment__header__fig"
+                                    >
                                       <img
                                         src="https://i.imgur.com/FixNDJZ.jpg"
                                         className="comment__header__fig__img"
@@ -419,6 +473,9 @@ export default function Card() {
                                 )}
                                 {isUserComment && (
                                   <FontAwesomeIcon
+                                    tabIndex="0"
+                                    role="button"
+                                    onKeyDown={keyDownDeleteComment}
                                     onClick={deleteComment}
                                     className="comment__header__deleteIcon"
                                     icon={faTrashCan}

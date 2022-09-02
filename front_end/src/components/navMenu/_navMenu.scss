@@ -18,21 +18,21 @@
 }
 
 .navMenuModal__icon {
-  @media(max-width: $breakpointMobile) {
-margin-left: 2em;
-    margin-top: .8em;
+  @media (max-width: $breakpointMobile) {
+    margin-left: 2em;
+    margin-top: 0.8em;
   }
   @media (max-width: $breakpointTablet) {
     position: relative;
     top: 1.5em;
-    left: .4em;
+    left: 0.4em;
     font-size: 1.5em;
   }
   font-size: 1.8em;
   color: $colorSecondary;
-  background:$colorTertiary;
+  background: $colorTertiary;
   border-radius: 25%;
-  padding: .2em;
+  padding: 0.2em;
   box-shadow: $boxShadowCard;
   cursor: pointer;
 }

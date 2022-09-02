@@ -45,15 +45,16 @@ export default function SignInModal() {
       {modalState.signInModal && (
         <section className="auth">
           <div className="auth__header">
-            <h5 className="auth__header__title">Sign-In</h5>
-            <h5
+            <h1 className="auth__header__title">Sign-In</h1>
+            <button
               onClick={() => toggleModals('signUp')}
               className="auth__header__btn"
             >
               Sign-Up
-            </h5>
+            </button>
           </div>
           <div className="auth__body">
+            <h2 className="auth__body__title">Connect yourself</h2>
             <form onSubmit={handleForm} className="auth__body__form">
               <div className="auth__form__container">
                 <div className="auth__body__form__container">
@@ -92,12 +93,12 @@ export default function SignInModal() {
               <button className="auth__body__form__submit">Enter</button>
               <div className="createAccount">
                 <p className="createAccount__p">No account ? </p>
-                <p
+                <button
                   className="createAccount__create"
                   onClick={() => toggleModals('signUp')}
                 >
                   Create one !
-                </p>
+                </button>
               </div>
             </form>
           </div>

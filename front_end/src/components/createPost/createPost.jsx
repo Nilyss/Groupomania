@@ -48,7 +48,10 @@ export default function CreatePost() {
         <div className="createPost__body">
           <form onSubmit={handleFormArticle} className="createPost__body__form">
             <div className="createPost__body__form__top">
-              <figure className="createPost__body__form__top__fig">
+              <figure
+                aria-label="Photo de profil de l'utilisateur"
+                className="createPost__body__form__top__fig"
+              >
                 {isLoading ? (
                   <FontAwesomeIcon
                     icon={faSpinner}
@@ -75,15 +78,19 @@ export default function CreatePost() {
               ></textarea>
             </div>
             <div className="createPost__body__form__bottom">
-              <label className="createPost__body__form__bottom__button__attachment">
-                <input
-                  onChange={handleFileSelect}
-                  accept=".jpg, .jpeg, .png"
-                  id="file"
-                  name="file"
-                  className="createPost__body__form__bottom__button__attachment__input"
-                  type="file"
-                />
+              <input
+                onChange={handleFileSelect}
+                accept=".jpg, .jpeg, .png"
+                id="file"
+                name="file"
+                className="createPost__body__form__bottom__button__attachment__input"
+                type="file"
+              />
+              <label
+                htmlFor="file"
+                className="createPost__body__form__bottom__button__attachment"
+              >
+                Picture
                 <span className="createPost__body__form__bottom__button__attachment__icon">
                   {imageIcon}
                 </span>

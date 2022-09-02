@@ -17,9 +17,20 @@ export default function NavMenu() {
     setToggleMenu(!toggleMenu)
   }
 
+  // for accessibility if item is focus, by pressing space or enter, trigger the handleEditComment Function
+  const keyDownhandleClick = (e) => {
+    let code = e.which
+    if (code === 13 || code === 32) {
+      handleClick()
+    }
+  }
+
   return (
     <div className="navMenuModal">
       <FontAwesomeIcon
+        tabIndex="0"
+        role="button"
+        onKeyDown={keyDownhandleClick}
         onClick={handleClick}
         icon={faBars}
         className="fa-2x navMenuModal__icon"
@@ -31,9 +42,14 @@ export default function NavMenu() {
             width: '100%',
           }}
         >
-          <h4 className="navMenuContainer__title">Menu</h4>
+          <h2 className="navMenuContainer__title">Menu</h2>
           <div className="navMenu__buttonContainer">
-            <Link to={'/userSettings'} className="navMenuContainer__settings">
+            <Link
+              tabIndex="0"
+              role="button"
+              to={'/userSettings'}
+              className="navMenuContainer__settings"
+            >
               Settings
             </Link>
           </div>

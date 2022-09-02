@@ -162,7 +162,10 @@ export default function UserSettings() {
                   </p>
                 )}
                 <div className="userSettingsMain__form__body__form__inputs">
-                  <figure className="userSettingsMain__form__body__form__fig">
+                  <figure
+                    aria-label="Photo de profil de l'utilisateur du compte"
+                    className="userSettingsMain__form__body__form__fig"
+                  >
                     <img
                       className="userSettingsMain__form__body__form__fig__img"
                       src={userData.profilePicture}

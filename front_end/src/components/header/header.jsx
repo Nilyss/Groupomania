@@ -19,7 +19,7 @@ export default function Header() {
       <header className="homeHeader">
         <div className="homeHeaderContainer">
           <div className="showUser">
-            <figure>
+            <figure aria-label="Photo de profile de l'utilisateur">
               {isLoading ? (
                 <FontAwesomeIcon
                   icon={faSpinner}
@@ -36,9 +36,9 @@ export default function Header() {
                 </Link>
               )}
             </figure>
-            <p className="showUser__name">Welcome {userData.firstName} !</p>
+            <h1 className="showUser__name">Welcome {userData.firstName} !</h1>
           </div>
-          <figure className="homeMain__fig">
+          <figure aria-label="Logo de Groupomania" className="homeMain__fig">
             <Link to={'/home'}>
               <img
                 className="homeMain__fig__logo"

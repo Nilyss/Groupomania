@@ -212,7 +212,10 @@ export default function OnePost() {
                     </>
                   )}
                 </div>
-                <figure className="onePostContainer__header__fig">
+                <figure
+                  aria-label="Photo de profil du créateur du post"
+                  className="onePostContainer__header__fig"
+                >
                   <img
                     className="onePostContainer__header__fig__posterPP"
                     src={userPoster.profilePicture}
@@ -232,7 +235,10 @@ export default function OnePost() {
                 </Link>
               </div>
               <div className="onePostContainer__body">
-                <figure className="onePostContainer__body__fig">
+                <figure
+                  aria-label="Photo jointe au post par l'utilisateur"
+                  className="onePostContainer__body__fig"
+                >
                   <img
                     className="onePostContainer__body__fig__img"
                     src={getRequestedPost.picture}
@@ -379,7 +385,10 @@ export default function OnePost() {
                     <ul key={index}>
                       <li className="onePostContainer__footer__commentContainer">
                         <div className="onePostContainer__footer__commentContainer__header">
-                          <figure className="onePostContainer__footer__commentContainer__header__fig">
+                          <figure
+                            aria-label="Photo de profil du créateur du commentaire"
+                            className="onePostContainer__footer__commentContainer__header__fig"
+                          >
                             <img
                               className="onePostContainer__footer__commentContainer__header__fig__img"
                               src={comment.commenterProfilePicture}

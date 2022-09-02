@@ -66,15 +66,16 @@ export default function SignUpModal() {
       {modalState.signUpModal && (
         <section className="auth">
           <div className="auth__header">
-            <h5
+            <button
               onClick={() => toggleModals('signIn')}
               className="auth__header__btn"
             >
               Sign-In
-            </h5>
-            <h5 className="auth__header__title">Sign-Up</h5>
+            </button>
+            <h1 className="auth__header__title">Sign-Up</h1>
           </div>
           <div className="auth__body">
+            <h2 className="auth__body__title">Create your account</h2>
             <form
               onSubmit={handleForm}
               ref={formRef}
