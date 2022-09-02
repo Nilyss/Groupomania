@@ -8,7 +8,10 @@ export default function Footer() {
   return (
     <>
       <div className="footerContainer">
-        <figure className="footerContainer__fig">
+        <figure
+          aria-label="Logo de Groupomania"
+          className="footerContainer__fig"
+        >
           <img
             src={footerLogo}
             alt="Groupomania logo"

@@ -1,4 +1,4 @@
-// import models
+// import Models
 const Article = require('../models/articles')
 const fs = require('fs')
 
@@ -26,7 +26,7 @@ module.exports.createArticle = (req, res) => {
     })
     article
       .save()
-      .then(() => res.status(201).json({ message: 'Post saved !' }))
+      .then(() => res.status(201).json({ message: 'Article saved !' }))
       .catch((error) => res.status(400).json({ error }))
   } else {
     const article = new Article({
@@ -37,7 +37,7 @@ module.exports.createArticle = (req, res) => {
     })
     article
       .save()
-      .then(() => res.status(201).json({ message: 'Post saved !' }))
+      .then(() => res.status(201).json({ message: 'Article saved !' }))
       .catch((error) => res.status(400).json({ error }))
   }
 }

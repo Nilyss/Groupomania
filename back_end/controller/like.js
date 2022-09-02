@@ -1,4 +1,4 @@
-// import model
+// import Models
 const Article = require('../models/articles')
 
 module.exports.likeArticle = (req, res) => {

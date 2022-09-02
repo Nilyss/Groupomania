@@ -95,20 +95,21 @@
 
 .createPost__body__form__bottom__button__attachment__input {
   position: relative;
-  left: 11em;
+  left: 9em;
   opacity: 0;
 }
 
-.createPost__body__form__bottom__button__attachment__icon {
+.createPost__body__form__bottom__button__attachment {
   @media(max-width: $breakpointTablet) {
-    margin-right: .3em;
-    position: unset;
-    display: flex;
+    margin-right: 1em;
   }
-  font-size: 1.4em;
-  position: relative;
-  top: 0;
-  left: 0;
+  display: flex;
+  gap: .5em;
+  cursor: pointer;
+}
+
+.createPost__body__form__bottom__button__attachment__icon {
+  font-size: 1.2em;
   cursor: pointer;
 }
 

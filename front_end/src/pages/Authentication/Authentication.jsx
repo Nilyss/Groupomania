@@ -22,7 +22,7 @@ export default function Authentification() {
 
   return (
     <main className="authBody">
-      <figure className="authBody__fig">
+      <figure aria-label="logo" className="authBody__fig">
         <img
           className="authBody__fig__logo"
           src={logo}

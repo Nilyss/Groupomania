@@ -3,17 +3,18 @@ import { useContext, useState } from 'react'
 import { FormContext } from '../../context/formContext'
 import { useNavigate } from 'react-router-dom'
 
-// api
-import { postRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
-
 //css
 import './_forms.scss'
 import { PostContext } from '../../context'
 
+// api
+import UserService from '../../api/Services/UserService'
+const userServices = new UserService()
+
 export default function SignInModal() {
   // context
   const { getUser } = useContext(PostContext)
+
   // init hooks
   const { toggleModals, modalState } = useContext(FormContext)
   const [error, setError] = useState('')
@@ -28,11 +29,9 @@ export default function SignInModal() {
         password: e.target['password'].value,
       }
 
-      const axiosResponse = await postRequest(apiEndpoints.signIn, userData)
-      if (axiosResponse.status === 200) {
-        getUser()
-        navigate('/home', { replace: true })
-      }
+      await userServices.connectUser(userData)
+      getUser()
+      navigate('/home', { replace: true })
     } catch (err) {
       setError(
         ' Invalid log-in: Please check your email and password. If you forgot them, contact your administrator '
@@ -46,15 +45,16 @@ export default function SignInModal() {
       {modalState.signInModal && (
         <section className="auth">
           <div className="auth__header">
-            <h5 className="auth__header__title">Sign-In</h5>
-            <h5
+            <h1 className="auth__header__title">Sign-In</h1>
+            <button
               onClick={() => toggleModals('signUp')}
               className="auth__header__btn"
             >
               Sign-Up
-            </h5>
+            </button>
           </div>
           <div className="auth__body">
+            <h2 className="auth__body__title">Connect yourself</h2>
             <form onSubmit={handleForm} className="auth__body__form">
               <div className="auth__form__container">
                 <div className="auth__body__form__container">
@@ -93,12 +93,12 @@ export default function SignInModal() {
               <button className="auth__body__form__submit">Enter</button>
               <div className="createAccount">
                 <p className="createAccount__p">No account ? </p>
-                <p
+                <button
                   className="createAccount__create"
                   onClick={() => toggleModals('signUp')}
                 >
                   Create one !
-                </p>
+                </button>
               </div>
             </form>
           </div>

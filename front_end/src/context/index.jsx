@@ -1,11 +1,13 @@
-/* eslint-disable */
 // libraries
 import { useState, useEffect, createContext } from 'react'
 
 // api
-import { getRequest } from '../api/apiCall'
-import apiEndpoints from '../api/apiEndpoints'
+import ArticleServices from '../api/Services/ArticleServices'
+import UserService from '../api/Services/UserService'
+const articleServices = new ArticleServices()
+const userServices = new UserService()
 
+// init context
 export const PostContext = createContext()
 
 export const PostProvider = ({ children }) => {
@@ -13,7 +15,6 @@ export const PostProvider = ({ children }) => {
   const [usersData, setUsersData] = useState([])
   const [userData, setUserData] = useState([])
   const [articlesData, setArticlesData] = useState([])
-  const [oneArticleData, setOneArticleData] = useState([])
   const [isLoading, setIsLoading] = useState(true)
 
   // *********** useEffect users ***********
@@ -21,11 +22,9 @@ export const PostProvider = ({ children }) => {
   useEffect(() => {
     const getUsers = async () => {
       setIsLoading(true)
-      const axiosResponse = await getRequest(apiEndpoints.getAllUsers)
-      if (axiosResponse.status === 200) {
-        setUsersData(axiosResponse.data)
-        setIsLoading(false)
-      }
+      const requestResponse = await userServices.getUser()
+      setUsersData(requestResponse)
+      setIsLoading(false)
     }
     getUsers()
   }, [])
@@ -34,14 +33,9 @@ export const PostProvider = ({ children }) => {
   useEffect(() => {
     const getUser = async () => {
       setIsLoading(true)
-      const axiosResponse = await getRequest(apiEndpoints.getIdCurrentUser)
-      const idUserResponse = await getRequest(
-        apiEndpoints.getAllUsers + '/' + axiosResponse.data
-      )
-      if (idUserResponse.status === 200) {
-        setUserData(idUserResponse.data)
-        setIsLoading(false)
-      }
+      const requestResponse = await userServices.getUserIdFromToken()
+      setUserData(requestResponse)
+      setIsLoading(false)
     }
     getUser()
   }, [])
@@ -51,38 +45,18 @@ export const PostProvider = ({ children }) => {
   useEffect(() => {
     const getAllArticles = async () => {
       setIsLoading(true)
-      const axiosResponse = await getRequest(apiEndpoints.getAllArticles)
-      if (axiosResponse.status === 200) {
-        setArticlesData(axiosResponse.data.reverse())
-        setIsLoading(false)
-      }
+      const requestResponse = await articleServices.getArticle()
+      setArticlesData(requestResponse.reverse())
+      setIsLoading(false)
     }
     getAllArticles()
-  }, [])
-
-  // get One article
-  useEffect(() => {
-    const getOneArticle = async () => {
-      setIsLoading(true)
-      await articlesData.forEach((e) => {
-        getRequest(apiEndpoints.getAllArticles + '/' + e._id).then((res) => {
-          if (res.status === 200) {
-            setOneArticleData(res.data)
-            setIsLoading(false)
-          }
-        })
-      })
-    }
-    getOneArticle()
   }, [])
 
   // function for dispatching DOM rendering on every new api call
   const getArticles = async () => {
     const dispatch = async () => {
-      const axiosResponse = await getRequest(apiEndpoints.getAllArticles)
-      if (axiosResponse.status === 200) {
-        setArticlesData(axiosResponse.data.reverse())
-      }
+      const requestResponse = await articleServices.getArticle()
+      setArticlesData(requestResponse.reverse())
     }
     dispatch()
   }
@@ -90,23 +64,16 @@ export const PostProvider = ({ children }) => {
   // function for dispatching DOM rendering on users api call
   const getUser = async () => {
     const dispatch = async () => {
-      const axiosResponse = await getRequest(apiEndpoints.getIdCurrentUser)
-      const idUserResponse = await getRequest(
-        apiEndpoints.getAllUsers + '/' + axiosResponse.data
-      )
-      if (idUserResponse.status === 200) {
-        setUserData(idUserResponse.data)
-      }
+      const requestResponse = await userServices.getUserIdFromToken()
+      setUserData(requestResponse)
     }
     dispatch()
   }
   // function for dispatching DOM rendering on user api call
   const getUsers = async () => {
     const dispatch = async () => {
-      const axiosResponse = await getRequest(apiEndpoints.getAllUsers)
-      if (axiosResponse.status === 200) {
-        setUsersData(axiosResponse.data)
-      }
+      const requestResponse = await userServices.getUser()
+      setUsersData(requestResponse)
     }
     dispatch()
   }
@@ -117,7 +84,6 @@ export const PostProvider = ({ children }) => {
         usersData,
         articlesData,
         userData,
-        oneArticleData,
         getArticles,
         getUser,
         getUsers,

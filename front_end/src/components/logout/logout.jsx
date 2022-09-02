@@ -6,8 +6,8 @@ import { Link } from 'react-router-dom'
 import './_logout.scss'
 
 // api
-import { getRequest } from '../../api/apiCall'
-import apiEndpoints from '../../api/apiEndpoints'
+import UserService from '../../api/Services/UserService'
+const userServices = new UserService()
 
 export default function Logout() {
   // remove token stored in cookies on http only if the backend  removing function didn't worked for safety
@@ -20,7 +20,7 @@ export default function Logout() {
   // request API and remove token from front-end and back-end
   const logout = async () => {
     try {
-      await getRequest(apiEndpoints.logout)
+      await userServices.logoutUser()
       removeCookie('jwt')
     } catch (error) {
       console.log(error)

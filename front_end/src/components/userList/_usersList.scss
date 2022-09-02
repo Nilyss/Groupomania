@@ -14,9 +14,8 @@
   }
   width: 80%;
   display: flex;
-  flex-flow: wrap;
+  flex-flow:  wrap;
   align-self: center;
-  text-align: center;
   position: sticky;
   top: 5em;
   right: 0;
@@ -27,18 +26,18 @@
   border: 2px solid $colorTertiary;
   box-shadow: $boxShadowCard;
   color: $colorTertiary;
+  font-size: 1.1em;
+  white-space: nowrap;
 }
-
-.userListContainer__Title {
-  width: 100%;
-  margin-bottom: 1em;
-  font-size: 1.5em;
+.userListContainer__ul--alt {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
 }
 
 .userListContainer__ul {
   display: flex;
-  flex-flow: column;
-  margin: auto;
 }
 
 .userListContainer__ul__list {
