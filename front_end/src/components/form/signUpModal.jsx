@@ -16,12 +16,6 @@ export default function SignUpModal() {
   const [validation, setValidation] = useState('')
 
   // push all inputs from form into inputs variable
-  const inputs = useRef([])
-  const addInputs = (el) => {
-    if (el && !inputs.current.includes(el)) {
-      inputs.current.push(el)
-    }
-  }
 
   // init hooks
   const formRef = useRef()
@@ -30,28 +24,35 @@ export default function SignUpModal() {
   //sign up form submit
   const handleForm = async (e) => {
     e.preventDefault()
-
+    setError('')
     if (
-      (inputs.current[3].value.length || inputs.current[4].value.length) < 8 ||
-      (inputs.current[3].value.length || inputs.current[4].value.length) > 16
+      (e.target['password'].value.length ||
+        e.target['confirmPassword'].value.length) < 8 ||
+      (e.target['password'].value.length ||
+        e.target['confirmPassword'].value.length) > 16
     ) {
-      setError('Password must have between 8 and 16 characters')
-    } else if (inputs.current[3].value !== inputs.current[4].value) {
+      setError(
+        '1 number, 1 uppercase letters, 1 lowercase letters, 1 non-alpha numeric number, between 8 and 16 characters with no space'
+      )
+    } else if (
+      e.target['password'].value !== e.target['confirmPassword'].value
+    ) {
       setError('Passwords do not match')
     } else {
       try {
         const userData = {
-          firstName: inputs.current[0].value,
-          lastName: inputs.current[1].value,
-          email: inputs.current[2].value,
-          password: inputs.current[3].value,
+          firstName: e.target['firstName'].value,
+          lastName: e.target['lastName'].value,
+          email: e.target['mail'].value,
+          password: e.target['password'].value,
         }
         await userServices.createUser(userData)
-        inputs.current[0].value = ''
-        inputs.current[1].value = ''
-        inputs.current[2].value = ''
-        inputs.current[3].value = ''
-        inputs.current[4].value = ''
+        e.target['firstName'].value = ''
+        e.target['lastName'].value = ''
+        e.target['mail'].value = ''
+        e.target['password'].value = ''
+        e.target['confirmPassword'].value = ''
+
         setValidation('Account successfully created')
       } catch (err) {
         setError('An error occurs. Try again later')
@@ -86,7 +87,6 @@ export default function SignUpModal() {
                   First Name
                 </label>
                 <input
-                  ref={addInputs}
                   name="firstName"
                   required
                   type="text"
@@ -100,7 +100,6 @@ export default function SignUpModal() {
                   Last Name
                 </label>
                 <input
-                  ref={addInputs}
                   name="lastName"
                   required
                   type="text"
@@ -114,7 +113,6 @@ export default function SignUpModal() {
                   eMail address
                 </label>
                 <input
-                  ref={addInputs}
                   name="mail"
                   required
                   type="email"
@@ -128,7 +126,6 @@ export default function SignUpModal() {
                   Password
                 </label>
                 <input
-                  ref={addInputs}
                   name="password"
                   required
                   type="password"
@@ -142,8 +139,7 @@ export default function SignUpModal() {
                   Confirm password
                 </label>
                 <input
-                  ref={addInputs}
-                  name="password"
+                  name="confirmPassword"
                   required
                   type="password"
                   className="formInput"
