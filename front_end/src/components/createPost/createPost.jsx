@@ -30,7 +30,7 @@ export default function CreatePost() {
     try {
       await articleServices.postArticle(formData)
       e.target['message'].value = ''
-      e.target['message'].value = ''
+      setFile(null)
       getArticles()
     } catch (error) {
       console.log(error)

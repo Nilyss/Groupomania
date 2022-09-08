@@ -337,6 +337,11 @@ export default function OnePost() {
                     userData._id === comment.commenterId ||
                     userData.isAdmin === 1
 
+                  // check if the commenter still existing in database or if he was removed
+                  const isCommenterExist = usersData.find(
+                    (user) => user._id === comment.commenterId
+                  )
+
                   // handle function for updating comment
                   const updateComment = async (e) => {
                     e.preventDefault()
@@ -384,40 +389,62 @@ export default function OnePost() {
                   return (
                     <ul key={index}>
                       <li className="onePostContainer__footer__commentContainer">
-                        <div className="onePostContainer__footer__commentContainer__header">
-                          <figure
-                            aria-label="Photo de profil du créateur du commentaire"
-                            className="onePostContainer__footer__commentContainer__header__fig"
-                          >
-                            <img
-                              className="onePostContainer__footer__commentContainer__header__fig__img"
-                              src={comment.commenterProfilePicture}
-                              alt="user commenter"
-                            />
-                          </figure>
-                          <h5 className="onePostContainer__footer__commentContainer__header__title">
-                            {comment.commenterFirstName}{' '}
-                            {comment.commenterLastName}
-                          </h5>
-                          {isUserComment && (
-                            <div className="onePostContainer__footer__commentContainer__header__commentIcon">
-                              <FontAwesomeIcon
-                                onClick={() => {
-                                  handleEditComment(comment._id)
-                                }}
-                                className="onePostContainer__footer__commentContainer__header__commentIcon--editIcon"
-                                icon={faPenToSquare}
-                                title="Edit post"
-                              />
-                              <FontAwesomeIcon
-                                onClick={deleteComment}
-                                className="onePostContainer__footer__commentContainer__header__commentIcon--deleteIcon"
-                                icon={faTrashCan}
-                                title="Delete post"
-                              />
+                        {isCommenterExist ? (
+                          <>
+                            <div className="onePostContainer__footer__commentContainer__header">
+                              <figure
+                                aria-label="Photo de profil de l'utilisateur qui commente"
+                                className="onePostContainer__footer__commentContainer__header__fig"
+                              >
+                                <img
+                                  src={comment.commenterProfilePicture}
+                                  className="onePostContainer__footer__commentContainer__header__fig__img"
+                                  alt=""
+                                />
+                              </figure>
+                              <h4 className="onePostContainer__footer__commentContainer__header__title">
+                                {comment.commenterFirstName}{' '}
+                                {comment.commenterLastName}
+                              </h4>
                             </div>
-                          )}
-                        </div>
+                          </>
+                        ) : (
+                          <>
+                            <div className="onePostContainer__footer__commentContainer__header">
+                              <figure
+                                aria-label="Photo utilisateur par defaut du commentaire"
+                                className="onePostContainer__footer__commentContainer__header__fig"
+                              >
+                                <img
+                                  src="https://i.imgur.com/FixNDJZ.jpg"
+                                  className="onePostContainer__footer__commentContainer__header__fig__img"
+                                  alt=""
+                                />
+                              </figure>
+                              <h5 className="onePostContainer__footer__commentContainer__header__title">
+                                Deleted User {comment.commenterId}
+                              </h5>
+                            </div>
+                          </>
+                        )}
+                        {isUserComment && (
+                          <div className="onePostContainer__footer__commentContainer__header__commentIcon">
+                            <FontAwesomeIcon
+                              onClick={() => {
+                                handleEditComment(comment._id)
+                              }}
+                              className="onePostContainer__footer__commentContainer__header__commentIcon--editIcon"
+                              icon={faPenToSquare}
+                              title="Edit post"
+                            />
+                            <FontAwesomeIcon
+                              onClick={deleteComment}
+                              className="onePostContainer__footer__commentContainer__header__commentIcon--deleteIcon"
+                              icon={faTrashCan}
+                              title="Delete post"
+                            />
+                          </div>
+                        )}
                         <div className="onePostContainer__footer__commentContainer__body">
                           {(commentIsUpdated === false ||
                             targetElement !== comment._id) && (

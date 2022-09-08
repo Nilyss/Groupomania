@@ -29,7 +29,7 @@ export default function App() {
   useEffect(() => {
     const fetchToken = async () => {
       axios
-        .get(`${process.env.REACT_APP_API_URL}jwtid`)
+        .get(`http://localhost:8000/api/jwtid`)
         .then((res) => {
           setUid(res.data)
         })

@@ -133,6 +133,8 @@
   border-radius: 8px;
   color: #f2f2f2;
   box-shadow: $boxShadowCard;
+  display: flex;
+  flex-flow: wrap;
 }
 
 .onePostContainer__footer__commentContainer__header {
@@ -140,6 +142,7 @@
   align-items: center;
   gap: 2em;
   padding: 1em;
+  width: fit-content;
 }
 
 .onePostContainer__footer__commentContainer__header__fig__img {
@@ -152,11 +155,13 @@
 
 .onePostContainer__footer__commentContainer__header__title {
   font-size: 1.1em;
-  white-space: nowrap;
   width: fit-content;
+  text-align: center;
 }
 
 .onePostContainer__footer__commentContainer__header__commentIcon {
+  padding: 2em;
+  width: fit-content;
   display: flex;
   gap: 1em;
   color: $colorSecondary;
